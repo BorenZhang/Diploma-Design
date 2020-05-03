@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0818fb9-ab61-488b-9411-86ef7550a5a1" name="Default Changelist" comment="" />
+    <list default="true" id="d0818fb9-ab61-488b-9411-86ef7550a5a1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../front-end/leyou-manage-web/src/pages/user/Profile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../front-end/leyou-manage-web/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../front-end/leyou-manage-web/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../front-end/leyou-manage-web/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../front-end/leyou-manage-web/src/menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../front-end/leyou-manage-web/src/menu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../front-end/leyou-manage-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../front-end/leyou-manage-web/src/router/index.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/smartos-common/target/" />
     <ignored path="$PROJECT_DIR$/smartos-gateway/target/" />
@@ -38,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-service/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
@@ -47,28 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-interface/src/main/java/com/smartos/sensor/pojo/NBIOT_Format1.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/smartos-gateway/src/main/java/com/smartos/SmartOSGatewayApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-              <folding>
-                <element signature="e#245#246#0" expanded="true" />
-                <element signature="e#291#292#0" expanded="true" />
-                <element signature="e#329#330#0" expanded="true" />
-                <element signature="e#362#363#0" expanded="true" />
-                <element signature="e#391#392#0" expanded="true" />
-                <element signature="e#435#436#0" expanded="true" />
-                <element signature="e#471#472#0" expanded="true" />
-                <element signature="e#506#507#0" expanded="true" />
-                <element signature="e#537#538#0" expanded="true" />
-                <element signature="e#585#586#0" expanded="true" />
-                <element signature="e#625#626#0" expanded="true" />
-                <element signature="e#657#658#0" expanded="true" />
-                <element signature="e#685#686#0" expanded="true" />
-                <element signature="e#727#728#0" expanded="true" />
-                <element signature="e#761#762#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="242">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -281,86 +272,6 @@
               <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
               <item name="smartos" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="sensor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartos" type="b2602c69:ProjectViewProjectNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos-sensor-service" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="smartos" type="462c0819:PsiDirectoryNode" />
-              <item name="sensor" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -379,7 +290,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1588397628969" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8.0_121" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../front-end/leyou-manage-web" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -538,7 +449,7 @@
       <workItem from="1587872490876" duration="28318000" />
       <workItem from="1588155610279" duration="10226000" />
       <workItem from="1588396058930" duration="931000" />
-      <workItem from="1588397658458" duration="4457000" />
+      <workItem from="1588397658458" duration="6147000" />
     </task>
     <servers />
   </component>
@@ -563,7 +474,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119207000" />
+    <option name="totallyTimeSpent" value="120897000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -985,13 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/smartos-gateway/src/main/java/com/smartos/SmartOSGatewayApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/smartos-gateway/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
@@ -1115,6 +1019,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/smartos-gateway/src/main/java/com/smartos/SmartOSGatewayApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
