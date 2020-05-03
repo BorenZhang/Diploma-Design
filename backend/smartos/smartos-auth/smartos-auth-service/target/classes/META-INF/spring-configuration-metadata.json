@@ -1,0 +1,33 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.smartos.auth.config.JwtProperties",
+      "name": "smartos.jwt",
+      "type": "com.smartos.auth.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.smartos.auth.config.JwtProperties",
+      "defaultValue": 0,
+      "name": "smartos.jwt.expire",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.smartos.auth.config.JwtProperties",
+      "name": "smartos.jwt.pri-key-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.smartos.auth.config.JwtProperties",
+      "name": "smartos.jwt.pub-key-path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.smartos.auth.config.JwtProperties",
+      "name": "smartos.jwt.secret",
+      "type": "java.lang.String"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-auth" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-auth/smartos-auth-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-auth/smartos-auth-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-registry" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-sensor" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-user" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-user/smartos-user-interface" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/smartos-user/smartos-user-service" charset="UTF-8" />
+  </component>
+</project>

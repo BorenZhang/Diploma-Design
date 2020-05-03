@@ -1,0 +1,32 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.smartos.gateway.config.FilterProperties",
+      "name": "smartos.filter",
+      "type": "com.smartos.gateway.config.FilterProperties"
+    },
+    {
+      "sourceType": "com.smartos.gateway.config.JwtProperties",
+      "name": "smartos.jwt",
+      "type": "com.smartos.gateway.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.smartos.gateway.config.FilterProperties",
+      "name": "smartos.filter.allow-paths",
+      "type": "java.util.List<java.lang.String>"
+    },
+    {
+      "sourceType": "com.smartos.gateway.config.JwtProperties",
+      "name": "smartos.jwt.cookie-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.smartos.gateway.config.JwtProperties",
+      "name": "smartos.jwt.pub-key-path",
+      "type": "java.lang.String"
+    }
+  ]
+}

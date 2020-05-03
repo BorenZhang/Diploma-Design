@@ -1,0 +1,32 @@
+server:
+  port: 12139
+spring:
+  application:
+    name: smartos-gateway
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://127.0.0.1:12138/eureka
+zuul:
+  prefix: /api # 路由路径前缀
+  routes:
+    user-service: /user/**  #用户微服务
+    auth-service: /auth/**  #授权中心微服务
+    sensor-service: /sensor/** #传感器数据微服务
+  add-host-header: true  # 携带请求本身的head头信息
+  sensitive-headers: # 覆盖敏感头信息，使cookie可以正常写入
+smartos:
+  jwt:
+    pubKeyPath:  C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: SMARTOS_TOKEN # cookie的名称
+  filter:
+    allowPaths:
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/code
+      - /api/sensor/data
+      - /api/sensor/send
+      - /api/sensor/getSendState

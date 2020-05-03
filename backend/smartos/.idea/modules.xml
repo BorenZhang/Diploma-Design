@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/smartos.iml" filepath="$PROJECT_DIR$/smartos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-auth/smartos-auth.iml" filepath="$PROJECT_DIR$/smartos-auth/smartos-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-auth/smartos-auth-common/smartos-auth-common.iml" filepath="$PROJECT_DIR$/smartos-auth/smartos-auth-common/smartos-auth-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-auth/smartos-auth-service/smartos-auth-service.iml" filepath="$PROJECT_DIR$/smartos-auth/smartos-auth-service/smartos-auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-common/smartos-common.iml" filepath="$PROJECT_DIR$/smartos-common/smartos-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-gateway/smartos-gateway.iml" filepath="$PROJECT_DIR$/smartos-gateway/smartos-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-registry/smartos-registry.iml" filepath="$PROJECT_DIR$/smartos-registry/smartos-registry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor.iml" filepath="$PROJECT_DIR$/smartos-sensor/smartos-sensor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-interface/smartos-sensor-interface.iml" filepath="$PROJECT_DIR$/smartos-sensor/smartos-sensor-interface/smartos-sensor-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-sensor/smartos-sensor-service/smartos-sensor-service.iml" filepath="$PROJECT_DIR$/smartos-sensor/smartos-sensor-service/smartos-sensor-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-user/smartos-user.iml" filepath="$PROJECT_DIR$/smartos-user/smartos-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-user/smartos-user-interface/smartos-user-interface.iml" filepath="$PROJECT_DIR$/smartos-user/smartos-user-interface/smartos-user-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartos-user/smartos-user-service/smartos-user-service.iml" filepath="$PROJECT_DIR$/smartos-user/smartos-user-service/smartos-user-service.iml" />
+    </modules>
+  </component>
+</project>

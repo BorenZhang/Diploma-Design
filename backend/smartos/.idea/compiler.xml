@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="smartos-auth-common" />
+        <module name="smartos-auth-service" />
+        <module name="smartos-common" />
+        <module name="smartos-gateway" />
+        <module name="smartos-registry" />
+        <module name="smartos-sensor-interface" />
+        <module name="smartos-sensor-service" />
+        <module name="smartos-user-interface" />
+        <module name="smartos-user-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="smartos" target="1.8" />
+      <module name="smartos-auth" target="1.8" />
+      <module name="smartos-auth-common" target="1.8" />
+      <module name="smartos-auth-service" target="1.8" />
+      <module name="smartos-common" target="1.8" />
+      <module name="smartos-gateway" target="1.8" />
+      <module name="smartos-registry" target="1.8" />
+      <module name="smartos-sensor" target="1.8" />
+      <module name="smartos-sensor-interface" target="1.8" />
+      <module name="smartos-sensor-service" target="1.8" />
+      <module name="smartos-user" target="1.8" />
+      <module name="smartos-user-interface" target="1.8" />
+      <module name="smartos-user-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="smartos-auth" options="-parameters" />
+      <module name="smartos-auth-common" options="-parameters" />
+      <module name="smartos-auth-service" options="-parameters" />
+      <module name="smartos-common" options="-parameters" />
+      <module name="smartos-gateway" options="-parameters" />
+      <module name="smartos-registry" options="-parameters" />
+      <module name="smartos-sensor" options="-parameters" />
+      <module name="smartos-sensor-interface" options="-parameters" />
+      <module name="smartos-sensor-service" options="-parameters" />
+      <module name="smartos-user-interface" options="-parameters" />
+      <module name="smartos-user-service" options="-parameters" />
+    </option>
+  </component>
+</project>
