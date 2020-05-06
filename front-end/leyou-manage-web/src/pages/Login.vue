@@ -25,7 +25,7 @@
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn color="primary" @click="loginTest" block="true">登录</v-btn>
+                                <v-btn color="primary" @click="doLogin" block="true">登录</v-btn>
                                 <p style="width: 40%;text-align: right;margin-right: 10%;font-size: medium">还没有账号，去<a
                                         @click="toRegister">注册</a></p>
                             </v-card-actions>
@@ -56,41 +56,41 @@
                 if (!this.username || !this.password) {
                     this.dialog_message = "用户名和密码不能为空";
                     this.dialog = true;
-                    return false;}
-                // } else {
-                //     let form = {
-                //         username: '',
-                //         password: ''
-                //     }
-                //     form.username = this.username;
-                //     form.password = this.password;
-                //     this.$http.post("/auth/login", this.$qs.stringify(form))
-                //         .then(
-                //             resp => {
-                //                 if (resp.status == 200) {
-                //                     this.$router.push("/index/Dashboard");
-                //                 }
-                //             }
-                //         )
-                //         .catch(
-                //             () => {
-                //                 this.dialog_message = "用户名或密码错误";
-                //                 this.dialog = true;
-                //                 return false;
-                //             }
-                //         )
-                // }
+                    return false;
+                } else {
+                    let form = {
+                        username: '',
+                        password: ''
+                    }
+                    form.username = this.username;
+                    form.password = this.password;
+                    this.$http.post("/auth/login", this.$qs.stringify(form))
+                        .then(
+                            resp => {
+                                if (resp.status == 200) {
+                                    this.$router.push("/index/Dashboard");
+                                }
+                            }
+                        )
+                        .catch(
+                            () => {
+                                this.dialog_message = "用户名或密码错误";
+                                this.dialog = true;
+                                return false;
+                            }
+                        )
+                }
                 console.log(this.username + " ... " + this.password);
             },
-            toRegister(){
+            toRegister() {
                 this.$router.push("/Register");
             },
-            loginTest(){
+            loginTest() {
                 if (!this.username || !this.password) {
                     this.dialog_message = "用户名和密码不能为空";
                     this.dialog = true;
                     return false;
-                }else{
+                } else {
                     this.$router.push("/index/Dashboard");
                 }
 

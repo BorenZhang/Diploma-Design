@@ -50,7 +50,7 @@
                                         <v-flex xs10 sm10 md10 fill-height class="ma-0 pa-0">
                                             <div style="height: auto;text-align: center">
                                                 <span class="display-3">
-                                                30
+                                                {{sensor_data.humidity}}
                                                 </span>
                                             </div>
                                         </v-flex>

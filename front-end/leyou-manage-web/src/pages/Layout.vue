@@ -13,7 +13,7 @@
         >
             <v-toolbar flat class="transparent">
                 <v-list class="pa-0">
-                    <v-list-tile avatar  v-if="user && user.username">
+                    <v-list-tile avatar v-if="user && user.username">
                         <v-list-tile-avatar>
                             <img src="../assets/2.jpeg">
                         </v-list-tile-avatar>
@@ -21,7 +21,7 @@
                             <v-list-tile-title>{{user.username}}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-list-tile avatar  v-else>
+                    <v-list-tile avatar v-else>
                         <v-list-tile-content>
                             <v-list-tile-title>您还未登录，请<a @click="goToLogin">登录</a></v-list-tile-title>
                         </v-list-tile-content>
@@ -31,29 +31,47 @@
             <v-divider/>
             <!-- 左侧菜单 -->
             <v-list class="pt-0" dense expand>
-                <v-list-group
-                        v-model="item.active"
-                        v-for="item in items"
-                        :key="item.title"
-                        :prepend-icon="item.action"
-                        no-action
-                >
-                    <!--一级菜单 -->
-                    <v-list-tile slot="activator">
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <!-- 二级菜单 -->
-                    <v-list-tile v-for="subItem in item.items" :key="subItem.title" :to="item.path + subItem.path">
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-                        </v-list-tile-content>
-                        <v-list-tile-action>
-                            <v-icon>{{ subItem.action }}</v-icon>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list-group>
+                <v-list-tile
+                        to="/index/dashboard"
+                        class="my-2">
+                    <v-icon class="mr-5" medium>home</v-icon>
+                    <span>首页</span>
+                </v-list-tile>
+                <v-list-tile
+                        to="/config/sensor"
+                        class="my-2">
+                    <v-icon class="mr-5" medium>settings</v-icon>
+                    <span>终端配置</span>
+                </v-list-tile>
+                <v-list-tile
+                        to="/authority/profile"
+                        class="my-2">
+                    <v-icon class="mr-5" medium>person</v-icon>
+                    <span>个人中心</span>
+                </v-list-tile>
+                <!--<v-list-group-->
+                <!--v-model="item.active"-->
+                <!--v-for="item in items"-->
+                <!--:key="item.title"-->
+                <!--:prepend-icon="item.action"-->
+                <!--no-action-->
+                <!--&gt;-->
+                <!--&lt;!&ndash;一级菜单 &ndash;&gt;-->
+                <!--<v-list-tile slot="activator">-->
+                <!--<v-list-tile-content>-->
+                <!--<v-list-tile-title>{{ item.title }}</v-list-tile-title>-->
+                <!--</v-list-tile-content>-->
+                <!--</v-list-tile>-->
+                <!--&lt;!&ndash; 二级菜单 &ndash;&gt;-->
+                <!--<v-list-tile v-for="subItem in item.items" :key="subItem.title" :to="item.path + subItem.path">-->
+                <!--<v-list-tile-content>-->
+                <!--<v-list-tile-title>{{ subItem.title }}</v-list-tile-title>-->
+                <!--</v-list-tile-content>-->
+                <!--<v-list-tile-action>-->
+                <!--<v-icon>{{ subItem.action }}</v-icon>-->
+                <!--</v-list-tile-action>-->
+                <!--</v-list-tile>-->
+                <!--</v-list-group>-->
             </v-list>
         </v-navigation-drawer>
         <!-- 顶部工具条 -->
@@ -149,8 +167,8 @@
                 })
             })
         },
-        methods:{
-            goToLogin(){
+        methods: {
+            goToLogin() {
                 this.$router.push("/Login");
             }
         }
