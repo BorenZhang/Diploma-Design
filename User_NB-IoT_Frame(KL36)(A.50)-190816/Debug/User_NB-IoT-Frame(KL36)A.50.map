@@ -1,0 +1,2338 @@
+Archive member included to satisfy reference by file (symbol)
+
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+                              ./07_NosPrg/main.o (log)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (__ieee754_log)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (__fdlib_version)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (matherr)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (nan)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+                              ./05_UserBoard/printf.o (__aeabi_uidiv)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+                              ./06_SoftComponent/valueType.o (__aeabi_idiv)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (__aeabi_dcmpeq)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o)
+                              ./07_NosPrg/main.o (__aeabi_fcmple)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o)
+                              ./07_NosPrg/main.o (__aeabi_uldivmod)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+                              ./06_SoftComponent/timeStamp.o (__aeabi_lmul)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+                              ./03_MCU/MCU_drivers/timer.o (__aeabi_f2uiz)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+                              ./05_UserBoard/printf.o (__aeabi_d2uiz)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+                              ./05_UserBoard/printf.o (__aeabi_d2ulz)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o) (__udivmoddi4)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+                              ./07_NosPrg/main.o (__aeabi_fdiv)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o) (__eqsf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o) (__gesf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o) (__lesf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+                              ./06_SoftComponent/valueType.o (__aeabi_fmul)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+                              ./06_SoftComponent/valueType.o (__aeabi_fsub)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+                              ./06_SoftComponent/valueType.o (__aeabi_f2iz)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+                              ./07_NosPrg/main.o (__aeabi_i2f)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+                              ./07_NosPrg/main.o (__aeabi_ui2f)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+                              ./07_NosPrg/main.o (__aeabi_dadd)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+                              ./07_NosPrg/main.o (__aeabi_ddiv)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o) (__eqdf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o) (__gedf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o) (__ledf2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+                              ./07_NosPrg/main.o (__aeabi_dmul)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+                              ./07_NosPrg/main.o (__aeabi_dsub)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (__aeabi_dcmpun)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+                              ./07_NosPrg/main.o (__aeabi_d2iz)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+                              ./07_NosPrg/main.o (__aeabi_i2d)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+                              ./07_NosPrg/main.o (__aeabi_ui2d)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+                              ./07_NosPrg/main.o (__aeabi_f2d)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+                              ./07_NosPrg/main.o (__aeabi_d2f)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzsi2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o) (__clzsi2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzdi2.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o) (__clzdi2)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o) (__errno)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o (exit)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o) (_global_impure_ptr)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o (__libc_init_array)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+                              ./06_SoftComponent/timeStamp.o (memcpy)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o (memset)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-strlen.o)
+                              ./05_UserBoard/printf.o (strlen)
+d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+                              d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o) (_exit)
+
+Allocating common symbols
+Common symbol       size              file
+
+gFlashData          0xad              ./07_NosPrg/isr.o
+flag                0x1               ./07_NosPrg/main.o
+gRecvBuf            0x400             ./07_NosPrg/isr.o
+gTimeString         0x14              ./07_NosPrg/isr.o
+gTimeSec            0x8               ./07_NosPrg/isr.o
+bios_fun_point      0x4               ./07_NosPrg/isr.o
+gUserData           0x12b             ./07_NosPrg/isr.o
+gRecvLength         0x2               ./07_NosPrg/isr.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+ .data          0x00000000        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+ .ARM.extab     0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/isr.o
+ .text          0x00000000        0x0 ./07_NosPrg/isr.o
+ .data          0x00000000        0x0 ./07_NosPrg/isr.o
+ .bss           0x00000000        0x0 ./07_NosPrg/isr.o
+ .text.TIMERC_Handler
+                0x00000000        0x6 ./07_NosPrg/isr.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./07_NosPrg/main.o
+ .text          0x00000000        0x0 ./07_NosPrg/main.o
+ .data          0x00000000        0x0 ./07_NosPrg/main.o
+ .bss           0x00000000        0x0 ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0xa2a ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x16 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x22 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x4f ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x51 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0xef ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x6a ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x1df ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x39 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x3a ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x26 ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x306 ./07_NosPrg/main.o
+ .debug_macro   0x00000000     0xc3a9 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x94 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x88 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x58 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x58 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x17 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x35 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x9c ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x16d ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x58 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x1f ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x43 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x20 ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x18e ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x353 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x35 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x1c ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x87 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x2e ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x4d ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x4e ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x1c ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0xb6 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x16 ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x129 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x16 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x22 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x98 ./07_NosPrg/main.o
+ .debug_macro   0x00000000      0x4ad ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0xa0 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0xce ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0xde ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x5e ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x16 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x2e ./07_NosPrg/main.o
+ .debug_macro   0x00000000       0x10 ./07_NosPrg/main.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/common.o
+ .text          0x00000000        0x0 ./06_SoftComponent/common.o
+ .data          0x00000000        0x0 ./06_SoftComponent/common.o
+ .bss           0x00000000        0x0 ./06_SoftComponent/common.o
+ .text.init_critical
+                0x00000000       0x10 ./06_SoftComponent/common.o
+ .text.enter_critical
+                0x00000000       0x18 ./06_SoftComponent/common.o
+ .text.exit_critical
+                0x00000000       0x1c ./06_SoftComponent/common.o
+ .text.disable_irq
+                0x00000000       0x18 ./06_SoftComponent/common.o
+ .text.set_irq_priority
+                0x00000000       0x70 ./06_SoftComponent/common.o
+ .text.Delay_us
+                0x00000000       0x20 ./06_SoftComponent/common.o
+ .text.SecAdd1  0x00000000       0x38 ./06_SoftComponent/common.o
+ .bss.int_disable_level
+                0x00000000        0x4 ./06_SoftComponent/common.o
+ .data.bios_ver
+                0x00000000        0x5 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0xa2a ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x22 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x4f ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x51 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0xef ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x6a ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x1df ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x39 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x3a ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x26 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x306 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000     0xc3a9 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x94 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x88 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x17 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x35 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x9c ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x16d ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x1f ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x43 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x20 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x18e ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x353 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x35 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x1c ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x87 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x2e ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x4d ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x4e ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x1c ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0xb6 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x129 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x22 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x98 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000      0x4ad ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0xa0 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0xce ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0xde ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x5e ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x2e ./06_SoftComponent/common.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/common.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/timeStamp.o
+ .text          0x00000000        0x0 ./06_SoftComponent/timeStamp.o
+ .data          0x00000000        0x0 ./06_SoftComponent/timeStamp.o
+ .bss           0x00000000        0x0 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0xa2a ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x22 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x4f ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x51 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0xef ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x6a ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0x1df ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x39 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x3a ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x26 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0x306 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000     0xc3a9 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x94 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x88 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x17 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x35 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x9c ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0x16d ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0x353 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x1f ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x43 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x20 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000      0x18e ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x35 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0xb6 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x00000000       0x2e ./06_SoftComponent/timeStamp.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./06_SoftComponent/valueType.o
+ .text          0x00000000        0x0 ./06_SoftComponent/valueType.o
+ .data          0x00000000        0x0 ./06_SoftComponent/valueType.o
+ .bss           0x00000000        0x0 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000      0xa2a ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x10 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x16 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x22 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x4f ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x51 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0xef ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x6a ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000      0x1df ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x39 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x3a ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x26 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000      0x306 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000     0xc3a9 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x94 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x88 ./06_SoftComponent/valueType.o
+ .debug_macro   0x00000000       0x58 ./06_SoftComponent/valueType.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/lcd.o
+ .text          0x00000000        0x0 ./05_UserBoard/lcd.o
+ .data          0x00000000        0x0 ./05_UserBoard/lcd.o
+ .bss           0x00000000        0x0 ./05_UserBoard/lcd.o
+ .text.mypow    0x00000000       0x1c ./05_UserBoard/lcd.o
+ .text.LCD_DrawCircle
+                0x00000000       0xfe ./05_UserBoard/lcd.o
+ .text.LCD_DrawRectangle
+                0x00000000       0x46 ./05_UserBoard/lcd.o
+ .text.LCD_DrawPoint_big
+                0x00000000       0x20 ./05_UserBoard/lcd.o
+ .rodata.cmdA   0x00000000        0xf ./05_UserBoard/lcd.o
+ .rodata.cmdB   0x00000000        0xf ./05_UserBoard/lcd.o
+ .rodata.cmdC   0x00000000        0x4 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0xa2a ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x22 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x4f ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x51 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0xef ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x6a ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x1df ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x39 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x3a ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x26 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x306 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000     0xc3a9 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x94 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x88 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x58 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x58 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x17 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x35 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x9c ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x16d ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x58 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x1f ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x43 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x20 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x18e ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x353 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x35 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x1c ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x87 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x2e ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x4d ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x4e ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x1c ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0xb6 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x129 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x22 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000       0x98 ./05_UserBoard/lcd.o
+ .debug_macro   0x00000000      0x4ad ./05_UserBoard/lcd.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./05_UserBoard/printf.o
+ .text          0x00000000        0x0 ./05_UserBoard/printf.o
+ .data          0x00000000        0x0 ./05_UserBoard/printf.o
+ .bss           0x00000000        0x0 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0xa2a ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x22 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x17 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x35 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x9c ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x16d ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x58 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x1f ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x43 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x20 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x18e ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x353 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x35 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0xef ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x6a ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x1df ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x39 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x3a ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x26 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x306 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000     0xc3a9 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x94 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x88 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x58 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x1c ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x87 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x2e ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x4d ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x4e ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x1c ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x10 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0xb6 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x129 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x16 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x22 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000       0x98 ./05_UserBoard/printf.o
+ .debug_macro   0x00000000      0x4ad ./05_UserBoard/printf.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .group         0x00000000        0xc ./04_GEC/Int_Handler_init.o
+ .text          0x00000000        0x0 ./04_GEC/Int_Handler_init.o
+ .data          0x00000000        0x0 ./04_GEC/Int_Handler_init.o
+ .bss           0x00000000        0x0 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0xa2a ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x10 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x16 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x22 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x4f ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x51 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0xef ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x6a ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x1df ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x39 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x3a ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x26 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x306 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000     0xc3a9 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x94 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x88 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x58 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x58 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x17 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x35 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x9c ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x16d ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x58 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x1f ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x43 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x20 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x18e ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x353 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x10 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x35 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x1c ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x87 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x2e ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x4d ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x4e ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x1c ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x10 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x10 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0xb6 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x16 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x129 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x16 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x22 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000       0x98 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x00000000      0x4ad ./04_GEC/Int_Handler_init.o
+ .data          0x00000000        0x0 ./03_MCU/startup/startup_MKL36Z4.o
+ .bss           0x00000000        0x0 ./03_MCU/startup/startup_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/startup/system_MKL36Z4.o
+ .text          0x00000000        0x0 ./03_MCU/startup/system_MKL36Z4.o
+ .data          0x00000000        0x0 ./03_MCU/startup/system_MKL36Z4.o
+ .bss           0x00000000        0x0 ./03_MCU/startup/system_MKL36Z4.o
+ .data.SystemCoreClock
+                0x00000000        0x4 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000      0xa2a ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x4f ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x51 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0xef ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x6a ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000      0x1df ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x3a ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000       0x26 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000      0x306 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00000000     0xc3a9 ./03_MCU/startup/system_MKL36Z4.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/adc.o
+ .text          0x00000000        0x0 ./03_MCU/MCU_drivers/adc.o
+ .data          0x00000000        0x0 ./03_MCU/MCU_drivers/adc.o
+ .bss           0x00000000        0x0 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0xa2a ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x4f ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x51 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0xef ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x6a ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0x1df ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x39 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x3a ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x26 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0x306 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000     0xc3a9 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x94 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x88 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x17 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x9c ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0x16d ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x1f ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x43 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x20 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0x18e ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000      0x353 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00000000       0x1c ./03_MCU/MCU_drivers/adc.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .text          0x00000000        0x0 ./03_MCU/MCU_drivers/spi.o
+ .data          0x00000000        0x0 ./03_MCU/MCU_drivers/spi.o
+ .bss           0x00000000        0x0 ./03_MCU/MCU_drivers/spi.o
+ .text.spi_sendN
+                0x00000000       0x2c ./03_MCU/MCU_drivers/spi.o
+ .text.spi_receive1
+                0x00000000       0x1c ./03_MCU/MCU_drivers/spi.o
+ .text.spi_receiveN
+                0x00000000       0x28 ./03_MCU/MCU_drivers/spi.o
+ .text.spi_enable_re_int
+                0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .text.spi_disable_re_int
+                0x00000000        0xc ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0xa2a ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x4f ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x51 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0xef ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x6a ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x1df ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x39 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x3a ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x26 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x306 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000     0xc3a9 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x94 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x88 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x17 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x9c ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x16d ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x1f ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x43 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x20 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x18e ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x353 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x87 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x2e ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x4d ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x4e ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x1c ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0xb6 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x129 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000       0x98 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x00000000      0x4ad ./03_MCU/MCU_drivers/spi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/timer.o
+ .text          0x00000000        0x0 ./03_MCU/MCU_drivers/timer.o
+ .data          0x00000000        0x0 ./03_MCU/MCU_drivers/timer.o
+ .bss           0x00000000        0x0 ./03_MCU/MCU_drivers/timer.o
+ .text.lptmr_reset
+                0x00000000       0x10 ./03_MCU/MCU_drivers/timer.o
+ .text.lptmr_disable_int
+                0x00000000       0x20 ./03_MCU/MCU_drivers/timer.o
+ .text.tpm_disable_int
+                0x00000000       0x28 ./03_MCU/MCU_drivers/timer.o
+ .text.timer_disable_int
+                0x00000000       0x1a ./03_MCU/MCU_drivers/timer.o
+ .text.tpm_get_int
+                0x00000000       0x14 ./03_MCU/MCU_drivers/timer.o
+ .text.timer_get_int
+                0x00000000       0x28 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0xa2a ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x4f ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x51 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0xef ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x6a ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0x1df ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x39 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x3a ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x26 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0x306 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000     0xc3a9 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x94 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x88 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x17 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x9c ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0x16d ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x1f ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x43 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x20 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0x18e ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000      0x353 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/timer.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .group         0x00000000        0xc ./03_MCU/MCU_drivers/tsi.o
+ .text          0x00000000        0x0 ./03_MCU/MCU_drivers/tsi.o
+ .data          0x00000000        0x0 ./03_MCU/MCU_drivers/tsi.o
+ .bss           0x00000000        0x0 ./03_MCU/MCU_drivers/tsi.o
+ .text.tsi_set_threshold
+                0x00000000       0x10 ./03_MCU/MCU_drivers/tsi.o
+ .text.tsi_disable_re_int
+                0x00000000       0x20 ./03_MCU/MCU_drivers/tsi.o
+ .text.tsi_softsearch
+                0x00000000       0x1c ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0xa2a ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x16 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x22 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x4f ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x51 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0xef ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x6a ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0x1df ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x39 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x3a ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x26 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0x306 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000     0xc3a9 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x94 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x88 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x17 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x9c ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0x16d ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x58 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x1f ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x43 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x20 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0x18e ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000      0x353 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x10 ./03_MCU/MCU_drivers/tsi.o
+ .debug_macro   0x00000000       0x35 ./03_MCU/MCU_drivers/tsi.o
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+ .ARM.extab     0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzsi2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzsi2.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzdi2.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzdi2.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-strlen.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-strlen.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+ .eh_frame      0x00000000        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+ .ARM.attributes
+                0x00000000       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+ .text          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+ .data          0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+ .bss           0x00000000        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+m_interrupts     0x00006800         0x00000100         xr
+m_flash_config   0x00006c00         0x00000010         xr
+m_text           0x00006c10         0x000093f0         xr
+m_mac_config     0x0000fc00         0x00000400         xr
+m_data           0x20000000         0x00001800         rw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+LOAD ./07_NosPrg/isr.o
+LOAD ./07_NosPrg/main.o
+LOAD ./06_SoftComponent/common.o
+LOAD ./06_SoftComponent/timeStamp.o
+LOAD ./06_SoftComponent/valueType.o
+LOAD ./05_UserBoard/lcd.o
+LOAD ./05_UserBoard/printf.o
+LOAD ./04_GEC/Int_Handler_init.o
+LOAD ./03_MCU/startup/startup_MKL36Z4.o
+LOAD ./03_MCU/startup/system_MKL36Z4.o
+LOAD ./03_MCU/MCU_drivers/adc.o
+LOAD ./03_MCU/MCU_drivers/spi.o
+LOAD ./03_MCU/MCU_drivers/timer.o
+LOAD ./03_MCU/MCU_drivers/tsi.o
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libstdc++_nano.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a
+START GROUP
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a
+END GROUP
+START GROUP
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a
+END GROUP
+START GROUP
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libc_nano.a
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a
+END GROUP
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtend.o
+LOAD d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+                0x00000200                HEAP_SIZE = DEFINED (__heap_size__)?__heap_size__:0x200
+                0x00000100                STACK_SIZE = DEFINED (__stack_size__)?__stack_size__:0x100
+                0x00000400                SECTOR_SIZE = 0x400
+                0x0000001a                SECTOR_START = 0x1a
+                0x0000003f                SECTOR_END = 0x3f
+                0x20000000                RAM_START = 0x20000000
+                0x20001800                RAM_END = 0x20001800
+
+.interrupts     0x00006800       0xc0
+                0x00006800                __VECTOR_TABLE = .
+                0x00006800                . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x00006800       0xc0 ./03_MCU/startup/startup_MKL36Z4.o
+                0x00006800                __isr_vector
+                0x000068c0                . = ALIGN (0x4)
+
+.flash_config   0x00006c00       0x10
+                0x00006c00                . = ALIGN (0x4)
+ *(.FlashConfig)
+ .FlashConfig   0x00006c00       0x10 ./03_MCU/startup/startup_MKL36Z4.o
+                0x00006c10                . = ALIGN (0x4)
+
+.text           0x00006c10     0x78d0
+                0x00006c10                . = ALIGN (0x4)
+ *(.text)
+ .text          0x00006c10       0x48 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+ .text          0x00006c58       0x78 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+                0x00006c58                _start
+                0x00006c58                _mainCRTStartup
+ .text          0x00006cd0       0x4c ./03_MCU/startup/startup_MKL36Z4.o
+                0x00006cd0                Reset_Handler
+                0x00006d14                HardFault_Handler
+                0x00006d14                SysTick_Handler
+                0x00006d14                PendSV_Handler
+                0x00006d14                NMI_Handler
+                0x00006d14                PORTC_PORTD_IRQHandler
+                0x00006d14                I2C1_IRQHandler
+                0x00006d14                UART1_IRQHandler
+                0x00006d14                DMA2_IRQHandler
+                0x00006d14                TPM0_IRQHandler
+                0x00006d14                I2S0_IRQHandler
+                0x00006d14                LLWU_IRQHandler
+                0x00006d14                TSI0_IRQHandler
+                0x00006d14                UART0_IRQHandler
+                0x00006d14                ADC0_IRQHandler
+                0x00006d14                SPI1_IRQHandler
+                0x00006d14                DefaultISR
+                0x00006d14                TPM2_IRQHandler
+                0x00006d14                RTC_IRQHandler
+                0x00006d14                I2C0_IRQHandler
+                0x00006d14                LCD_IRQHandler
+                0x00006d14                RTC_Seconds_IRQHandler
+                0x00006d14                MCG_IRQHandler
+                0x00006d14                UART2_IRQHandler
+                0x00006d14                Reserved20_IRQHandler
+                0x00006d14                PIT_IRQHandler
+                0x00006d14                SVC_Handler
+                0x00006d14                DMA3_IRQHandler
+                0x00006d14                DMA0_IRQHandler
+                0x00006d14                DAC0_IRQHandler
+                0x00006d14                TPM1_IRQHandler
+                0x00006d14                LVD_LVW_IRQHandler
+                0x00006d14                SPI0_IRQHandler
+                0x00006d14                PORTA_IRQHandler
+                0x00006d14                FTFA_IRQHandler
+                0x00006d14                Reserved40_IRQHandler
+                0x00006d14                LPTMR0_IRQHandler
+                0x00006d14                CMP0_IRQHandler
+                0x00006d14                DMA1_IRQHandler
+ .text          0x00006d1c      0x114 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+                0x00006d1c                __aeabi_uidiv
+                0x00006d1c                __udivsi3
+                0x00006e28                __aeabi_uidivmod
+ .text          0x00006e30      0x1d4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+                0x00006e30                __divsi3
+                0x00006e30                __aeabi_idiv
+                0x00006ffc                __aeabi_idivmod
+ .text          0x00007004        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+                0x00007004                __aeabi_idiv0
+                0x00007004                __aeabi_ldiv0
+ .text          0x00007008       0x7c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o)
+                0x00007008                __aeabi_cdrcmple
+                0x00007018                __aeabi_cdcmple
+                0x00007018                __aeabi_cdcmpeq
+                0x00007028                __aeabi_dcmpeq
+                0x00007034                __aeabi_dcmplt
+                0x00007048                __aeabi_dcmple
+                0x0000705c                __aeabi_dcmpgt
+                0x00007070                __aeabi_dcmpge
+ .text          0x00007084       0x74 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o)
+                0x00007084                __aeabi_cfrcmple
+                0x0000708c                __aeabi_cfcmpeq
+                0x0000708c                __aeabi_cfcmple
+                0x0000709c                __aeabi_fcmpeq
+                0x000070a8                __aeabi_fcmplt
+                0x000070bc                __aeabi_fcmple
+                0x000070d0                __aeabi_fcmpgt
+                0x000070e4                __aeabi_fcmpge
+ .text          0x000070f8       0x40 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o)
+                0x000070f8                __aeabi_uldivmod
+ .text          0x00007138       0x54 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+                0x00007138                __muldi3
+                0x00007138                __aeabi_lmul
+ .text          0x0000718c       0x30 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+                0x0000718c                __fixunssfsi
+                0x0000718c                __aeabi_f2uiz
+ .text          0x000071bc       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+                0x000071bc                __aeabi_d2uiz
+                0x000071bc                __fixunsdfsi
+ .text          0x000071f8       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+                0x000071f8                __fixunsdfdi
+                0x000071f8                __aeabi_d2ulz
+ .text          0x00007234      0x184 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+                0x00007234                __udivmoddi4
+ .text          0x000073b8      0x224 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+                0x000073b8                __aeabi_fdiv
+ .text          0x000075dc       0x50 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+                0x000075dc                __eqsf2
+                0x000075dc                __nesf2
+ .text          0x0000762c       0x9c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+                0x0000762c                __gesf2
+                0x0000762c                __gtsf2
+ .text          0x000076c8       0xa0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+                0x000076c8                __ltsf2
+                0x000076c8                __lesf2
+ .text          0x00007768      0x264 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+                0x00007768                __aeabi_fmul
+ .text          0x000079cc      0x388 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+                0x000079cc                __aeabi_fsub
+ .text          0x00007d54       0x40 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+                0x00007d54                __aeabi_f2iz
+ .text          0x00007d94       0x94 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+                0x00007d94                __aeabi_i2f
+ .text          0x00007e28       0x80 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+                0x00007e28                __aeabi_ui2f
+ .text          0x00007ea8      0x638 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+                0x00007ea8                __aeabi_dadd
+ .text          0x000084e0      0x604 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+                0x000084e0                __aeabi_ddiv
+ .text          0x00008ae4       0x78 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+                0x00008ae4                __nedf2
+                0x00008ae4                __eqdf2
+ .text          0x00008b5c       0xc8 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+                0x00008b5c                __gedf2
+                0x00008b5c                __gtdf2
+ .text          0x00008c24       0xd0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+                0x00008c24                __ledf2
+                0x00008c24                __ltdf2
+ .text          0x00008cf4      0x4e4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+                0x00008cf4                __aeabi_dmul
+ .text          0x000091d8      0x690 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+                0x000091d8                __aeabi_dsub
+ .text          0x00009868       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+                0x00009868                __aeabi_dcmpun
+ .text          0x000098a0       0x6c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+                0x000098a0                __aeabi_d2iz
+ .text          0x0000990c       0x74 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+                0x0000990c                __aeabi_i2d
+ .text          0x00009980       0x64 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+                0x00009980                __aeabi_ui2d
+ .text          0x000099e4       0xa4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+                0x000099e4                __aeabi_f2d
+ .text          0x00009a88      0x108 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+                0x00009a88                __aeabi_d2f
+ .text          0x00009b90       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzsi2.o)
+                0x00009b90                __clzsi2
+ .text          0x00009bcc       0x18 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzdi2.o)
+                0x00009bcc                __clzdi2
+ .text          0x00009be4        0xe d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-strlen.o)
+                0x00009be4                strlen
+ *(.text*)
+ .text.GPIOA_Handler
+                0x00009bf2        0x6 ./07_NosPrg/isr.o
+                0x00009bf2                GPIOA_Handler
+ .text.GPIOB_Handler
+                0x00009bf8        0x6 ./07_NosPrg/isr.o
+                0x00009bf8                GPIOB_Handler
+ *fill*         0x00009bfe        0x2 
+ .text.UARTA_Handler
+                0x00009c00       0x3c ./07_NosPrg/isr.o
+                0x00009c00                UARTA_Handler
+ .text.SPIA_Handler
+                0x00009c3c        0x6 ./07_NosPrg/isr.o
+                0x00009c3c                SPIA_Handler
+ .text.SPIB_Handler
+                0x00009c42        0x6 ./07_NosPrg/isr.o
+                0x00009c42                SPIB_Handler
+ .text.I2CA_Handler
+                0x00009c48        0x6 ./07_NosPrg/isr.o
+                0x00009c48                I2CA_Handler
+ .text.I2CB_Handler
+                0x00009c4e        0x6 ./07_NosPrg/isr.o
+                0x00009c4e                I2CB_Handler
+ .text.TSI_Handler
+                0x00009c54       0x64 ./07_NosPrg/isr.o
+                0x00009c54                TSI_Handler
+ .text.INCAP_Handler
+                0x00009cb8        0x6 ./07_NosPrg/isr.o
+                0x00009cb8                INCAP_Handler
+ .text.TIMERA_Handler
+                0x00009cbe       0x14 ./07_NosPrg/isr.o
+                0x00009cbe                TIMERA_Handler
+ .text.TIMERB_Handler
+                0x00009cd2        0x6 ./07_NosPrg/isr.o
+                0x00009cd2                TIMERB_Handler
+ .text.userData_init
+                0x00009cd8      0x184 ./07_NosPrg/main.o
+                0x00009cd8                userData_init
+ .text.userData_get
+                0x00009e5c      0x328 ./07_NosPrg/main.o
+                0x00009e5c                userData_get
+ .text.LCD_Showfirst
+                0x0000a184      0x340 ./07_NosPrg/main.o
+                0x0000a184                LCD_Showfirst
+ .text.main     0x0000a4c4      0xe54 ./07_NosPrg/main.o
+                0x0000a4c4                main
+ .text.enable_irq
+                0x0000b318       0x18 ./06_SoftComponent/common.o
+                0x0000b318                enable_irq
+ .text.Delay_ms
+                0x0000b330       0x1a ./06_SoftComponent/common.o
+                0x0000b330                Delay_ms
+ *fill*         0x0000b34a        0x2 
+ .text.transformToDate
+                0x0000b34c      0x4c8 ./06_SoftComponent/timeStamp.o
+                0x0000b34c                transformToDate
+ .text.intToString
+                0x0000b814       0x44 ./06_SoftComponent/timeStamp.o
+                0x0000b814                intToString
+ .text.transformToDateString
+                0x0000b858       0x98 ./06_SoftComponent/timeStamp.o
+                0x0000b858                transformToDateString
+ .text.timeChange
+                0x0000b8f0       0x28 ./06_SoftComponent/timeStamp.o
+                0x0000b8f0                timeChange
+ .text.IntConvertToStr
+                0x0000b918       0x7c ./06_SoftComponent/valueType.o
+                0x0000b918                IntConvertToStr
+ .text.DoubleConvertToStr
+                0x0000b994      0x12c ./06_SoftComponent/valueType.o
+                0x0000b994                DoubleConvertToStr
+ .text.ArrayCopy
+                0x0000bac0       0x16 ./06_SoftComponent/valueType.o
+                0x0000bac0                ArrayCopy
+ *fill*         0x0000bad6        0x2 
+ .text.LCD_WR_DATA8
+                0x0000bad8       0x40 ./05_UserBoard/lcd.o
+                0x0000bad8                LCD_WR_DATA8
+ .text.LCD_WR_DATA
+                0x0000bb18       0x48 ./05_UserBoard/lcd.o
+                0x0000bb18                LCD_WR_DATA
+ .text.LCD_WR_REG
+                0x0000bb60       0x40 ./05_UserBoard/lcd.o
+                0x0000bb60                LCD_WR_REG
+ .text.LCD_WR_REG_DATA
+                0x0000bba0       0x10 ./05_UserBoard/lcd.o
+                0x0000bba0                LCD_WR_REG_DATA
+ .text.Address_set
+                0x0000bbb0       0x4e ./05_UserBoard/lcd.o
+                0x0000bbb0                Address_set
+ .text.LCD_Clear
+                0x0000bbfe       0x32 ./05_UserBoard/lcd.o
+                0x0000bbfe                LCD_Clear
+ .text.LCD_Init
+                0x0000bc30       0xc0 ./05_UserBoard/lcd.o
+                0x0000bc30                LCD_Init
+ .text.LCD_DrawPoint
+                0x0000bcf0       0x14 ./05_UserBoard/lcd.o
+                0x0000bcf0                LCD_DrawPoint
+ .text.LCD_DrawLine
+                0x0000bd04       0xb2 ./05_UserBoard/lcd.o
+                0x0000bd04                LCD_DrawLine
+ .text.LCD_ShowCharactor
+                0x0000bdb6       0x4c ./05_UserBoard/lcd.o
+                0x0000bdb6                LCD_ShowCharactor
+ *fill*         0x0000be02        0x2 
+ .text.LCD_ShowString
+                0x0000be04      0x104 ./05_UserBoard/lcd.o
+                0x0000be04                LCD_ShowString
+ .text.LCD_DrawSurface
+                0x0000bf08       0x4a ./05_UserBoard/lcd.o
+                0x0000bf08                LCD_DrawSurface
+ *fill*         0x0000bf52        0x2 
+ .text.LCD_aotu
+                0x0000bf54       0xd0 ./05_UserBoard/lcd.o
+                0x0000bf54                LCD_aotu
+ .text.out_char
+                0x0000c024       0x18 ./05_UserBoard/printf.o
+                0x0000c024                out_char
+ .text.printk_putc
+                0x0000c03c       0x2a ./05_UserBoard/printf.o
+ .text.printk_mknumstr
+                0x0000c066       0x92 ./05_UserBoard/printf.o
+ .text.printk_pad_space
+                0x0000c0f8       0x20 ./05_UserBoard/printf.o
+ .text.printk_mkfloatstr
+                0x0000c118      0x1c4 ./05_UserBoard/printf.o
+                0x0000c118                printk_mkfloatstr
+ .text.printk   0x0000c2dc      0x648 ./05_UserBoard/printf.o
+                0x0000c2dc                printk
+ .text.myprintf
+                0x0000c924       0x24 ./05_UserBoard/printf.o
+                0x0000c924                myprintf
+ .text.Int_Handler_init
+                0x0000c948       0xa4 ./04_GEC/Int_Handler_init.o
+                0x0000c948                Int_Handler_init
+ .text.BIOS_API_Init
+                0x0000c9ec       0x28 ./04_GEC/Int_Handler_init.o
+                0x0000c9ec                BIOS_API_Init
+ .text.SystemInit
+                0x0000ca14       0xc4 ./03_MCU/startup/system_MKL36Z4.o
+                0x0000ca14                SystemInit
+ .text.adc_read_inner
+                0x0000cad8       0x28 ./03_MCU/MCU_drivers/adc.o
+                0x0000cad8                adc_read_inner
+ .text.adc_read
+                0x0000cb00        0xa ./03_MCU/MCU_drivers/adc.o
+                0x0000cb00                adc_read
+ *fill*         0x0000cb0a        0x2 
+ .text.adc_cal  0x0000cb0c       0x80 ./03_MCU/MCU_drivers/adc.o
+                0x0000cb0c                adc_cal
+ .text.adc_init_inner
+                0x0000cb8c       0xa4 ./03_MCU/MCU_drivers/adc.o
+                0x0000cb8c                adc_init_inner
+ .text.adc_init
+                0x0000cc30       0x20 ./03_MCU/MCU_drivers/adc.o
+                0x0000cc30                adc_init
+ .text.spi_init
+                0x0000cc50      0x1d8 ./03_MCU/MCU_drivers/spi.o
+                0x0000cc50                spi_init
+ .text.spi_send1
+                0x0000ce28       0x3c ./03_MCU/MCU_drivers/spi.o
+                0x0000ce28                spi_send1
+ .text.lptmr_init
+                0x0000ce64       0x3c ./03_MCU/MCU_drivers/timer.o
+                0x0000ce64                lptmr_init
+ .text.lptmr_enable_int
+                0x0000cea0       0x1c ./03_MCU/MCU_drivers/timer.o
+                0x0000cea0                lptmr_enable_int
+ .text.tpm_timer_init
+                0x0000cebc       0xd4 ./03_MCU/MCU_drivers/timer.o
+                0x0000cebc                tpm_timer_init
+ .text.timer_init
+                0x0000cf90       0x2c ./03_MCU/MCU_drivers/timer.o
+                0x0000cf90                timer_init
+ .text.tpm_enable_int
+                0x0000cfbc       0x24 ./03_MCU/MCU_drivers/timer.o
+                0x0000cfbc                tpm_enable_int
+ .text.timer_enable_int
+                0x0000cfe0       0x1a ./03_MCU/MCU_drivers/timer.o
+                0x0000cfe0                timer_enable_int
+ *fill*         0x0000cffa        0x2 
+ .text.tpm_clear_int
+                0x0000cffc       0x14 ./03_MCU/MCU_drivers/timer.o
+                0x0000cffc                tpm_clear_int
+ .text.timer_clear_int
+                0x0000d010       0x24 ./03_MCU/MCU_drivers/timer.o
+                0x0000d010                timer_clear_int
+ .text.tsi_init
+                0x0000d034       0xb4 ./03_MCU/MCU_drivers/tsi.o
+                0x0000d034                tsi_init
+ .text.tsi_get_value
+                0x0000d0e8       0x4c ./03_MCU/MCU_drivers/tsi.o
+                0x0000d0e8                tsi_get_value
+ .text.tsi_enable_re_int
+                0x0000d134       0x20 ./03_MCU/MCU_drivers/tsi.o
+                0x0000d134                tsi_enable_re_int
+ .text.tsi_search
+                0x0000d154       0x10 ./03_MCU/MCU_drivers/tsi.o
+                0x0000d154                tsi_search
+ .text.tsi_get_int
+                0x0000d164        0xc ./03_MCU/MCU_drivers/tsi.o
+                0x0000d164                tsi_get_int
+ .text.tsi_clear_int
+                0x0000d170       0x1c ./03_MCU/MCU_drivers/tsi.o
+                0x0000d170                tsi_clear_int
+ .text.log      0x0000d18c      0x110 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+                0x0000d18c                log
+ .text.__ieee754_log
+                0x0000d29c      0x3ac d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+                0x0000d29c                __ieee754_log
+ .text.matherr  0x0000d648        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+                0x0000d648                matherr
+ .text.nan      0x0000d64c        0xc d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+                0x0000d64c                nan
+ .text.__errno  0x0000d658        0xc d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+                0x0000d658                __errno
+ .text.exit     0x0000d664       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+                0x0000d664                exit
+ .text.__libc_init_array
+                0x0000d690       0x48 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+                0x0000d690                __libc_init_array
+ .text.memcpy   0x0000d6d8       0x12 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+                0x0000d6d8                memcpy
+ .text.memset   0x0000d6ea       0x10 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+                0x0000d6ea                memset
+ *fill*         0x0000d6fa        0x2 
+ .text._exit    0x0000d6fc        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+                0x0000d6fc                _exit
+ *(.rodata)
+ .rodata        0x0000d700       0x68 ./06_SoftComponent/timeStamp.o
+ .rodata        0x0000d768       0x80 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+ .rodata        0x0000d7e8       0x40 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+ .rodata        0x0000d828       0x40 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+ .rodata        0x0000d868       0x40 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+ *(.rodata*)
+ .rodata.LCD_Showfirst.str1.4
+                0x0000d8a8      0x1a4 ./07_NosPrg/main.o
+ .rodata.main.str1.4
+                0x0000da4c      0x30d ./07_NosPrg/main.o
+                                0x315 (size before relaxing)
+ *fill*         0x0000dd59        0x3 
+ .rodata.userData_init.str1.4
+                0x0000dd5c        0x3 ./07_NosPrg/main.o
+ *fill*         0x0000dd5f        0x1 
+ .rodata.GB_16  0x0000dd60       0x66 ./05_UserBoard/lcd.o
+ *fill*         0x0000ddc6        0x2 
+ .rodata.nAsciiDot
+                0x0000ddc8      0x600 ./05_UserBoard/lcd.o
+ .rodata.printk
+                0x0000e3c8       0xc8 ./05_UserBoard/printf.o
+ .rodata.adc_init_inner
+                0x0000e490       0x18 ./03_MCU/MCU_drivers/adc.o
+ .rodata.tsi_init
+                0x0000e4a8       0x18 ./03_MCU/MCU_drivers/tsi.o
+ .rodata.log.str1.4
+                0x0000e4c0        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+                                  0x5 (size before relaxing)
+ .rodata._global_impure_ptr
+                0x0000e4c4        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+                0x0000e4c4                _global_impure_ptr
+ *(.glue_7)
+ .glue_7        0x0000e4c8        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x0000e4c8        0x0 linker stubs
+ *(.eh_frame)
+ .eh_frame      0x0000e4c8        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+ *(.init)
+ .init          0x0000e4c8        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+                0x0000e4c8                _init
+ .init          0x0000e4cc        0x8 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+ *(.fini)
+ .fini          0x0000e4d4        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+                0x0000e4d4                _fini
+ .fini          0x0000e4d8        0x8 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+                0x0000e4e0                . = ALIGN (0x4)
+
+.vfp11_veneer   0x0000e4e0        0x0
+ .vfp11_veneer  0x0000e4e0        0x0 linker stubs
+
+.v4_bx          0x0000e4e0        0x0
+ .v4_bx         0x0000e4e0        0x0 linker stubs
+
+.iplt           0x0000e4e0        0x0
+ .iplt          0x0000e4e0        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x0000e4e0        0x8
+                0x0000e4e0                __exidx_start = .
+ *(.ARM.exidx*)
+ .ARM.exidx     0x0000e4e0        0x8 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+ .ARM.exidx     0x0000e4e8        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+                                  0x8 (size before relaxing)
+                0x0000e4e8                __exidx_end = .
+
+.ctors          0x0000e4e8        0x0
+                0x0000e4e8                __CTOR_LIST__ = .
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+                0x0000e4e8                __CTOR_END__ = .
+
+.dtors          0x0000e4e8        0x0
+                0x0000e4e8                __DTOR_LIST__ = .
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+                0x0000e4e8                __DTOR_END__ = .
+
+.preinit_array  0x0000e4e8        0x0
+                0x0000e4e8                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array*)
+                0x0000e4e8                PROVIDE (__preinit_array_end, .)
+
+.init_array     0x0000e4e8        0x4
+                0x0000e4e8                PROVIDE (__init_array_start, .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array*)
+ .init_array    0x0000e4e8        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+                0x0000e4ec                PROVIDE (__init_array_end, .)
+
+.fini_array     0x0000e4ec        0x4
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array*)
+ .fini_array    0x0000e4ec        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+                [!provide]                PROVIDE (__fini_array_end, .)
+                0x0000e4f0                __etext = .
+                0x0000e4f0                __DATA_ROM = .
+
+.mac_config     0x0000fc00       0xb0
+                0x0000fc00                . = ALIGN (0x4)
+ *(.MacConfig)
+ .MacConfig     0x0000fc00       0xad ./07_NosPrg/main.o
+                0x0000fc00                flashInit
+                0x0000fcb0                . = ALIGN (0x4)
+ *fill*         0x0000fcad        0x3 
+
+.rel.dyn        0x0000fcb0        0x0
+ .rel.iplt      0x0000fcb0        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+
+.mtb            0x20000000        0x0
+                0x20000000                . = ALIGN (0x8)
+                0x20000000                _mtb_start = .
+ *(.mtb_buf)
+                0x20000000                . = ALIGN (0x8)
+                0x20000000                _mtb_end = .
+
+.data           0x20000000       0x74 load address 0x0000e4f0
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __DATA_RAM = .
+                0x20000000                __data_start__ = .
+ *(.data)
+ *(.data*)
+ .data.TPM_ARR  0x20000000        0xc ./03_MCU/MCU_drivers/timer.o
+                0x20000000                TPM_ARR
+ .data.TPM_IRQ  0x2000000c        0x3 ./03_MCU/MCU_drivers/timer.o
+                0x2000000c                TPM_IRQ
+ .data.__fdlib_version
+                0x2000000f        0x1 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+                0x2000000f                __fdlib_version
+ .data._impure_ptr
+                0x20000010        0x4 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+                0x20000010                _impure_ptr
+ .data.impure_data
+                0x20000014       0x60 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+ *(.jcr*)
+                0x20000074                . = ALIGN (0x4)
+                0x20000074                __data_end__ = .
+                0x0000e564                __DATA_END = (__DATA_ROM + (__data_end__ - __data_start__))
+
+.igot.plt       0x20000074        0x0 load address 0x0000e564
+ .igot.plt      0x20000074        0x0 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+
+.bss            0x20000078      0x624 load address 0x0000e568
+                0x20000078                . = ALIGN (0x4)
+                0x20000078                __START_BSS = .
+                0x20000078                __bss_start__ = .
+ *(.bss)
+ .bss           0x20000078       0x1c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+ *(.bss*)
+ .bss.sn.6702   0x20000094        0x4 ./07_NosPrg/main.o
+ *(COMMON)
+ COMMON         0x20000098      0x602 ./07_NosPrg/isr.o
+                0x20000098                gFlashData
+                0x20000148                gRecvBuf
+                0x20000548                gTimeString
+                0x20000560                gTimeSec
+                0x20000568                bios_fun_point
+                0x2000056c                gUserData
+                0x20000698                gRecvLength
+ COMMON         0x2000069a        0x1 ./07_NosPrg/main.o
+                0x2000069a                flag
+                0x2000069c                . = ALIGN (0x4)
+ *fill*         0x2000069b        0x1 
+                0x2000069c                __bss_end__ = .
+                0x2000069c                __END_BSS = .
+
+.heap           0x2000069c      0x204 load address 0x0000eb8c
+                0x200006a0                . = ALIGN (0x8)
+ *fill*         0x2000069c        0x4 
+                0x200006a0                __end__ = .
+                [!provide]                PROVIDE (end, .)
+                0x200006a0                __HeapBase = .
+                0x200008a0                . = (. + HEAP_SIZE)
+ *fill*         0x200006a0      0x200 
+                0x200008a0                __HeapLimit = .
+
+.stack          0x200008a0      0x100 load address 0x0000ed90
+                0x200008a0                . = ALIGN (0x8)
+                0x200009a0                . = (. + STACK_SIZE)
+ *fill*         0x200008a0      0x100 
+                0x20001800                __StackTop = (ORIGIN (m_data) + LENGTH (m_data))
+                0x20001700                __StackLimit = (__StackTop - STACK_SIZE)
+                0x20001800                PROVIDE (__stack, __StackTop)
+
+.ARM.attributes
+                0x00000000       0x28
+ *(.ARM.attributes)
+ .ARM.attributes
+                0x00000000       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crti.o
+ .ARM.attributes
+                0x0000001e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtbegin.o
+ .ARM.attributes
+                0x0000004a       0x1b d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/crt0.o
+ .ARM.attributes
+                0x00000065       0x32 ./07_NosPrg/isr.o
+ .ARM.attributes
+                0x00000097       0x32 ./07_NosPrg/main.o
+ .ARM.attributes
+                0x000000c9       0x32 ./06_SoftComponent/common.o
+ .ARM.attributes
+                0x000000fb       0x32 ./06_SoftComponent/timeStamp.o
+ .ARM.attributes
+                0x0000012d       0x32 ./06_SoftComponent/valueType.o
+ .ARM.attributes
+                0x0000015f       0x32 ./05_UserBoard/lcd.o
+ .ARM.attributes
+                0x00000191       0x32 ./05_UserBoard/printf.o
+ .ARM.attributes
+                0x000001c3       0x32 ./04_GEC/Int_Handler_init.o
+ .ARM.attributes
+                0x000001f5       0x1b ./03_MCU/startup/startup_MKL36Z4.o
+ .ARM.attributes
+                0x00000210       0x32 ./03_MCU/startup/system_MKL36Z4.o
+ .ARM.attributes
+                0x00000242       0x32 ./03_MCU/MCU_drivers/adc.o
+ .ARM.attributes
+                0x00000274       0x32 ./03_MCU/MCU_drivers/spi.o
+ .ARM.attributes
+                0x000002a6       0x32 ./03_MCU/MCU_drivers/timer.o
+ .ARM.attributes
+                0x000002d8       0x32 ./03_MCU/MCU_drivers/tsi.o
+ .ARM.attributes
+                0x0000030a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+ .ARM.attributes
+                0x00000336       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+ .ARM.attributes
+                0x00000362       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_lib_ver.o)
+ .ARM.attributes
+                0x0000038e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+ .ARM.attributes
+                0x000003ba       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+ .ARM.attributes
+                0x000003e6       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x00000404       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x00000422       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x00000440       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpdf2.o)
+ .ARM.attributes
+                0x0000045e       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_arm_cmpsf2.o)
+ .ARM.attributes
+                0x0000047c       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_aeabi_uldivmod.o)
+ .ARM.attributes
+                0x0000049a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+ .ARM.attributes
+                0x000004c6       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+ .ARM.attributes
+                0x000004f2       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+ .ARM.attributes
+                0x0000051e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+ .ARM.attributes
+                0x0000054a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+ .ARM.attributes
+                0x00000576       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+ .ARM.attributes
+                0x000005a2       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+ .ARM.attributes
+                0x000005ce       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+ .ARM.attributes
+                0x000005fa       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+ .ARM.attributes
+                0x00000626       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+ .ARM.attributes
+                0x00000652       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+ .ARM.attributes
+                0x0000067e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+ .ARM.attributes
+                0x000006aa       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+ .ARM.attributes
+                0x000006d6       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+ .ARM.attributes
+                0x00000702       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+ .ARM.attributes
+                0x0000072e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+ .ARM.attributes
+                0x0000075a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+ .ARM.attributes
+                0x00000786       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+ .ARM.attributes
+                0x000007b2       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+ .ARM.attributes
+                0x000007de       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+ .ARM.attributes
+                0x0000080a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+ .ARM.attributes
+                0x00000836       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+ .ARM.attributes
+                0x00000862       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+ .ARM.attributes
+                0x0000088e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+ .ARM.attributes
+                0x000008ba       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+ .ARM.attributes
+                0x000008e6       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+ .ARM.attributes
+                0x00000912       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+ .ARM.attributes
+                0x0000093e       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzsi2.o)
+ .ARM.attributes
+                0x0000095c       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_clzdi2.o)
+ .ARM.attributes
+                0x0000097a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+ .ARM.attributes
+                0x000009a6       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+ .ARM.attributes
+                0x000009d2       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-impure.o)
+ .ARM.attributes
+                0x000009fe       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+ .ARM.attributes
+                0x00000a2a       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .ARM.attributes
+                0x00000a56       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+ .ARM.attributes
+                0x00000a82       0x1c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-strlen.o)
+ .ARM.attributes
+                0x00000a9e       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)
+ .ARM.attributes
+                0x00000aca       0x1e d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m/crtn.o
+                0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region m_data overflowed with stack and heap)
+OUTPUT(User_NB-IoT-Frame(KL36)A.50.elf elf32-littlearm)
+
+.debug_info     0x00000000     0xf0c5
+ .debug_info    0x00000000     0x1740 ./07_NosPrg/isr.o
+ .debug_info    0x00001740     0x3517 ./07_NosPrg/main.o
+ .debug_info    0x00004c57     0x18ae ./06_SoftComponent/common.o
+ .debug_info    0x00006505      0xc8b ./06_SoftComponent/timeStamp.o
+ .debug_info    0x00007190      0x25e ./06_SoftComponent/valueType.o
+ .debug_info    0x000073ee     0x19c6 ./05_UserBoard/lcd.o
+ .debug_info    0x00008db4     0x16a0 ./05_UserBoard/printf.o
+ .debug_info    0x0000a454      0xb49 ./04_GEC/Int_Handler_init.o
+ .debug_info    0x0000af9d       0x26 ./03_MCU/startup/startup_MKL36Z4.o
+ .debug_info    0x0000afc3      0x402 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_info    0x0000b3c5      0xde3 ./03_MCU/MCU_drivers/adc.o
+ .debug_info    0x0000c1a8      0xe6f ./03_MCU/MCU_drivers/spi.o
+ .debug_info    0x0000d017     0x1255 ./03_MCU/MCU_drivers/timer.o
+ .debug_info    0x0000e26c      0xe59 ./03_MCU/MCU_drivers/tsi.o
+
+.debug_abbrev   0x00000000     0x225e
+ .debug_abbrev  0x00000000      0x278 ./07_NosPrg/isr.o
+ .debug_abbrev  0x00000278      0x3a0 ./07_NosPrg/main.o
+ .debug_abbrev  0x00000618      0x307 ./06_SoftComponent/common.o
+ .debug_abbrev  0x0000091f      0x277 ./06_SoftComponent/timeStamp.o
+ .debug_abbrev  0x00000b96      0x107 ./06_SoftComponent/valueType.o
+ .debug_abbrev  0x00000c9d      0x329 ./05_UserBoard/lcd.o
+ .debug_abbrev  0x00000fc6      0x3dc ./05_UserBoard/printf.o
+ .debug_abbrev  0x000013a2      0x292 ./04_GEC/Int_Handler_init.o
+ .debug_abbrev  0x00001634       0x14 ./03_MCU/startup/startup_MKL36Z4.o
+ .debug_abbrev  0x00001648       0xed ./03_MCU/startup/system_MKL36Z4.o
+ .debug_abbrev  0x00001735      0x26a ./03_MCU/MCU_drivers/adc.o
+ .debug_abbrev  0x0000199f      0x2a4 ./03_MCU/MCU_drivers/spi.o
+ .debug_abbrev  0x00001c43      0x37e ./03_MCU/MCU_drivers/timer.o
+ .debug_abbrev  0x00001fc1      0x29d ./03_MCU/MCU_drivers/tsi.o
+
+.debug_loc      0x00000000     0x452a
+ .debug_loc     0x00000000       0x26 ./07_NosPrg/isr.o
+ .debug_loc     0x00000026      0x9cc ./07_NosPrg/main.o
+ .debug_loc     0x000009f2      0x207 ./06_SoftComponent/common.o
+ .debug_loc     0x00000bf9      0x60c ./06_SoftComponent/timeStamp.o
+ .debug_loc     0x00001205      0x45b ./06_SoftComponent/valueType.o
+ .debug_loc     0x00001660      0xc9a ./05_UserBoard/lcd.o
+ .debug_loc     0x000022fa     0x1533 ./05_UserBoard/printf.o
+ .debug_loc     0x0000382d       0x2c ./04_GEC/Int_Handler_init.o
+ .debug_loc     0x00003859      0x25c ./03_MCU/MCU_drivers/adc.o
+ .debug_loc     0x00003ab5      0x521 ./03_MCU/MCU_drivers/spi.o
+ .debug_loc     0x00003fd6      0x42c ./03_MCU/MCU_drivers/timer.o
+ .debug_loc     0x00004402      0x128 ./03_MCU/MCU_drivers/tsi.o
+
+.debug_aranges  0x00000000      0x448
+ .debug_aranges
+                0x00000000       0x78 ./07_NosPrg/isr.o
+ .debug_aranges
+                0x00000078       0x38 ./07_NosPrg/main.o
+ .debug_aranges
+                0x000000b0       0x60 ./06_SoftComponent/common.o
+ .debug_aranges
+                0x00000110       0x38 ./06_SoftComponent/timeStamp.o
+ .debug_aranges
+                0x00000148       0x30 ./06_SoftComponent/valueType.o
+ .debug_aranges
+                0x00000178       0xa0 ./05_UserBoard/lcd.o
+ .debug_aranges
+                0x00000218       0x50 ./05_UserBoard/printf.o
+ .debug_aranges
+                0x00000268       0x28 ./04_GEC/Int_Handler_init.o
+ .debug_aranges
+                0x00000290       0x20 ./03_MCU/startup/startup_MKL36Z4.o
+ .debug_aranges
+                0x000002b0       0x20 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_aranges
+                0x000002d0       0x40 ./03_MCU/MCU_drivers/adc.o
+ .debug_aranges
+                0x00000310       0x50 ./03_MCU/MCU_drivers/spi.o
+ .debug_aranges
+                0x00000360       0x88 ./03_MCU/MCU_drivers/timer.o
+ .debug_aranges
+                0x000003e8       0x60 ./03_MCU/MCU_drivers/tsi.o
+
+.debug_ranges   0x00000000      0x3f8
+ .debug_ranges  0x00000000       0x68 ./07_NosPrg/isr.o
+ .debug_ranges  0x00000068       0x28 ./07_NosPrg/main.o
+ .debug_ranges  0x00000090       0x68 ./06_SoftComponent/common.o
+ .debug_ranges  0x000000f8       0x28 ./06_SoftComponent/timeStamp.o
+ .debug_ranges  0x00000120       0x20 ./06_SoftComponent/valueType.o
+ .debug_ranges  0x00000140       0xa8 ./05_UserBoard/lcd.o
+ .debug_ranges  0x000001e8       0x98 ./05_UserBoard/printf.o
+ .debug_ranges  0x00000280       0x30 ./04_GEC/Int_Handler_init.o
+ .debug_ranges  0x000002b0       0x10 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_ranges  0x000002c0       0x30 ./03_MCU/MCU_drivers/adc.o
+ .debug_ranges  0x000002f0       0x40 ./03_MCU/MCU_drivers/spi.o
+ .debug_ranges  0x00000330       0x78 ./03_MCU/MCU_drivers/timer.o
+ .debug_ranges  0x000003a8       0x50 ./03_MCU/MCU_drivers/tsi.o
+
+.debug_macro    0x00000000    0x10a16
+ .debug_macro   0x00000000      0x310 ./07_NosPrg/isr.o
+ .debug_macro   0x00000310      0xa2a ./07_NosPrg/isr.o
+ .debug_macro   0x00000d3a       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x00000d4a       0x16 ./07_NosPrg/isr.o
+ .debug_macro   0x00000d60       0x22 ./07_NosPrg/isr.o
+ .debug_macro   0x00000d82       0x4f ./07_NosPrg/isr.o
+ .debug_macro   0x00000dd1       0x51 ./07_NosPrg/isr.o
+ .debug_macro   0x00000e22       0xef ./07_NosPrg/isr.o
+ .debug_macro   0x00000f11       0x6a ./07_NosPrg/isr.o
+ .debug_macro   0x00000f7b      0x1df ./07_NosPrg/isr.o
+ .debug_macro   0x0000115a       0x39 ./07_NosPrg/isr.o
+ .debug_macro   0x00001193       0x3a ./07_NosPrg/isr.o
+ .debug_macro   0x000011cd       0x26 ./07_NosPrg/isr.o
+ .debug_macro   0x000011f3      0x306 ./07_NosPrg/isr.o
+ .debug_macro   0x000014f9     0xc3a9 ./07_NosPrg/isr.o
+ .debug_macro   0x0000d8a2       0x94 ./07_NosPrg/isr.o
+ .debug_macro   0x0000d936       0x88 ./07_NosPrg/isr.o
+ .debug_macro   0x0000d9be       0x58 ./07_NosPrg/isr.o
+ .debug_macro   0x0000da16       0x58 ./07_NosPrg/isr.o
+ .debug_macro   0x0000da6e       0x17 ./07_NosPrg/isr.o
+ .debug_macro   0x0000da85       0x35 ./07_NosPrg/isr.o
+ .debug_macro   0x0000daba       0x9c ./07_NosPrg/isr.o
+ .debug_macro   0x0000db56      0x16d ./07_NosPrg/isr.o
+ .debug_macro   0x0000dcc3       0x58 ./07_NosPrg/isr.o
+ .debug_macro   0x0000dd1b       0x1f ./07_NosPrg/isr.o
+ .debug_macro   0x0000dd3a       0x43 ./07_NosPrg/isr.o
+ .debug_macro   0x0000dd7d       0x20 ./07_NosPrg/isr.o
+ .debug_macro   0x0000dd9d      0x18e ./07_NosPrg/isr.o
+ .debug_macro   0x0000df2b      0x353 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e27e       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e28e       0x35 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e2c3       0x1c ./07_NosPrg/isr.o
+ .debug_macro   0x0000e2df       0x87 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e366       0x2e ./07_NosPrg/isr.o
+ .debug_macro   0x0000e394       0x4d ./07_NosPrg/isr.o
+ .debug_macro   0x0000e3e1       0x4e ./07_NosPrg/isr.o
+ .debug_macro   0x0000e42f       0x1c ./07_NosPrg/isr.o
+ .debug_macro   0x0000e44b       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e45b       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e46b       0xb6 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e521       0x16 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e537      0x129 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e660       0x16 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e676       0x22 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e698       0x98 ./07_NosPrg/isr.o
+ .debug_macro   0x0000e730      0x4ad ./07_NosPrg/isr.o
+ .debug_macro   0x0000ebdd       0xa0 ./07_NosPrg/isr.o
+ .debug_macro   0x0000ec7d       0xce ./07_NosPrg/isr.o
+ .debug_macro   0x0000ed4b       0xde ./07_NosPrg/isr.o
+ .debug_macro   0x0000ee29       0x5e ./07_NosPrg/isr.o
+ .debug_macro   0x0000ee87       0x16 ./07_NosPrg/isr.o
+ .debug_macro   0x0000ee9d       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000eead       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000eebd       0x2e ./07_NosPrg/isr.o
+ .debug_macro   0x0000eeeb       0x10 ./07_NosPrg/isr.o
+ .debug_macro   0x0000eefb      0x316 ./07_NosPrg/main.o
+ .debug_macro   0x0000f211      0x314 ./06_SoftComponent/common.o
+ .debug_macro   0x0000f525      0x1d5 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x0000f6fa       0x10 ./06_SoftComponent/timeStamp.o
+ .debug_macro   0x0000f70a       0xdd ./06_SoftComponent/valueType.o
+ .debug_macro   0x0000f7e7      0x287 ./05_UserBoard/lcd.o
+ .debug_macro   0x0000fa6e       0xc8 ./05_UserBoard/lcd.o
+ .debug_macro   0x0000fb36      0x281 ./05_UserBoard/printf.o
+ .debug_macro   0x0000fdb7       0x52 ./05_UserBoard/printf.o
+ .debug_macro   0x0000fe09       0x55 ./05_UserBoard/printf.o
+ .debug_macro   0x0000fe5e       0x57 ./05_UserBoard/printf.o
+ .debug_macro   0x0000feb5       0x9a ./05_UserBoard/printf.o
+ .debug_macro   0x0000ff4f      0x278 ./04_GEC/Int_Handler_init.o
+ .debug_macro   0x000101c7       0xa0 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x00010267       0x4b ./03_MCU/startup/system_MKL36Z4.o
+ .debug_macro   0x000102b2      0x18f ./03_MCU/MCU_drivers/adc.o
+ .debug_macro   0x00010441      0x272 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x000106b3       0x22 ./03_MCU/MCU_drivers/spi.o
+ .debug_macro   0x000106d5      0x18f ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x00010864       0x28 ./03_MCU/MCU_drivers/timer.o
+ .debug_macro   0x0001088c      0x18a ./03_MCU/MCU_drivers/tsi.o
+
+.debug_line     0x00000000     0x51a5
+ .debug_line    0x00000000      0x80e ./07_NosPrg/isr.o
+ .debug_line    0x0000080e      0x94c ./07_NosPrg/main.o
+ .debug_line    0x0000115a      0x7fc ./06_SoftComponent/common.o
+ .debug_line    0x00001956      0x53a ./06_SoftComponent/timeStamp.o
+ .debug_line    0x00001e90      0x42f ./06_SoftComponent/valueType.o
+ .debug_line    0x000022bf      0x78f ./05_UserBoard/lcd.o
+ .debug_line    0x00002a4e      0x823 ./05_UserBoard/printf.o
+ .debug_line    0x00003271      0x5b1 ./04_GEC/Int_Handler_init.o
+ .debug_line    0x00003822       0x78 ./03_MCU/startup/startup_MKL36Z4.o
+ .debug_line    0x0000389a      0x29b ./03_MCU/startup/system_MKL36Z4.o
+ .debug_line    0x00003b35      0x4fb ./03_MCU/MCU_drivers/adc.o
+ .debug_line    0x00004030      0x69b ./03_MCU/MCU_drivers/spi.o
+ .debug_line    0x000046cb      0x5b7 ./03_MCU/MCU_drivers/timer.o
+ .debug_line    0x00004c82      0x523 ./03_MCU/MCU_drivers/tsi.o
+
+.debug_str      0x00000000    0x51f4b
+ .debug_str     0x00000000    0x51073 ./07_NosPrg/isr.o
+                              0x515a8 (size before relaxing)
+ .debug_str     0x00051073      0x254 ./07_NosPrg/main.o
+                              0x5172e (size before relaxing)
+ .debug_str     0x000512c7      0x30e ./06_SoftComponent/common.o
+                              0x517e2 (size before relaxing)
+ .debug_str     0x000515d5      0x13c ./06_SoftComponent/timeStamp.o
+                              0x4e8f6 (size before relaxing)
+ .debug_str     0x00051711       0x36 ./06_SoftComponent/valueType.o
+                              0x4b4d0 (size before relaxing)
+ .debug_str     0x00051747      0x144 ./05_UserBoard/lcd.o
+                              0x50ae9 (size before relaxing)
+ .debug_str     0x0005188b      0x157 ./05_UserBoard/printf.o
+                              0x50b8a (size before relaxing)
+ .debug_str     0x000519e2       0x5e ./04_GEC/Int_Handler_init.o
+                              0x50959 (size before relaxing)
+ .debug_str     0x00051a40       0x33 ./03_MCU/startup/startup_MKL36Z4.o
+                                 0x7f (size before relaxing)
+ .debug_str     0x00051a73      0x134 ./03_MCU/startup/system_MKL36Z4.o
+                              0x4ab6e (size before relaxing)
+ .debug_str     0x00051ba7       0xe9 ./03_MCU/MCU_drivers/adc.o
+                              0x4e6d6 (size before relaxing)
+ .debug_str     0x00051c90       0xe0 ./03_MCU/MCU_drivers/spi.o
+                              0x50939 (size before relaxing)
+ .debug_str     0x00051d70      0x161 ./03_MCU/MCU_drivers/timer.o
+                              0x4ea36 (size before relaxing)
+ .debug_str     0x00051ed1       0x7a ./03_MCU/MCU_drivers/tsi.o
+                              0x4e878 (size before relaxing)
+
+.comment        0x00000000       0x7e
+ .comment       0x00000000       0x7e ./07_NosPrg/isr.o
+                                 0x7f (size before relaxing)
+ .comment       0x0000007e       0x7f ./07_NosPrg/main.o
+ .comment       0x0000007e       0x7f ./06_SoftComponent/common.o
+ .comment       0x0000007e       0x7f ./06_SoftComponent/timeStamp.o
+ .comment       0x0000007e       0x7f ./06_SoftComponent/valueType.o
+ .comment       0x0000007e       0x7f ./05_UserBoard/lcd.o
+ .comment       0x0000007e       0x7f ./05_UserBoard/printf.o
+ .comment       0x0000007e       0x7f ./04_GEC/Int_Handler_init.o
+ .comment       0x0000007e       0x7f ./03_MCU/startup/system_MKL36Z4.o
+ .comment       0x0000007e       0x7f ./03_MCU/MCU_drivers/adc.o
+ .comment       0x0000007e       0x7f ./03_MCU/MCU_drivers/spi.o
+ .comment       0x0000007e       0x7f ./03_MCU/MCU_drivers/timer.o
+ .comment       0x0000007e       0x7f ./03_MCU/MCU_drivers/tsi.o
+
+.debug_frame    0x00000000     0x110c
+ .debug_frame   0x00000000       0xec ./07_NosPrg/isr.o
+ .debug_frame   0x000000ec       0xa8 ./07_NosPrg/main.o
+ .debug_frame   0x00000194       0xb0 ./06_SoftComponent/common.o
+ .debug_frame   0x00000244       0x94 ./06_SoftComponent/timeStamp.o
+ .debug_frame   0x000002d8       0x74 ./06_SoftComponent/valueType.o
+ .debug_frame   0x0000034c      0x230 ./05_UserBoard/lcd.o
+ .debug_frame   0x0000057c       0xfc ./05_UserBoard/printf.o
+ .debug_frame   0x00000678       0x44 ./04_GEC/Int_Handler_init.o
+ .debug_frame   0x000006bc       0x20 ./03_MCU/startup/system_MKL36Z4.o
+ .debug_frame   0x000006dc       0x80 ./03_MCU/MCU_drivers/adc.o
+ .debug_frame   0x0000075c       0xb4 ./03_MCU/MCU_drivers/spi.o
+ .debug_frame   0x00000810      0x130 ./03_MCU/MCU_drivers/timer.o
+ .debug_frame   0x00000940       0xc4 ./03_MCU/MCU_drivers/tsi.o
+ .debug_frame   0x00000a04       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-w_log.o)
+ .debug_frame   0x00000a3c       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-e_log.o)
+ .debug_frame   0x00000a78       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_matherr.o)
+ .debug_frame   0x00000a98       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a(lib_a-s_nan.o)
+ .debug_frame   0x00000ab8       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000ad8       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_divsi3.o)
+ .debug_frame   0x00000af8       0x34 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_muldi3.o)
+ .debug_frame   0x00000b2c       0x28 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunssfsi.o)
+ .debug_frame   0x00000b54       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfsi.o)
+ .debug_frame   0x00000b80       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_fixunsdfdi.o)
+ .debug_frame   0x00000bac       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x00000be8       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divsf3.o)
+ .debug_frame   0x00000c24       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqsf2.o)
+ .debug_frame   0x00000c50       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gesf2.o)
+ .debug_frame   0x00000c7c       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(lesf2.o)
+ .debug_frame   0x00000ca8       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(mulsf3.o)
+ .debug_frame   0x00000ce4       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subsf3.o)
+ .debug_frame   0x00000d1c       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixsfsi.o)
+ .debug_frame   0x00000d3c       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsisf.o)
+ .debug_frame   0x00000d68       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsisf.o)
+ .debug_frame   0x00000d94       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(adddf3.o)
+ .debug_frame   0x00000dcc       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(divdf3.o)
+ .debug_frame   0x00000e08       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(eqdf2.o)
+ .debug_frame   0x00000e40       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(gedf2.o)
+ .debug_frame   0x00000e78       0x38 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(ledf2.o)
+ .debug_frame   0x00000eb0       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(muldf3.o)
+ .debug_frame   0x00000eec       0x3c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(subdf3.o)
+ .debug_frame   0x00000f28       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(unorddf2.o)
+ .debug_frame   0x00000f54       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(fixdfsi.o)
+ .debug_frame   0x00000f80       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatsidf.o)
+ .debug_frame   0x00000fac       0x28 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(floatunsidf.o)
+ .debug_frame   0x00000fd4       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(extendsfdf2.o)
+ .debug_frame   0x00001000       0x30 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/thumb/v6-m\libgcc.a(truncdfsf2.o)
+ .debug_frame   0x00001030       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-errno.o)
+ .debug_frame   0x00001050       0x28 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-exit.o)
+ .debug_frame   0x00001078       0x2c d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-init.o)
+ .debug_frame   0x000010a4       0x28 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memcpy-stub.o)
+ .debug_frame   0x000010cc       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg_nano.a(lib_a-memset.o)
+ .debug_frame   0x000010ec       0x20 d:/zhangqiang/tools/gcc/7 2017-q4-major/bin/../lib/gcc/arm-none-eabi/7.2.1/../../../../arm-none-eabi/lib/thumb/v6-m\libnosys.a(_exit.o)

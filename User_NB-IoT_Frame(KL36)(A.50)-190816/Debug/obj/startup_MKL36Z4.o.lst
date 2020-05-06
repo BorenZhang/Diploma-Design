@@ -1,0 +1,290 @@
+   1              	# 1 "srcs/startup_MKL36Z4.S"
+   1              	/* ---------------------------------------------------------------------------------------*/
+   0              	
+   0              	
+   0              	
+   2              	/*  @file:    startup_MKL36Z4.s                                                           */
+   3              	/*  @purpose: CMSIS Cortex-M0P Core Device Startup File                                   */
+   4              	/*            MKL36Z4                                                                     */
+   5              	/*  @version: 2.1                                                                         */
+   6              	/*  @date:    2014-10-14                                                                  */
+   7              	/*  @build:   b150225                                                                     */
+   8              	/* ---------------------------------------------------------------------------------------*/
+   9              	/*                                                                                        */
+  10              	/* Copyright (c) 1997 - 2015 , Freescale Semiconductor, Inc.                              */
+  11              	/* All rights reserved.                                                                   */
+  12              	/*                                                                                        */
+  13              	/* Redistribution and use in source and binary forms, with or without modification,       */
+  14              	/* are permitted provided that the following conditions are met:                          */
+  15              	/*                                                                                        */
+  16              	/* o Redistributions of source code must retain the above copyright notice, this list     */
+  17              	/*   of conditions and the following disclaimer.                                          */
+  18              	/*                                                                                        */
+  19              	/* o Redistributions in binary form must reproduce the above copyright notice, this       */
+  20              	/*   list of conditions and the following disclaimer in the documentation and/or          */
+  21              	/*   other materials provided with the distribution.                                      */
+  22              	/*                                                                                        */
+  23              	/* o Neither the name of Freescale Semiconductor, Inc. nor the names of its               */
+  24              	/*   contributors may be used to endorse or promote products derived from this            */
+  25              	/*   software without specific prior written permission.                                  */
+  26              	/*                                                                                        */
+  27              	/* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND        */
+  28              	/* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED          */
+  29              	/* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE                 */
+  30              	/* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR       */
+  31              	/* ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES         */
+  32              	/* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;           */
+  33              	/* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON         */
+  34              	/* ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT                */
+  35              	/* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS          */
+  36              	/* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                           */
+  37              	/*****************************************************************************/
+  38              	/* Version: GCC for ARM Embedded Processors                                  */
+  39              	/*****************************************************************************/
+  40              	    .syntax unified
+  41              	    .arch armv6-m
+  42              	
+  43              	    .section .isr_vector, "a"
+  44              	    .align 2
+  45              	    .globl __isr_vector
+  46              	__isr_vector:
+  47 0000 00000000 	    .long   __StackTop                                      /* Top of Stack */
+  48 0004 00000000 	    .long   Reset_Handler                                   /* Reset Handler */
+  49 0008 00000000 	    .long   NMI_Handler                                     /* NMI Handler*/
+  50 000c 00000000 	    .long   HardFault_Handler                               /* Hard Fault Handler*/
+  51 0010 00000000 	    .long   0                                               /* Reserved*/
+  52 0014 00000000 	    .long   0                                               /* Reserved*/
+  53 0018 00000000 	    .long   0                                               /* Reserved*/
+  54 001c 00000000 	    .long   0                                               /* Reserved*/
+  55 0020 00000000 	    .long   0                                               /* Reserved*/
+  56 0024 00000000 	    .long   0                                               /* Reserved*/
+  57 0028 00000000 	    .long   0                                               /* Reserved*/
+  58 002c 00000000 	    .long   SVC_Handler                                     /* SVCall Handler*/
+  59 0030 00000000 	    .long   0                                               /* Reserved*/
+  60 0034 00000000 	    .long   0                                               /* Reserved*/
+  61 0038 00000000 	    .long   PendSV_Handler                                  /* PendSV Handler*/
+  62 003c 00000000 	    .long   SysTick_Handler                                 /* SysTick Handler*/
+  63              	
+  64              	                                                            /* External Interrupts*/
+  65 0040 00000000 	    .long   DMA0_IRQHandler                                 /* DMA channel 0 transfer complete and 
+  66 0044 00000000 	    .long   DMA1_IRQHandler                                 /* DMA channel 1 transfer complete and 
+  67 0048 00000000 	    .long   DMA2_IRQHandler                                 /* DMA channel 2 transfer complete and 
+  68 004c 00000000 	    .long   DMA3_IRQHandler                                 /* DMA channel 3 transfer complete and 
+  69 0050 00000000 	    .long   Reserved20_IRQHandler                           /* Reserved interrupt*/
+  70 0054 00000000 	    .long   FTFA_IRQHandler                                 /* FTFA command complete and read colli
+  71 0058 00000000 	    .long   LVD_LVW_IRQHandler                              /* Low-voltage detect, low-voltage warn
+  72 005c 00000000 	    .long   LLWU_IRQHandler                                 /* Low Leakage Wakeup*/
+  73 0060 00000000 	    .long   I2C0_IRQHandler                                 /* I2C0 interrupt*/
+  74 0064 00000000 	    .long   I2C1_IRQHandler                                 /* I2C1 interrupt*/
+  75 0068 00000000 	    .long   SPI0_IRQHandler                                 /* SPI0 single interrupt vector for all
+  76 006c 00000000 	    .long   SPI1_IRQHandler                                 /* SPI1 single interrupt vector for all
+  77 0070 00000000 	    .long   UART0_IRQHandler                                /* UART0 status and error*/
+  78 0074 00000000 	    .long   UART1_IRQHandler                                /* UART1 status and error*/
+  79 0078 00000000 	    .long   UART2_IRQHandler                                /* UART2 status and error*/
+  80 007c 00000000 	    .long   ADC0_IRQHandler                                 /* ADC0 interrupt*/
+  81 0080 00000000 	    .long   CMP0_IRQHandler                                 /* CMP0 interrupt*/
+  82 0084 00000000 	    .long   TPM0_IRQHandler                                 /* TPM0 single interrupt vector for all
+  83 0088 00000000 	    .long   TPM1_IRQHandler                                 /* TPM1 single interrupt vector for all
+  84 008c 00000000 	    .long   TPM2_IRQHandler                                 /* TPM2 single interrupt vector for all
+  85 0090 00000000 	    .long   RTC_IRQHandler                                  /* RTC alarm interrupt*/
+  86 0094 00000000 	    .long   RTC_Seconds_IRQHandler                          /* RTC seconds interrupt*/
+  87 0098 00000000 	    .long   PIT_IRQHandler                                  /* PIT single interrupt vector for all 
+  88 009c 00000000 	    .long   I2S0_IRQHandler                                 /* I2S0 Single interrupt vector for all
+  89 00a0 00000000 	    .long   Reserved40_IRQHandler                           /* Reserved interrupt*/
+  90 00a4 00000000 	    .long   DAC0_IRQHandler                                 /* DAC0 interrupt*/
+  91 00a8 00000000 	    .long   TSI0_IRQHandler                                 /* TSI0 interrupt*/
+  92 00ac 00000000 	    .long   MCG_IRQHandler                                  /* MCG interrupt*/
+  93 00b0 00000000 	    .long   LPTMR0_IRQHandler                               /* LPTMR0 interrupt*/
+  94 00b4 00000000 	    .long   LCD_IRQHandler                                  /* Segment LCD interrupt*/
+  95 00b8 00000000 	    .long   PORTA_IRQHandler                                /* PORTA pin detect*/
+  96 00bc 00000000 	    .long   PORTC_PORTD_IRQHandler                          /* Single interrupt vector for PORTC an
+  97              	
+  99              	
+ 100              	/* Flash Configuration */
+ 101              	    .section .FlashConfig, "a"
+ 102 0000 FFFFFFFF 	    .long 0xFFFFFFFF
+ 103 0004 FFFFFFFF 	    .long 0xFFFFFFFF
+ 104 0008 FFFFFFFF 	    .long 0xFFFFFFFF
+ 105 000c FEFFFFFF 	    .long 0xFFFFFFFE
+ 106              	
+ 107              	    .text
+ 108              	    .thumb
+ 109              	
+ 110              	/* Reset Handler */
+ 111              	
+ 112              	    .thumb_func
+ 113              	    .align 2
+ 114              	    .globl   Reset_Handler
+ 115              	    .weak    Reset_Handler
+ 117              	Reset_Handler:
+ 118 0000 72B6     	    cpsid   i               /* Mask interrupts */
+ 119              	#ifndef __NO_SYSTEM_INIT
+ 120 0002 FFF7FEFF 	    bl SystemInit
+ 121              	#endif
+ 122 0006 62B6     	    cpsie   i               /* Unmask interrupts */
+ 123              	/*     Loop to copy data from read only memory to RAM. The ranges
+ 124              	 *      of copy from/to are specified by following symbols evaluated in
+ 125              	 *      linker script.
+ 126              	 *      __etext: End of code section, i.e., begin of data sections to copy from.
+ 127              	 *      __data_start__/__data_end__: RAM address range that data should be
+ 128              	 *      copied to. Both must be aligned to 4 bytes boundary.  */
+ 129              	
+ 130 0008 0949     	    ldr    r1, =__etext
+ 131 000a 0A4A     	    ldr    r2, =__data_start__
+ 132 000c 0A4B     	    ldr    r3, =__data_end__
+ 133              	
+ 134 000e 9B1A     	    subs    r3, r2
+ 135 0010 03DD     	    ble     .LC0
+ 136              	
+ 137              	.LC1:
+ 138 0012 043B     	    subs    r3, 4
+ 139 0014 C858     	    ldr    r0, [r1,r3]
+ 140 0016 D050     	    str    r0, [r2,r3]
+ 141 0018 FBDC     	    bgt    .LC1
+ 142              	.LC0:
+ 143              	
+ 144              	#define __STARTUP_CLEAR_BSS
+ 145              	#ifdef __STARTUP_CLEAR_BSS
+ 146              	/*     This part of work usually is done in C library startup code. Otherwise,
+ 147              	 *     define this macro to enable it in this startup.
+ 148              	 *
+ 149              	 *     Loop to zero out BSS section, which uses following symbols
+ 150              	 *     in linker script:
+ 151              	 *      __bss_start__: start of BSS section. Must align to 4
+ 152              	 *      __bss_end__: end of BSS section. Must align to 4
+ 153              	 */
+ 154 001a 0849     	    ldr r1, =__bss_start__
+ 155 001c 084A     	    ldr r2, =__bss_end__
+ 156              	
+ 157 001e 521A     	    subs    r2, r1
+ 158 0020 03DD     	    ble .LC3
+ 159              	
+ 160 0022 0020     	    movs    r0, 0
+ 161              	.LC2:
+ 162 0024 8850     	    str r0, [r1, r2]
+ 163 0026 043A     	    subs    r2, 4
+ 164 0028 FCDA     	    bge .LC2
+ 165              	.LC3:
+ 166              	#endif
+ 167              	#ifndef __START
+ 168              	#define __START _start
+ 169              	#endif
+ 170 002a FFF7FEFF 	    bl    __START
+ 171 002e 00000000 	    .pool
+ 171      00000000 
+ 171      00000000 
+ 171      00000000 
+ 171      00000000 
+ 173              	
+ 174              	    .align    1
+ 175              	    .thumb_func
+ 176              	    .weak DefaultISR
+ 178              	DefaultISR:
+ 179 0044 0048     	    ldr    r0, =DefaultISR
+ 180 0046 0047     	    bx r0
+ 182              	
+ 183              	/*    Macro to define default handlers. Default handler
+ 184              	 *    will be weak symbol and just dead loops. They can be
+ 185              	 *    overwritten by other handlers */
+ 186              	    .macro def_irq_handler    handler_name
+ 187              	    .weak \handler_name
+ 188              	    .set  \handler_name, DefaultISR
+ 189              	    .endm
+ 190              	
+ 191              	/* Exception Handlers */
+ 192              	    def_irq_handler    NMI_Handler
+ 193              	    def_irq_handler    HardFault_Handler
+ 194              	    def_irq_handler    SVC_Handler
+ 195              	    def_irq_handler    PendSV_Handler
+ 196              	    def_irq_handler    SysTick_Handler
+ 197              	    def_irq_handler    DMA0_IRQHandler
+ 198              	    def_irq_handler    DMA1_IRQHandler
+ 199              	    def_irq_handler    DMA2_IRQHandler
+ 200              	    def_irq_handler    DMA3_IRQHandler
+ 201              	    def_irq_handler    Reserved20_IRQHandler
+ 202              	    def_irq_handler    FTFA_IRQHandler
+ 203              	    def_irq_handler    LVD_LVW_IRQHandler
+ 204              	    def_irq_handler    LLWU_IRQHandler
+ 205              	    def_irq_handler    I2C0_IRQHandler
+ 206              	    def_irq_handler    I2C1_IRQHandler
+ 207              	    def_irq_handler    SPI0_IRQHandler
+ 208              	    def_irq_handler    SPI1_IRQHandler
+ 209              	    def_irq_handler    UART0_IRQHandler
+ 210              	    def_irq_handler    UART1_IRQHandler
+ 211              	    def_irq_handler    UART2_IRQHandler
+ 212              	    def_irq_handler    ADC0_IRQHandler
+ 213              	    def_irq_handler    CMP0_IRQHandler
+ 214              	    def_irq_handler    TPM0_IRQHandler
+ 215              	    def_irq_handler    TPM1_IRQHandler
+ 216              	    def_irq_handler    TPM2_IRQHandler
+ 217              	    def_irq_handler    RTC_IRQHandler
+ 218              	    def_irq_handler    RTC_Seconds_IRQHandler
+ 219              	    def_irq_handler    PIT_IRQHandler
+ 220              	    def_irq_handler    I2S0_IRQHandler
+ 221              	    def_irq_handler    Reserved40_IRQHandler
+ 222              	    def_irq_handler    DAC0_IRQHandler
+ 223              	    def_irq_handler    TSI0_IRQHandler
+ 224              	    def_irq_handler    MCG_IRQHandler
+ 225              	    def_irq_handler    LPTMR0_IRQHandler
+ 226              	    def_irq_handler    LCD_IRQHandler
+ 227              	    def_irq_handler    PORTA_IRQHandler
+ 228              	    def_irq_handler    PORTC_PORTD_IRQHandler
+ 229              	
+ 230 0048 00000000 	    .end
+DEFINED SYMBOLS
+srcs/startup_MKL36Z4.S:44     .isr_vector:00000000 $d
+srcs/startup_MKL36Z4.S:46     .isr_vector:00000000 __isr_vector
+srcs/startup_MKL36Z4.S:117    .text:00000000 Reset_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 NMI_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 HardFault_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 SVC_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 PendSV_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 SysTick_Handler
+srcs/startup_MKL36Z4.S:178    .text:00000044 DMA0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 DMA1_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 DMA2_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 DMA3_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 Reserved20_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 FTFA_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 LVD_LVW_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 LLWU_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 I2C0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 I2C1_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 SPI0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 SPI1_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 UART0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 UART1_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 UART2_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 ADC0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 CMP0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 TPM0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 TPM1_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 TPM2_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 RTC_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 RTC_Seconds_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 PIT_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 I2S0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 Reserved40_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 DAC0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 TSI0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 MCG_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 LPTMR0_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 LCD_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 PORTA_IRQHandler
+srcs/startup_MKL36Z4.S:178    .text:00000044 PORTC_PORTD_IRQHandler
+srcs/startup_MKL36Z4.S:113    .text:00000000 $t
+srcs/startup_MKL36Z4.S:171    .text:0000002e $d
+srcs/startup_MKL36Z4.S:171    .text:00000030 $d
+srcs/startup_MKL36Z4.S:174    .text:00000044 $t
+srcs/startup_MKL36Z4.S:178    .text:00000044 DefaultISR
+srcs/startup_MKL36Z4.S:230    .text:00000048 $d
+
+UNDEFINED SYMBOLS
+__StackTop
+SystemInit
+__etext
+__data_start__
+__data_end__
+__bss_start__
+__bss_end__
+_start

@@ -1,0 +1,3203 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"printf.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.out_char,"ax",%progbits
+  16              		.align	1
+  17              		.global	out_char
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	out_char:
+  24              	.LFB38:
+  25              		.file 1 "srcc/printf.c"
+   1:srcc/printf.c **** ﻿
+   2:srcc/printf.c **** #include "printf.h"
+   3:srcc/printf.c **** 
+   4:srcc/printf.c **** 
+   5:srcc/printf.c **** //======================================================================
+   6:srcc/printf.c **** //函数名称：out_char
+   7:srcc/printf.c **** //功能概要：通过串口打出一个字符
+   8:srcc/printf.c **** //参数说明：uartNo:串口号：UARTA、UARTB、UARTC、UART_DEBUG
+   9:srcc/printf.c **** //       data:数据：通过串口发送的一字节数据
+  10:srcc/printf.c **** //函数返回：无
+  11:srcc/printf.c **** //======================================================================
+  12:srcc/printf.c **** 
+  13:srcc/printf.c **** void out_char(char data) {
+  26              		.loc 1 13 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 10B5     		push	{r4, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+  14:srcc/printf.c **** 	uart_send1(UART_printf, data);
+  35              		.loc 1 14 0
+  36 0002 C1B2     		uxtb	r1, r0
+  37 0004 034B     		ldr	r3, .L2
+  38 0006 1A68     		ldr	r2, [r3]
+  39 0008 9823     		movs	r3, #152
+  40 000a 5B00     		lsls	r3, r3, #1
+  41 000c D358     		ldr	r3, [r2, r3]
+  42 000e 0220     		movs	r0, #2
+  43              	.LVL1:
+  44 0010 9847     		blx	r3
+  45              	.LVL2:
+  15:srcc/printf.c **** }
+  46              		.loc 1 15 0
+  47              		@ sp needed
+  48 0012 10BD     		pop	{r4, pc}
+  49              	.L3:
+  50              		.align	2
+  51              	.L2:
+  52 0014 00000000 		.word	bios_fun_point
+  53              		.cfi_endproc
+  54              	.LFE38:
+  56              		.section	.text.printk_putc,"ax",%progbits
+  57              		.align	1
+  58              		.syntax unified
+  59              		.code	16
+  60              		.thumb_func
+  61              		.fpu softvfp
+  63              	printk_putc:
+  64              	.LFB39:
+  16:srcc/printf.c **** //======================================================================
+  17:srcc/printf.c **** //函数名称：printk_putc
+  18:srcc/printf.c **** //功能概要：通过串口打出一个字符
+  19:srcc/printf.c **** //参数说明：data:数据：通过串口发送的一字节数据
+  20:srcc/printf.c **** //函数返回：无
+  21:srcc/printf.c **** //======================================================================
+  22:srcc/printf.c **** static void printk_putc(int c, int *count, PRINTK_INFO *info)
+  23:srcc/printf.c **** {
+  65              		.loc 1 23 0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              	.LVL3:
+  70 0000 10B5     		push	{r4, lr}
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 4, -8
+  73              		.cfi_offset 14, -4
+  74 0002 0C00     		movs	r4, r1
+  24:srcc/printf.c **** 	switch (info->dest) {
+  75              		.loc 1 24 0
+  76 0004 1368     		ldr	r3, [r2]
+  77 0006 012B     		cmp	r3, #1
+  78 0008 05D0     		beq	.L6
+  79 000a 022B     		cmp	r3, #2
+  80 000c 07D0     		beq	.L7
+  81              	.LVL4:
+  82              	.L5:
+  25:srcc/printf.c **** 	case DEST_CONSOLE:
+  26:srcc/printf.c **** 		info->func((char) c);
+  27:srcc/printf.c **** 		break;
+  28:srcc/printf.c **** 	case DEST_STRING:
+  29:srcc/printf.c **** 		*(info->loc) = (unsigned char) c;
+  30:srcc/printf.c **** 		++(info->loc);
+  31:srcc/printf.c **** 		break;
+  32:srcc/printf.c **** 	default:
+  33:srcc/printf.c **** 		break;
+  34:srcc/printf.c **** 	}
+  35:srcc/printf.c **** 	*count += 1;
+  83              		.loc 1 35 0
+  84 000e 2368     		ldr	r3, [r4]
+  85 0010 0133     		adds	r3, r3, #1
+  86 0012 2360     		str	r3, [r4]
+  36:srcc/printf.c **** }
+  87              		.loc 1 36 0
+  88              		@ sp needed
+  89              	.LVL5:
+  90 0014 10BD     		pop	{r4, pc}
+  91              	.LVL6:
+  92              	.L6:
+  26:srcc/printf.c **** 		break;
+  93              		.loc 1 26 0
+  94 0016 40B2     		sxtb	r0, r0
+  95              	.LVL7:
+  96 0018 5368     		ldr	r3, [r2, #4]
+  97 001a 9847     		blx	r3
+  98              	.LVL8:
+  27:srcc/printf.c **** 	case DEST_STRING:
+  99              		.loc 1 27 0
+ 100 001c F7E7     		b	.L5
+ 101              	.LVL9:
+ 102              	.L7:
+  29:srcc/printf.c **** 		++(info->loc);
+ 103              		.loc 1 29 0
+ 104 001e 9368     		ldr	r3, [r2, #8]
+ 105 0020 1870     		strb	r0, [r3]
+  30:srcc/printf.c **** 		break;
+ 106              		.loc 1 30 0
+ 107 0022 9368     		ldr	r3, [r2, #8]
+ 108 0024 0133     		adds	r3, r3, #1
+ 109 0026 9360     		str	r3, [r2, #8]
+  31:srcc/printf.c **** 	default:
+ 110              		.loc 1 31 0
+ 111 0028 F1E7     		b	.L5
+ 112              		.cfi_endproc
+ 113              	.LFE39:
+ 115              		.global	__aeabi_idiv
+ 116              		.global	__aeabi_idivmod
+ 117              		.global	__aeabi_uidiv
+ 118              		.global	__aeabi_uidivmod
+ 119              		.section	.text.printk_mknumstr,"ax",%progbits
+ 120              		.align	1
+ 121              		.syntax unified
+ 122              		.code	16
+ 123              		.thumb_func
+ 124              		.fpu softvfp
+ 126              	printk_mknumstr:
+ 127              	.LFB41:
+  37:srcc/printf.c **** //======================================================================
+  38:srcc/printf.c **** //函数名称：printk_mkfloatstr
+  39:srcc/printf.c **** //功能概要：将浮点数转化为字符串
+  40:srcc/printf.c **** //参数说明： *f:浮点型数据：float型数据
+  41:srcc/printf.c **** //       c[]:字符串数组：转化后的到的字符串数组
+  42:srcc/printf.c **** //函数返回：无
+  43:srcc/printf.c **** //======================================================================
+  44:srcc/printf.c **** int printk_mkfloatstr(double *f,char c[],int precision_width)
+  45:srcc/printf.c **** {
+  46:srcc/printf.c **** 	uint_32 p,i,j,k,a[5]={0},b[19]={0};
+  47:srcc/printf.c **** 	uint_64 q;
+  48:srcc/printf.c **** 	double tempf;
+  49:srcc/printf.c **** 	p=0;
+  50:srcc/printf.c **** 	q=0;
+  51:srcc/printf.c **** 	//float m;
+  52:srcc/printf.c **** 	double m;
+  53:srcc/printf.c **** 	p=(uint_32)*f;//整数部分
+  54:srcc/printf.c **** 	tempf=(*f-p);
+  55:srcc/printf.c **** 	if(precision_width==0)
+  56:srcc/printf.c **** 	q=(*f-p)*100000000000000000;//小数部分
+  57:srcc/printf.c **** 	else
+  58:srcc/printf.c **** 	{
+  59:srcc/printf.c **** 		while(precision_width--)
+  60:srcc/printf.c **** 		tempf*=10;
+  61:srcc/printf.c **** 		q=tempf;
+  62:srcc/printf.c **** 	}
+  63:srcc/printf.c **** 	m=*f-p;
+  64:srcc/printf.c **** 	k=0;
+  65:srcc/printf.c **** 	while(m<1)
+  66:srcc/printf.c **** 	{
+  67:srcc/printf.c **** 		m=m*10;
+  68:srcc/printf.c **** 		k++;
+  69:srcc/printf.c **** 	};
+  70:srcc/printf.c **** 	k--;          //记录小数点后到第一位不为零的小数之前 有多少个0.
+  71:srcc/printf.c **** 
+  72:srcc/printf.c **** 		i=0;
+  73:srcc/printf.c **** 	if(0==p)//整数部分为0
+  74:srcc/printf.c **** 		c[i++]='0';
+  75:srcc/printf.c **** 	else//整数部分不为0
+  76:srcc/printf.c **** 	{
+  77:srcc/printf.c **** 		j=0;
+  78:srcc/printf.c **** 		while(p!=0)//倒序的数字
+  79:srcc/printf.c **** 		{
+  80:srcc/printf.c **** 			a[j++]=p%10;
+  81:srcc/printf.c **** 			p/=10;
+  82:srcc/printf.c **** 		}
+  83:srcc/printf.c **** 		while(j>0)//将倒序数字转为正序，并转换为对应的字符形式
+  84:srcc/printf.c **** 		{
+  85:srcc/printf.c **** 			c[i++]=a[j-1]+'0';
+  86:srcc/printf.c **** 			--j;
+  87:srcc/printf.c **** 		}
+  88:srcc/printf.c **** 	}
+  89:srcc/printf.c **** 	c[i++]='.';//小数点
+  90:srcc/printf.c **** 	if(0==q)//小数部分为0
+  91:srcc/printf.c **** 		c[i++]='0';
+  92:srcc/printf.c **** 	else//小数部分不为0
+  93:srcc/printf.c **** 	{
+  94:srcc/printf.c **** 		j=0;
+  95:srcc/printf.c **** 
+  96:srcc/printf.c **** 		while(q!=0)//倒序的数字
+  97:srcc/printf.c **** 		{
+  98:srcc/printf.c **** 			b[j++]=q%10;
+  99:srcc/printf.c **** 			q/=10;
+ 100:srcc/printf.c **** 		}
+ 101:srcc/printf.c **** 		while(k!=0)
+ 102:srcc/printf.c **** 		{
+ 103:srcc/printf.c **** 			b[j++]=0;
+ 104:srcc/printf.c **** 			k--;
+ 105:srcc/printf.c **** 		}
+ 106:srcc/printf.c **** 		while(j>0)//将倒序数字转为正序，并转换为对应的字符形式
+ 107:srcc/printf.c **** 		{
+ 108:srcc/printf.c **** 			c[i++]=b[j-1]+'0';
+ 109:srcc/printf.c **** 			--j;
+ 110:srcc/printf.c **** 		}
+ 111:srcc/printf.c **** 	}
+ 112:srcc/printf.c **** 	c[i]='\0';
+ 113:srcc/printf.c **** 	return i;
+ 114:srcc/printf.c **** }
+ 115:srcc/printf.c **** //======================================================================
+ 116:srcc/printf.c **** //函数名称：printk_mknumstr
+ 117:srcc/printf.c **** //功能概要：将整形数据转化为字符串保存在numstr中
+ 118:srcc/printf.c **** //参数说明：numstr:字符串首地址：用于接收转化为字符串的整型数据
+ 119:srcc/printf.c **** //       nump:无符号整形数据：将转化为整形的数据传入函数
+ 120:srcc/printf.c **** //       neg:有无符号:判断数据时有符号还是无符号整形
+ 121:srcc/printf.c **** //       radix:格式选择:确定输出格式例如：十进制或十六进制...
+ 122:srcc/printf.c **** //函数返回：无
+ 123:srcc/printf.c **** //======================================================================
+ 124:srcc/printf.c **** static int printk_mknumstr(char *numstr, void *nump, int neg, int radix)
+ 125:srcc/printf.c **** {
+ 128              		.loc 1 125 0
+ 129              		.cfi_startproc
+ 130              		@ args = 0, pretend = 0, frame = 8
+ 131              		@ frame_needed = 0, uses_anonymous_args = 0
+ 132              	.LVL10:
+ 133 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 134              		.cfi_def_cfa_offset 20
+ 135              		.cfi_offset 4, -20
+ 136              		.cfi_offset 5, -16
+ 137              		.cfi_offset 6, -12
+ 138              		.cfi_offset 7, -8
+ 139              		.cfi_offset 14, -4
+ 140 0002 CE46     		mov	lr, r9
+ 141 0004 00B5     		push	{lr}
+ 142              		.cfi_def_cfa_offset 24
+ 143              		.cfi_offset 9, -24
+ 144 0006 82B0     		sub	sp, sp, #8
+ 145              		.cfi_def_cfa_offset 32
+ 146 0008 0700     		movs	r7, r0
+ 147 000a 1C00     		movs	r4, r3
+ 148              	.LVL11:
+ 126:srcc/printf.c **** 	int a, b, c;
+ 127:srcc/printf.c **** 	unsigned int ua, ub, uc;
+ 128:srcc/printf.c **** 
+ 129:srcc/printf.c **** 	int nlen;
+ 130:srcc/printf.c **** 	char *nstrp;
+ 131:srcc/printf.c **** 
+ 132:srcc/printf.c **** 	nlen = 0;
+ 133:srcc/printf.c **** 	nstrp = numstr;
+ 134:srcc/printf.c **** 	*nstrp++ = '\0';
+ 149              		.loc 1 134 0
+ 150 000c 0023     		movs	r3, #0
+ 151              	.LVL12:
+ 152 000e 0370     		strb	r3, [r0]
+ 135:srcc/printf.c **** 
+ 136:srcc/printf.c **** 	if (neg) {
+ 153              		.loc 1 136 0
+ 154 0010 002A     		cmp	r2, #0
+ 155 0012 21D0     		beq	.L9
+ 137:srcc/printf.c **** 		a = *(int *) nump;
+ 156              		.loc 1 137 0
+ 157 0014 0D68     		ldr	r5, [r1]
+ 158              	.LVL13:
+ 159 0016 0126     		movs	r6, #1
+ 138:srcc/printf.c **** 		if (a == 0) {
+ 139:srcc/printf.c **** 			*nstrp = '0';
+ 140:srcc/printf.c **** 			++nlen;
+ 141:srcc/printf.c **** 			goto done;
+ 142:srcc/printf.c **** 		}
+ 143:srcc/printf.c **** 		while (a != 0) {
+ 144:srcc/printf.c **** 			b = (int) a / (int) radix;
+ 145:srcc/printf.c **** 			c = (int) a - ((int) b * (int) radix);
+ 146:srcc/printf.c **** 			if (c < 0) {
+ 147:srcc/printf.c **** 				c = ~c + 1 + '0';
+ 160              		.loc 1 147 0
+ 161 0018 3033     		adds	r3, r3, #48
+ 162 001a 9946     		mov	r9, r3
+ 138:srcc/printf.c **** 		if (a == 0) {
+ 163              		.loc 1 138 0
+ 164 001c 002D     		cmp	r5, #0
+ 165 001e 0BD1     		bne	.L10
+ 139:srcc/printf.c **** 			++nlen;
+ 166              		.loc 1 139 0
+ 167 0020 4370     		strb	r3, [r0, #1]
+ 168              	.LVL14:
+ 140:srcc/printf.c **** 			goto done;
+ 169              		.loc 1 140 0
+ 170 0022 0120     		movs	r0, #1
+ 171              	.LVL15:
+ 172              	.L11:
+ 173              	.L8:
+ 148:srcc/printf.c **** 			} else {
+ 149:srcc/printf.c **** 				c = c + '0';
+ 150:srcc/printf.c **** 			}
+ 151:srcc/printf.c **** 			a = b;
+ 152:srcc/printf.c **** 			*nstrp++ = (char) c;
+ 153:srcc/printf.c **** 			++nlen;
+ 154:srcc/printf.c **** 		}
+ 155:srcc/printf.c **** 	} else {
+ 156:srcc/printf.c **** 		ua = *(unsigned int *) nump;
+ 157:srcc/printf.c **** 		if (ua == 0) {
+ 158:srcc/printf.c **** 			*nstrp = '0';
+ 159:srcc/printf.c **** 			++nlen;
+ 160:srcc/printf.c **** 			goto done;
+ 161:srcc/printf.c **** 		}
+ 162:srcc/printf.c **** 		while (ua != 0) {
+ 163:srcc/printf.c **** 			ub = (unsigned int) ua / (unsigned int) radix;
+ 164:srcc/printf.c **** 			uc = (unsigned int) ua - ((unsigned int) ub * (unsigned int) radix);
+ 165:srcc/printf.c **** 			if (uc < 10) {
+ 166:srcc/printf.c **** 				uc = uc + '0';
+ 167:srcc/printf.c **** 			} else {
+ 168:srcc/printf.c **** 				uc = uc - 10 + 'A';
+ 169:srcc/printf.c **** 			}
+ 170:srcc/printf.c **** 			ua = ub;
+ 171:srcc/printf.c **** 			*nstrp++ = (char) uc;
+ 172:srcc/printf.c **** 			++nlen;
+ 173:srcc/printf.c **** 		}
+ 174:srcc/printf.c **** 	}
+ 175:srcc/printf.c **** 	done: return nlen;
+ 176:srcc/printf.c **** }
+ 174              		.loc 1 176 0
+ 175 0024 02B0     		add	sp, sp, #8
+ 176              		@ sp needed
+ 177              	.LVL16:
+ 178              	.LVL17:
+ 179 0026 04BC     		pop	{r2}
+ 180 0028 9146     		mov	r9, r2
+ 181 002a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 182              	.LVL18:
+ 183              	.L13:
+ 152:srcc/printf.c **** 			++nlen;
+ 184              		.loc 1 152 0
+ 185 002c BB55     		strb	r3, [r7, r6]
+ 153:srcc/printf.c **** 		}
+ 186              		.loc 1 153 0
+ 187 002e 3000     		movs	r0, r6
+ 188              	.LVL19:
+ 189 0030 0136     		adds	r6, r6, #1
+ 190              	.LVL20:
+ 151:srcc/printf.c **** 			*nstrp++ = (char) c;
+ 191              		.loc 1 151 0
+ 192 0032 019D     		ldr	r5, [sp, #4]
+ 143:srcc/printf.c **** 			b = (int) a / (int) radix;
+ 193              		.loc 1 143 0
+ 194 0034 002D     		cmp	r5, #0
+ 195 0036 F5D0     		beq	.L8
+ 196              	.LVL21:
+ 197              	.L10:
+ 144:srcc/printf.c **** 			c = (int) a - ((int) b * (int) radix);
+ 198              		.loc 1 144 0
+ 199 0038 2100     		movs	r1, r4
+ 200 003a 2800     		movs	r0, r5
+ 201 003c FFF7FEFF 		bl	__aeabi_idiv
+ 202              	.LVL22:
+ 203 0040 0190     		str	r0, [sp, #4]
+ 204              	.LVL23:
+ 205 0042 2100     		movs	r1, r4
+ 206 0044 2800     		movs	r0, r5
+ 207              	.LVL24:
+ 208 0046 FFF7FEFF 		bl	__aeabi_idivmod
+ 209              	.LVL25:
+ 149:srcc/printf.c **** 			}
+ 210              		.loc 1 149 0
+ 211 004a 0B00     		movs	r3, r1
+ 212 004c 3033     		adds	r3, r3, #48
+ 146:srcc/printf.c **** 				c = ~c + 1 + '0';
+ 213              		.loc 1 146 0
+ 214 004e 0029     		cmp	r1, #0
+ 215 0050 ECDA     		bge	.L13
+ 147:srcc/printf.c **** 			} else {
+ 216              		.loc 1 147 0
+ 217 0052 4B46     		mov	r3, r9
+ 218 0054 5B1A     		subs	r3, r3, r1
+ 219              	.LVL26:
+ 220 0056 E9E7     		b	.L13
+ 221              	.LVL27:
+ 222              	.L9:
+ 156:srcc/printf.c **** 		if (ua == 0) {
+ 223              		.loc 1 156 0
+ 224 0058 0D68     		ldr	r5, [r1]
+ 225              	.LVL28:
+ 226 005a 0126     		movs	r6, #1
+ 157:srcc/printf.c **** 			*nstrp = '0';
+ 227              		.loc 1 157 0
+ 228 005c 002D     		cmp	r5, #0
+ 229 005e 09D1     		bne	.L14
+ 158:srcc/printf.c **** 			++nlen;
+ 230              		.loc 1 158 0
+ 231 0060 3023     		movs	r3, #48
+ 232 0062 4370     		strb	r3, [r0, #1]
+ 233              	.LVL29:
+ 159:srcc/printf.c **** 			goto done;
+ 234              		.loc 1 159 0
+ 235 0064 0120     		movs	r0, #1
+ 236              	.LVL30:
+ 160:srcc/printf.c **** 		}
+ 237              		.loc 1 160 0
+ 238 0066 DDE7     		b	.L8
+ 239              	.LVL31:
+ 240              	.L16:
+ 171:srcc/printf.c **** 			++nlen;
+ 241              		.loc 1 171 0
+ 242 0068 BB55     		strb	r3, [r7, r6]
+ 172:srcc/printf.c **** 		}
+ 243              		.loc 1 172 0
+ 244 006a 3000     		movs	r0, r6
+ 245              	.LVL32:
+ 246 006c 0136     		adds	r6, r6, #1
+ 247              	.LVL33:
+ 170:srcc/printf.c **** 			*nstrp++ = (char) uc;
+ 248              		.loc 1 170 0
+ 249 006e 019D     		ldr	r5, [sp, #4]
+ 162:srcc/printf.c **** 			ub = (unsigned int) ua / (unsigned int) radix;
+ 250              		.loc 1 162 0
+ 251 0070 002D     		cmp	r5, #0
+ 252 0072 D7D0     		beq	.L8
+ 253              	.LVL34:
+ 254              	.L14:
+ 163:srcc/printf.c **** 			uc = (unsigned int) ua - ((unsigned int) ub * (unsigned int) radix);
+ 255              		.loc 1 163 0
+ 256 0074 2100     		movs	r1, r4
+ 257 0076 2800     		movs	r0, r5
+ 258 0078 FFF7FEFF 		bl	__aeabi_uidiv
+ 259              	.LVL35:
+ 260 007c 0190     		str	r0, [sp, #4]
+ 261              	.LVL36:
+ 262 007e 2100     		movs	r1, r4
+ 263 0080 2800     		movs	r0, r5
+ 264              	.LVL37:
+ 265 0082 FFF7FEFF 		bl	__aeabi_uidivmod
+ 266              	.LVL38:
+ 168:srcc/printf.c **** 			}
+ 267              		.loc 1 168 0
+ 268 0086 0B00     		movs	r3, r1
+ 269 0088 3733     		adds	r3, r3, #55
+ 165:srcc/printf.c **** 				uc = uc + '0';
+ 270              		.loc 1 165 0
+ 271 008a 0929     		cmp	r1, #9
+ 272 008c ECD8     		bhi	.L16
+ 166:srcc/printf.c **** 			} else {
+ 273              		.loc 1 166 0
+ 274 008e 073B     		subs	r3, r3, #7
+ 275              	.LVL39:
+ 276 0090 EAE7     		b	.L16
+ 277              		.cfi_endproc
+ 278              	.LFE41:
+ 280              		.section	.text.printk_pad_space,"ax",%progbits
+ 281              		.align	1
+ 282              		.syntax unified
+ 283              		.code	16
+ 284              		.thumb_func
+ 285              		.fpu softvfp
+ 287              	printk_pad_space:
+ 288              	.LFB43:
+ 177:srcc/printf.c **** /********************************************************************/
+ 178:srcc/printf.c **** static void printk_pad_zero(int curlen, int field_width, int *count,
+ 179:srcc/printf.c **** 		PRINTK_INFO *info) {
+ 180:srcc/printf.c **** 	int i;
+ 181:srcc/printf.c **** 
+ 182:srcc/printf.c **** 	for (i = curlen; i < field_width; i++) {
+ 183:srcc/printf.c **** 		printk_putc('0', count, info);
+ 184:srcc/printf.c **** 	}
+ 185:srcc/printf.c **** }
+ 186:srcc/printf.c **** 
+ 187:srcc/printf.c **** /********************************************************************/
+ 188:srcc/printf.c **** static void printk_pad_space(int curlen, int field_width, int *count,
+ 189:srcc/printf.c **** 		PRINTK_INFO *info) {
+ 289              		.loc 1 189 0
+ 290              		.cfi_startproc
+ 291              		@ args = 0, pretend = 0, frame = 0
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293              	.LVL40:
+ 294 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 295              		.cfi_def_cfa_offset 24
+ 296              		.cfi_offset 3, -24
+ 297              		.cfi_offset 4, -20
+ 298              		.cfi_offset 5, -16
+ 299              		.cfi_offset 6, -12
+ 300              		.cfi_offset 7, -8
+ 301              		.cfi_offset 14, -4
+ 302 0002 0400     		movs	r4, r0
+ 303 0004 0D00     		movs	r5, r1
+ 304 0006 1700     		movs	r7, r2
+ 305 0008 1E00     		movs	r6, r3
+ 306              	.LVL41:
+ 190:srcc/printf.c **** 	int i;
+ 191:srcc/printf.c **** 
+ 192:srcc/printf.c **** 	for (i = curlen; i < field_width; i++) {
+ 307              		.loc 1 192 0
+ 308 000a 8842     		cmp	r0, r1
+ 309 000c 07DA     		bge	.L23
+ 310              	.LVL42:
+ 311              	.L25:
+ 193:srcc/printf.c **** 		printk_putc(' ', count, info);
+ 312              		.loc 1 193 0 discriminator 3
+ 313 000e 3200     		movs	r2, r6
+ 314 0010 3900     		movs	r1, r7
+ 315 0012 2020     		movs	r0, #32
+ 316 0014 FFF7FEFF 		bl	printk_putc
+ 317              	.LVL43:
+ 192:srcc/printf.c **** 		printk_putc(' ', count, info);
+ 318              		.loc 1 192 0 discriminator 3
+ 319 0018 0134     		adds	r4, r4, #1
+ 320              	.LVL44:
+ 321 001a A542     		cmp	r5, r4
+ 322 001c F7D1     		bne	.L25
+ 323              	.L23:
+ 194:srcc/printf.c **** 	}
+ 195:srcc/printf.c **** }
+ 324              		.loc 1 195 0
+ 325              		@ sp needed
+ 326              	.LVL45:
+ 327              	.LVL46:
+ 328              	.LVL47:
+ 329              	.LVL48:
+ 330 001e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 331              		.cfi_endproc
+ 332              	.LFE43:
+ 334              		.global	__aeabi_d2uiz
+ 335              		.global	__aeabi_ui2d
+ 336              		.global	__aeabi_dsub
+ 337              		.global	__aeabi_dmul
+ 338              		.global	__aeabi_d2ulz
+ 339              		.global	__aeabi_dcmplt
+ 340              		.global	__aeabi_uldivmod
+ 341              		.section	.text.printk_mkfloatstr,"ax",%progbits
+ 342              		.align	1
+ 343              		.global	printk_mkfloatstr
+ 344              		.syntax unified
+ 345              		.code	16
+ 346              		.thumb_func
+ 347              		.fpu softvfp
+ 349              	printk_mkfloatstr:
+ 350              	.LFB40:
+  45:srcc/printf.c **** 	uint_32 p,i,j,k,a[5]={0},b[19]={0};
+ 351              		.loc 1 45 0
+ 352              		.cfi_startproc
+ 353              		@ args = 0, pretend = 0, frame = 104
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355              	.LVL49:
+ 356 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 357              		.cfi_def_cfa_offset 20
+ 358              		.cfi_offset 4, -20
+ 359              		.cfi_offset 5, -16
+ 360              		.cfi_offset 6, -12
+ 361              		.cfi_offset 7, -8
+ 362              		.cfi_offset 14, -4
+ 363 0002 DE46     		mov	lr, fp
+ 364 0004 5746     		mov	r7, r10
+ 365 0006 4E46     		mov	r6, r9
+ 366 0008 4546     		mov	r5, r8
+ 367 000a E0B5     		push	{r5, r6, r7, lr}
+ 368              		.cfi_def_cfa_offset 36
+ 369              		.cfi_offset 8, -36
+ 370              		.cfi_offset 9, -32
+ 371              		.cfi_offset 10, -28
+ 372              		.cfi_offset 11, -24
+ 373 000c 9BB0     		sub	sp, sp, #108
+ 374              		.cfi_def_cfa_offset 144
+ 375 000e 0400     		movs	r4, r0
+ 376 0010 8846     		mov	r8, r1
+ 377 0012 1700     		movs	r7, r2
+  46:srcc/printf.c **** 	uint_64 q;
+ 378              		.loc 1 46 0
+ 379 0014 1422     		movs	r2, #20
+ 380              	.LVL50:
+ 381 0016 0021     		movs	r1, #0
+ 382              	.LVL51:
+ 383 0018 15A8     		add	r0, sp, #84
+ 384              	.LVL52:
+ 385 001a FFF7FEFF 		bl	memset
+ 386              	.LVL53:
+ 387 001e 4C22     		movs	r2, #76
+ 388 0020 0021     		movs	r1, #0
+ 389 0022 02A8     		add	r0, sp, #8
+ 390 0024 FFF7FEFF 		bl	memset
+ 391              	.LVL54:
+  53:srcc/printf.c **** 	tempf=(*f-p);
+ 392              		.loc 1 53 0
+ 393 0028 6568     		ldr	r5, [r4, #4]
+ 394 002a 2468     		ldr	r4, [r4]
+ 395              	.LVL55:
+ 396 002c 2000     		movs	r0, r4
+ 397 002e 2900     		movs	r1, r5
+ 398 0030 FFF7FEFF 		bl	__aeabi_d2uiz
+ 399              	.LVL56:
+ 400 0034 0600     		movs	r6, r0
+ 401              	.LVL57:
+  54:srcc/printf.c **** 	if(precision_width==0)
+ 402              		.loc 1 54 0
+ 403 0036 FFF7FEFF 		bl	__aeabi_ui2d
+ 404              	.LVL58:
+ 405 003a 0200     		movs	r2, r0
+ 406 003c 0B00     		movs	r3, r1
+ 407 003e 2000     		movs	r0, r4
+ 408 0040 2900     		movs	r1, r5
+ 409 0042 FFF7FEFF 		bl	__aeabi_dsub
+ 410              	.LVL59:
+ 411 0046 0400     		movs	r4, r0
+ 412 0048 0D00     		movs	r5, r1
+ 413              	.LVL60:
+  55:srcc/printf.c **** 	q=(*f-p)*100000000000000000;//小数部分
+ 414              		.loc 1 55 0
+ 415 004a 002F     		cmp	r7, #0
+ 416 004c 0BD0     		beq	.L28
+  59:srcc/printf.c **** 		tempf*=10;
+ 417              		.loc 1 59 0
+ 418 004e 013F     		subs	r7, r7, #1
+ 419              	.LVL61:
+ 420              	.L29:
+  60:srcc/printf.c **** 		q=tempf;
+ 421              		.loc 1 60 0
+ 422 0050 0022     		movs	r2, #0
+ 423 0052 574B     		ldr	r3, .L57
+ 424 0054 FFF7FEFF 		bl	__aeabi_dmul
+ 425              	.LVL62:
+  59:srcc/printf.c **** 		tempf*=10;
+ 426              		.loc 1 59 0
+ 427 0058 013F     		subs	r7, r7, #1
+ 428 005a F9D2     		bcs	.L29
+ 429              	.LVL63:
+  61:srcc/printf.c **** 	}
+ 430              		.loc 1 61 0
+ 431 005c FFF7FEFF 		bl	__aeabi_d2ulz
+ 432              	.LVL64:
+ 433 0060 0090     		str	r0, [sp]
+ 434 0062 0191     		str	r1, [sp, #4]
+ 435              	.LVL65:
+ 436 0064 07E0     		b	.L30
+ 437              	.LVL66:
+ 438              	.L28:
+  56:srcc/printf.c **** 	else
+ 439              		.loc 1 56 0
+ 440 0066 534A     		ldr	r2, .L57+4
+ 441 0068 534B     		ldr	r3, .L57+8
+ 442 006a FFF7FEFF 		bl	__aeabi_dmul
+ 443              	.LVL67:
+ 444 006e FFF7FEFF 		bl	__aeabi_d2ulz
+ 445              	.LVL68:
+ 446 0072 0090     		str	r0, [sp]
+ 447 0074 0191     		str	r1, [sp, #4]
+ 448              	.LVL69:
+ 449              	.L30:
+  65:srcc/printf.c **** 	{
+ 450              		.loc 1 65 0
+ 451 0076 0022     		movs	r2, #0
+ 452 0078 504B     		ldr	r3, .L57+12
+ 453 007a 2000     		movs	r0, r4
+ 454 007c 2900     		movs	r1, r5
+ 455 007e FFF7FEFF 		bl	__aeabi_dcmplt
+ 456              	.LVL70:
+  64:srcc/printf.c **** 	while(m<1)
+ 457              		.loc 1 64 0
+ 458 0082 0027     		movs	r7, #0
+ 459              	.LVL71:
+  65:srcc/printf.c **** 	{
+ 460              		.loc 1 65 0
+ 461 0084 0028     		cmp	r0, #0
+ 462 0086 5DD0     		beq	.L55
+ 463              	.LVL72:
+ 464              	.L33:
+  67:srcc/printf.c **** 		k++;
+ 465              		.loc 1 67 0
+ 466 0088 0022     		movs	r2, #0
+ 467 008a 494B     		ldr	r3, .L57
+ 468 008c 2000     		movs	r0, r4
+ 469 008e 2900     		movs	r1, r5
+ 470 0090 FFF7FEFF 		bl	__aeabi_dmul
+ 471              	.LVL73:
+ 472 0094 0400     		movs	r4, r0
+ 473              	.LVL74:
+ 474 0096 0D00     		movs	r5, r1
+ 475              	.LVL75:
+  68:srcc/printf.c **** 	};
+ 476              		.loc 1 68 0
+ 477 0098 0137     		adds	r7, r7, #1
+ 478              	.LVL76:
+  65:srcc/printf.c **** 	{
+ 479              		.loc 1 65 0
+ 480 009a 0022     		movs	r2, #0
+ 481 009c 474B     		ldr	r3, .L57+12
+ 482 009e FFF7FEFF 		bl	__aeabi_dcmplt
+ 483              	.LVL77:
+ 484 00a2 0028     		cmp	r0, #0
+ 485 00a4 F0D1     		bne	.L33
+ 486              	.LVL78:
+ 487              	.L31:
+  73:srcc/printf.c **** 		c[i++]='0';
+ 488              		.loc 1 73 0
+ 489 00a6 002E     		cmp	r6, #0
+ 490 00a8 4ED1     		bne	.L34
+ 491              	.LVL79:
+  74:srcc/printf.c **** 	else//整数部分不为0
+ 492              		.loc 1 74 0
+ 493 00aa 3023     		movs	r3, #48
+ 494 00ac 4246     		mov	r2, r8
+ 495 00ae 1370     		strb	r3, [r2]
+ 496 00b0 0124     		movs	r4, #1
+ 497              	.LVL80:
+ 498              	.L35:
+  89:srcc/printf.c **** 	if(0==q)//小数部分为0
+ 499              		.loc 1 89 0
+ 500 00b2 631C     		adds	r3, r4, #1
+ 501 00b4 9A46     		mov	r10, r3
+ 502              	.LVL81:
+ 503 00b6 2E23     		movs	r3, #46
+ 504              	.LVL82:
+ 505 00b8 4246     		mov	r2, r8
+ 506 00ba 1355     		strb	r3, [r2, r4]
+  90:srcc/printf.c **** 		c[i++]='0';
+ 507              		.loc 1 90 0
+ 508 00bc 009B     		ldr	r3, [sp]
+ 509 00be 019A     		ldr	r2, [sp, #4]
+ 510 00c0 1343     		orrs	r3, r2
+ 511 00c2 64D0     		beq	.L56
+ 512 00c4 02AC     		add	r4, sp, #8
+  94:srcc/printf.c **** 
+ 513              		.loc 1 94 0
+ 514 00c6 0026     		movs	r6, #0
+ 515              	.LVL83:
+ 516 00c8 B946     		mov	r9, r7
+ 517 00ca 3700     		movs	r7, r6
+ 518              	.LVL84:
+ 519 00cc 2600     		movs	r6, r4
+ 520 00ce 009D     		ldr	r5, [sp]
+ 521 00d0 019C     		ldr	r4, [sp, #4]
+ 522              	.LVL85:
+ 523              	.L40:
+  98:srcc/printf.c **** 			q/=10;
+ 524              		.loc 1 98 0
+ 525 00d2 0137     		adds	r7, r7, #1
+ 526              	.LVL86:
+ 527 00d4 0A22     		movs	r2, #10
+ 528 00d6 0023     		movs	r3, #0
+ 529 00d8 2800     		movs	r0, r5
+ 530 00da 2100     		movs	r1, r4
+ 531 00dc FFF7FEFF 		bl	__aeabi_uldivmod
+ 532              	.LVL87:
+ 533 00e0 04C6     		stmia	r6!, {r2}
+  99:srcc/printf.c **** 		}
+ 534              		.loc 1 99 0
+ 535 00e2 0A22     		movs	r2, #10
+ 536 00e4 0023     		movs	r3, #0
+ 537 00e6 2800     		movs	r0, r5
+ 538 00e8 2100     		movs	r1, r4
+ 539 00ea FFF7FEFF 		bl	__aeabi_uldivmod
+ 540              	.LVL88:
+ 541 00ee 0500     		movs	r5, r0
+ 542              	.LVL89:
+ 543 00f0 0C00     		movs	r4, r1
+ 544              	.LVL90:
+  96:srcc/printf.c **** 		{
+ 545              		.loc 1 96 0
+ 546 00f2 0143     		orrs	r1, r0
+ 547              	.LVL91:
+ 548 00f4 EDD1     		bne	.L40
+ 549 00f6 3E00     		movs	r6, r7
+ 550 00f8 4F46     		mov	r7, r9
+ 551              	.LVL92:
+  70:srcc/printf.c **** 
+ 552              		.loc 1 70 0
+ 553 00fa 791E     		subs	r1, r7, #1
+ 101:srcc/printf.c **** 		{
+ 554              		.loc 1 101 0
+ 555 00fc 0029     		cmp	r1, #0
+ 556 00fe 0CD0     		beq	.L41
+ 557              	.LVL93:
+ 558 0100 B300     		lsls	r3, r6, #2
+ 559 0102 02AA     		add	r2, sp, #8
+ 560 0104 9446     		mov	ip, r2
+ 561 0106 6344     		add	r3, r3, ip
+ 562 0108 F719     		adds	r7, r6, r7
+ 563              	.LVL94:
+ 564 010a BF00     		lsls	r7, r7, #2
+ 565 010c 043A     		subs	r2, r2, #4
+ 566 010e BF18     		adds	r7, r7, r2
+ 103:srcc/printf.c **** 			k--;
+ 567              		.loc 1 103 0
+ 568 0110 0022     		movs	r2, #0
+ 569              	.LVL95:
+ 570              	.L42:
+ 571 0112 04C3     		stmia	r3!, {r2}
+ 101:srcc/printf.c **** 		{
+ 572              		.loc 1 101 0
+ 573 0114 9F42     		cmp	r7, r3
+ 574 0116 FCD1     		bne	.L42
+ 575 0118 7618     		adds	r6, r6, r1
+ 576              	.L41:
+ 577              	.LVL96:
+ 106:srcc/printf.c **** 		{
+ 578              		.loc 1 106 0
+ 579 011a 002E     		cmp	r6, #0
+ 580 011c 46D0     		beq	.L46
+ 581 011e 284B     		ldr	r3, .L57+16
+ 582 0120 F318     		adds	r3, r6, r3
+ 583 0122 9B00     		lsls	r3, r3, #2
+ 584 0124 02AA     		add	r2, sp, #8
+ 585 0126 9446     		mov	ip, r2
+ 586 0128 6344     		add	r3, r3, ip
+ 587 012a 4146     		mov	r1, r8
+ 588 012c 5144     		add	r1, r1, r10
+ 589 012e 101F     		subs	r0, r2, #4
+ 590              	.LVL97:
+ 591              	.L43:
+ 108:srcc/printf.c **** 			--j;
+ 592              		.loc 1 108 0
+ 593 0130 1A68     		ldr	r2, [r3]
+ 594 0132 3032     		adds	r2, r2, #48
+ 595 0134 0A70     		strb	r2, [r1]
+ 596 0136 043B     		subs	r3, r3, #4
+ 597 0138 0131     		adds	r1, r1, #1
+ 598              	.LVL98:
+ 106:srcc/printf.c **** 		{
+ 599              		.loc 1 106 0
+ 600 013a 9842     		cmp	r0, r3
+ 601 013c F8D1     		bne	.L43
+ 602 013e 3000     		movs	r0, r6
+ 603 0140 5044     		add	r0, r0, r10
+ 604 0142 29E0     		b	.L39
+ 605              	.LVL99:
+ 606              	.L55:
+  64:srcc/printf.c **** 	while(m<1)
+ 607              		.loc 1 64 0
+ 608 0144 0027     		movs	r7, #0
+ 609 0146 AEE7     		b	.L31
+ 610              	.LVL100:
+ 611              	.L34:
+ 612 0148 15AB     		add	r3, sp, #84
+  77:srcc/printf.c **** 		while(p!=0)//倒序的数字
+ 613              		.loc 1 77 0
+ 614 014a 0025     		movs	r5, #0
+ 615 014c B946     		mov	r9, r7
+ 616 014e 1C00     		movs	r4, r3
+ 617              	.LVL101:
+ 618 0150 00E0     		b	.L36
+ 619              	.LVL102:
+ 620              	.L45:
+  80:srcc/printf.c **** 			p/=10;
+ 621              		.loc 1 80 0
+ 622 0152 3D00     		movs	r5, r7
+ 623              	.LVL103:
+ 624              	.L36:
+ 625 0154 6F1C     		adds	r7, r5, #1
+ 626              	.LVL104:
+ 627 0156 0A21     		movs	r1, #10
+ 628 0158 3000     		movs	r0, r6
+ 629 015a FFF7FEFF 		bl	__aeabi_uidivmod
+ 630              	.LVL105:
+ 631 015e 02C4     		stmia	r4!, {r1}
+  81:srcc/printf.c **** 		}
+ 632              		.loc 1 81 0
+ 633 0160 0A21     		movs	r1, #10
+ 634 0162 3000     		movs	r0, r6
+ 635 0164 FFF7FEFF 		bl	__aeabi_uidiv
+ 636              	.LVL106:
+ 637 0168 061E     		subs	r6, r0, #0
+ 638              	.LVL107:
+  78:srcc/printf.c **** 		{
+ 639              		.loc 1 78 0
+ 640 016a F2D1     		bne	.L45
+ 641 016c 3C1E     		subs	r4, r7, #0
+ 642 016e 4F46     		mov	r7, r9
+ 643              	.LVL108:
+  83:srcc/printf.c **** 		{
+ 644              		.loc 1 83 0
+ 645 0170 9FD0     		beq	.L35
+ 646              	.LVL109:
+ 647 0172 A900     		lsls	r1, r5, #2
+ 648 0174 15AB     		add	r3, sp, #84
+ 649 0176 9C46     		mov	ip, r3
+ 650 0178 6144     		add	r1, r1, ip
+ 651 017a 4346     		mov	r3, r8
+ 652 017c E018     		adds	r0, r4, r3
+ 653              	.LVL110:
+ 654              	.L37:
+  85:srcc/printf.c **** 			--j;
+ 655              		.loc 1 85 0
+ 656 017e 0A68     		ldr	r2, [r1]
+ 657 0180 3032     		adds	r2, r2, #48
+ 658 0182 1A70     		strb	r2, [r3]
+ 659 0184 0439     		subs	r1, r1, #4
+ 660 0186 0133     		adds	r3, r3, #1
+ 661              	.LVL111:
+  83:srcc/printf.c **** 		{
+ 662              		.loc 1 83 0
+ 663 0188 8342     		cmp	r3, r0
+ 664 018a F8D1     		bne	.L37
+ 665 018c 91E7     		b	.L35
+ 666              	.LVL112:
+ 667              	.L56:
+  91:srcc/printf.c **** 	else//小数部分不为0
+ 668              		.loc 1 91 0
+ 669 018e A01C     		adds	r0, r4, #2
+ 670              	.LVL113:
+ 671 0190 3033     		adds	r3, r3, #48
+ 672 0192 4246     		mov	r2, r8
+ 673 0194 5146     		mov	r1, r10
+ 674 0196 5354     		strb	r3, [r2, r1]
+ 675              	.LVL114:
+ 676              	.L39:
+ 112:srcc/printf.c **** 	return i;
+ 677              		.loc 1 112 0
+ 678 0198 0023     		movs	r3, #0
+ 679 019a 4246     		mov	r2, r8
+ 680 019c 1354     		strb	r3, [r2, r0]
+ 114:srcc/printf.c **** //======================================================================
+ 681              		.loc 1 114 0
+ 682 019e 1BB0     		add	sp, sp, #108
+ 683              		@ sp needed
+ 684              	.LVL115:
+ 685 01a0 3CBC     		pop	{r2, r3, r4, r5}
+ 686 01a2 9046     		mov	r8, r2
+ 687 01a4 9946     		mov	r9, r3
+ 688 01a6 A246     		mov	r10, r4
+ 689 01a8 AB46     		mov	fp, r5
+ 690 01aa F0BD     		pop	{r4, r5, r6, r7, pc}
+ 691              	.LVL116:
+ 692              	.L46:
+  89:srcc/printf.c **** 	if(0==q)//小数部分为0
+ 693              		.loc 1 89 0
+ 694 01ac 5046     		mov	r0, r10
+ 695              	.LVL117:
+ 696 01ae F3E7     		b	.L39
+ 697              	.L58:
+ 698              		.align	2
+ 699              	.L57:
+ 700 01b0 00002440 		.word	1076101120
+ 701 01b4 00A0D885 		.word	-2049400832
+ 702 01b8 57347643 		.word	1131820119
+ 703 01bc 0000F03F 		.word	1072693248
+ 704 01c0 FFFFFF3F 		.word	1073741823
+ 705              		.cfi_endproc
+ 706              	.LFE40:
+ 708              		.section	.text.printk,"ax",%progbits
+ 709              		.align	1
+ 710              		.global	printk
+ 711              		.syntax unified
+ 712              		.code	16
+ 713              		.thumb_func
+ 714              		.fpu softvfp
+ 716              	printk:
+ 717              	.LFB44:
+ 196:srcc/printf.c **** //======================================================================
+ 197:srcc/printf.c **** //函数名称：printk
+ 198:srcc/printf.c **** //功能概要：根据接收的参数信息对数据进行打印输出
+ 199:srcc/printf.c **** //参数说明：info:传递字符串的信息
+ 200:srcc/printf.c **** //       fmt:输出格式信息
+ 201:srcc/printf.c **** //       ap:va_list指针指向格式信息输出
+ 202:srcc/printf.c **** //函数返回：无
+ 203:srcc/printf.c **** //======================================================================
+ 204:srcc/printf.c **** int printk(PRINTK_INFO *info, const char *fmt, va_list ap)
+ 205:srcc/printf.c **** {
+ 718              		.loc 1 205 0
+ 719              		.cfi_startproc
+ 720              		@ args = 0, pretend = 0, frame = 96
+ 721              		@ frame_needed = 0, uses_anonymous_args = 0
+ 722              	.LVL118:
+ 723 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 724              		.cfi_def_cfa_offset 20
+ 725              		.cfi_offset 4, -20
+ 726              		.cfi_offset 5, -16
+ 727              		.cfi_offset 6, -12
+ 728              		.cfi_offset 7, -8
+ 729              		.cfi_offset 14, -4
+ 730 0002 DE46     		mov	lr, fp
+ 731 0004 5746     		mov	r7, r10
+ 732 0006 4E46     		mov	r6, r9
+ 733 0008 4546     		mov	r5, r8
+ 734 000a E0B5     		push	{r5, r6, r7, lr}
+ 735              		.cfi_def_cfa_offset 36
+ 736              		.cfi_offset 8, -36
+ 737              		.cfi_offset 9, -32
+ 738              		.cfi_offset 10, -28
+ 739              		.cfi_offset 11, -24
+ 740 000c 99B0     		sub	sp, sp, #100
+ 741              		.cfi_def_cfa_offset 136
+ 742 000e 0190     		str	r0, [sp, #4]
+ 743 0010 0E00     		movs	r6, r1
+ 744 0012 9346     		mov	fp, r2
+ 206:srcc/printf.c **** 	#pragma anon_unions
+ 207:srcc/printf.c **** 	union ftooc
+ 208:srcc/printf.c **** 	{
+ 209:srcc/printf.c **** 		double a1;
+ 210:srcc/printf.c **** 		struct{
+ 211:srcc/printf.c **** 			int c1;
+ 212:srcc/printf.c **** 			int c2;
+ 213:srcc/printf.c **** 		};
+ 214:srcc/printf.c **** 		struct{
+ 215:srcc/printf.c **** 			char b1;
+ 216:srcc/printf.c **** 			char b2;
+ 217:srcc/printf.c **** 			char b3;
+ 218:srcc/printf.c **** 			char b4;
+ 219:srcc/printf.c **** 			char b5;
+ 220:srcc/printf.c **** 			char b6;
+ 221:srcc/printf.c **** 			char b7;
+ 222:srcc/printf.c **** 			char b8;
+ 223:srcc/printf.c **** 		}tempc;
+ 224:srcc/printf.c **** 
+ 225:srcc/printf.c **** 	}un1;
+ 226:srcc/printf.c **** 	char *p;
+ 227:srcc/printf.c **** 	int c;
+ 228:srcc/printf.c **** 	char temp1;
+ 229:srcc/printf.c **** 	char vstr[33]={'0'};
+ 745              		.loc 1 229 0
+ 746 0014 0FAC     		add	r4, sp, #60
+ 747 0016 2122     		movs	r2, #33
+ 748              	.LVL119:
+ 749 0018 0021     		movs	r1, #0
+ 750              	.LVL120:
+ 751 001a 2000     		movs	r0, r4
+ 752              	.LVL121:
+ 753 001c FFF7FEFF 		bl	memset
+ 754              	.LVL122:
+ 755 0020 3023     		movs	r3, #48
+ 756 0022 2370     		strb	r3, [r4]
+ 230:srcc/printf.c **** 	char *vstrp;
+ 231:srcc/printf.c **** 	int vlen;
+ 232:srcc/printf.c **** 
+ 233:srcc/printf.c **** 	int done;
+ 234:srcc/printf.c **** 	int count;
+ 235:srcc/printf.c **** 
+ 236:srcc/printf.c **** 	int flags_used;
+ 237:srcc/printf.c **** 	int field_width;
+ 238:srcc/printf.c **** 	int length_modifier;
+ 239:srcc/printf.c **** 	int precision_used;
+ 240:srcc/printf.c **** 	int precision_width;
+ 241:srcc/printf.c **** 
+ 242:srcc/printf.c **** 	int ival;                  //用来接收整形数据
+ 243:srcc/printf.c **** 	double fval;                //用来接收浮点数据
+ 244:srcc/printf.c **** 	int schar, dschar;
+ 245:srcc/printf.c **** 	int *ivalp;
+ 246:srcc/printf.c **** 	char *sval;
+ 247:srcc/printf.c **** 	int cval;
+ 248:srcc/printf.c **** 	unsigned int uval;
+ 249:srcc/printf.c **** 
+ 250:srcc/printf.c **** 	count = 0;
+ 757              		.loc 1 250 0
+ 758 0024 0023     		movs	r3, #0
+ 759 0026 0E93     		str	r3, [sp, #56]
+ 760              	.LVL123:
+ 251:srcc/printf.c **** 	length_modifier=0;
+ 252:srcc/printf.c **** 	precision_used=TRUE;
+ 253:srcc/printf.c **** 	//从格式字符串第一个字符开始格式化输出数据
+ 254:srcc/printf.c **** 	for (p = (char *) fmt; (c = *p) != 0; p++)
+ 761              		.loc 1 254 0
+ 762 0028 0020     		movs	r0, #0
+ 763 002a 3056     		ldrsb	r0, [r6, r0]
+ 764              	.LVL124:
+ 765 002c 0028     		cmp	r0, #0
+ 766 002e 00D1     		bne	.LCB845
+ 767 0030 01E3     		b	.L60	@long jump
+ 768              	.LCB845:
+ 252:srcc/printf.c **** 	//从格式字符串第一个字符开始格式化输出数据
+ 769              		.loc 1 252 0
+ 770 0032 0133     		adds	r3, r3, #1
+ 771 0034 0393     		str	r3, [sp, #12]
+ 251:srcc/printf.c **** 	length_modifier=0;
+ 772              		.loc 1 251 0
+ 773 0036 0023     		movs	r3, #0
+ 774 0038 0293     		str	r3, [sp, #8]
+ 255:srcc/printf.c **** 	{
+ 256:srcc/printf.c **** 		//读取%前面的字符，直接输出的字符和最后的\n类的转义字符
+ 257:srcc/printf.c **** 		if (c != '%')
+ 258:srcc/printf.c **** 		{
+ 259:srcc/printf.c **** #ifndef UNIX_DEBUG
+ 260:srcc/printf.c **** 			//%之前的字符
+ 261:srcc/printf.c **** 			if (c != '\n') {
+ 262:srcc/printf.c **** 				printk_putc(c, &count, info);
+ 263:srcc/printf.c **** 			}
+ 264:srcc/printf.c **** 			//输出换行符
+ 265:srcc/printf.c **** 			else {
+ 266:srcc/printf.c **** 				printk_putc(0x0D /* CR */, &count, info);
+ 267:srcc/printf.c **** 				printk_putc(0x0A /* LF */, &count, info);
+ 268:srcc/printf.c **** 			}
+ 269:srcc/printf.c **** #else
+ 270:srcc/printf.c **** 			printk_putc(c, &count, info);
+ 271:srcc/printf.c **** #endif
+ 272:srcc/printf.c **** 
+ 273:srcc/printf.c **** 			continue;
+ 274:srcc/printf.c **** 		}
+ 275:srcc/printf.c **** 
+ 276:srcc/printf.c **** 
+ 277:srcc/printf.c **** 		//此时字符为%  查看百分号后的第一个格式字符，对输出格式字符并做出�
+ 278:srcc/printf.c **** 		//检查相应的修改标志
+ 279:srcc/printf.c **** 		flags_used = 0;
+ 280:srcc/printf.c **** 		done = FALSE;
+ 281:srcc/printf.c **** 		while (!done) {
+ 282:srcc/printf.c **** 			switch (/* c = */*++p) {
+ 775              		.loc 1 282 0
+ 776 003a C54B     		ldr	r3, .L214
+ 777 003c 9846     		mov	r8, r3
+ 283:srcc/printf.c **** 			case '-':
+ 284:srcc/printf.c **** 				flags_used |= FLAGS_MINUS;
+ 285:srcc/printf.c **** 				break;
+ 286:srcc/printf.c **** 			case '+':
+ 287:srcc/printf.c **** 				flags_used |= FLAGS_PLUS;
+ 288:srcc/printf.c **** 				break;
+ 289:srcc/printf.c **** 			case ' ':
+ 290:srcc/printf.c **** 				flags_used |= FLAGS_SPACE;
+ 291:srcc/printf.c **** 				break;
+ 292:srcc/printf.c **** 			case '0':
+ 293:srcc/printf.c **** 				flags_used |= FLAGS_ZERO;
+ 294:srcc/printf.c **** 				break;
+ 295:srcc/printf.c **** 			case '#':
+ 296:srcc/printf.c **** 				flags_used |= FLAGS_POUND;
+ 297:srcc/printf.c **** 				break;
+ 298:srcc/printf.c **** 			default:
+ 299:srcc/printf.c **** 				/* we've gone one char too far */
+ 300:srcc/printf.c **** 				--p;
+ 301:srcc/printf.c **** 				done = TRUE;
+ 302:srcc/printf.c **** 				break;
+ 303:srcc/printf.c **** 			}
+ 304:srcc/printf.c **** 		}
+ 305:srcc/printf.c **** 
+ 306:srcc/printf.c **** 
+ 307:srcc/printf.c **** 		//检查%后再下一个字符 确定输出长度
+ 308:srcc/printf.c **** 		field_width = 0;
+ 309:srcc/printf.c **** 		done = FALSE;
+ 310:srcc/printf.c **** 		while (!done) {
+ 311:srcc/printf.c **** 			switch (c = *++p) {
+ 312:srcc/printf.c **** 			case '0':
+ 313:srcc/printf.c **** 			case '1':
+ 314:srcc/printf.c **** 			case '2':
+ 315:srcc/printf.c **** 			case '3':
+ 316:srcc/printf.c **** 			case '4':
+ 317:srcc/printf.c **** 			case '5':
+ 318:srcc/printf.c **** 			case '6':
+ 319:srcc/printf.c **** 			case '7':
+ 320:srcc/printf.c **** 			case '8':
+ 321:srcc/printf.c **** 			case '9':
+ 322:srcc/printf.c **** 				field_width = (field_width * 10) + (c - '0');
+ 323:srcc/printf.c **** 				break;
+ 324:srcc/printf.c **** 			default:
+ 325:srcc/printf.c **** 				/* we've gone one char too far */
+ 326:srcc/printf.c **** 				--p;
+ 327:srcc/printf.c **** 				done = TRUE;
+ 328:srcc/printf.c **** 				break;
+ 329:srcc/printf.c **** 			}
+ 330:srcc/printf.c **** 		}
+ 331:srcc/printf.c **** 		//此时字符为%看是否有.输入
+ 332:srcc/printf.c **** 		if (/* (c = *++p) */*++p == '.') {
+ 333:srcc/printf.c **** 			/* precision_used = TRUE; */
+ 334:srcc/printf.c **** 
+ 335:srcc/printf.c **** 			/*
+ 336:srcc/printf.c **** 			 * Must get precision field width, if present.
+ 337:srcc/printf.c **** 			 */
+ 338:srcc/printf.c **** 			precision_width = 0;
+ 339:srcc/printf.c **** 			done = FALSE;
+ 340:srcc/printf.c **** 			while (!done) {
+ 341:srcc/printf.c **** 				switch ( c = *++p) {
+ 342:srcc/printf.c **** 				case '0':
+ 343:srcc/printf.c **** 				case '1':
+ 344:srcc/printf.c **** 				case '2':
+ 345:srcc/printf.c **** 				case '3':
+ 346:srcc/printf.c **** 				case '4':
+ 347:srcc/printf.c **** 				case '5':
+ 348:srcc/printf.c **** 				case '6':
+ 349:srcc/printf.c **** 				case '7':
+ 350:srcc/printf.c **** 				case '8':
+ 351:srcc/printf.c **** 				case '9':
+ 352:srcc/printf.c **** #if 1
+ 353:srcc/printf.c **** 				precision_width = (precision_width * 10) +	(c - '0');
+ 354:srcc/printf.c **** 
+ 355:srcc/printf.c **** #endif
+ 356:srcc/printf.c **** 					break;
+ 357:srcc/printf.c **** 				default:
+ 358:srcc/printf.c **** 					/* we've gone one char too far */
+ 359:srcc/printf.c **** 					--p;
+ 360:srcc/printf.c **** 					done = TRUE;
+ 361:srcc/printf.c **** 					break;
+ 362:srcc/printf.c **** 				}
+ 363:srcc/printf.c **** 			}
+ 364:srcc/printf.c **** 		} else {
+ 365:srcc/printf.c **** 			/* we've gone one char too far */
+ 366:srcc/printf.c **** 			--p;
+ 367:srcc/printf.c **** #if 1
+ 368:srcc/printf.c **** 			precision_used = FALSE;
+ 369:srcc/printf.c **** 			precision_width = 0;
+ 370:srcc/printf.c **** #endif
+ 371:srcc/printf.c **** 		}
+ 372:srcc/printf.c **** 		//判断 输出的是否有lf、LF等
+ 373:srcc/printf.c **** 		switch (/* c = */*++p) {
+ 374:srcc/printf.c **** 		case 'h':
+ 375:srcc/printf.c **** 			// length_modifier |= LENMOD_h;
+ 376:srcc/printf.c **** 			break;
+ 377:srcc/printf.c **** 		case 'l':
+ 378:srcc/printf.c **** 			 length_modifier |= LENMOD_l;
+ 379:srcc/printf.c **** 			break;
+ 380:srcc/printf.c **** 		case 'L':
+ 381:srcc/printf.c **** 			 length_modifier |= LENMOD_L;
+ 382:srcc/printf.c **** 			break;
+ 383:srcc/printf.c **** 		default:
+ 384:srcc/printf.c **** 			/* we've gone one char too far */
+ 385:srcc/printf.c **** 			--p;
+ 386:srcc/printf.c **** 			break;
+ 387:srcc/printf.c **** 		}
+ 388:srcc/printf.c **** 
+ 389:srcc/printf.c **** 		//p为格式字符串的首地址
+ 390:srcc/printf.c **** 		switch (c = *++p) {
+ 778              		.loc 1 390 0
+ 779 003e 3700     		movs	r7, r6
+ 780 0040 12E0     		b	.L138
+ 781              	.LVL125:
+ 782              	.L62:
+ 266:srcc/printf.c **** 				printk_putc(0x0A /* LF */, &count, info);
+ 783              		.loc 1 266 0
+ 784 0042 019C     		ldr	r4, [sp, #4]
+ 785 0044 2200     		movs	r2, r4
+ 786 0046 0EA9     		add	r1, sp, #56
+ 787 0048 0D20     		movs	r0, #13
+ 788              	.LVL126:
+ 789 004a FFF7FEFF 		bl	printk_putc
+ 790              	.LVL127:
+ 267:srcc/printf.c **** 			}
+ 791              		.loc 1 267 0
+ 792 004e 2200     		movs	r2, r4
+ 793 0050 0EA9     		add	r1, sp, #56
+ 794 0052 0A20     		movs	r0, #10
+ 795 0054 FFF7FEFF 		bl	printk_putc
+ 796              	.LVL128:
+ 797 0058 BA46     		mov	r10, r7
+ 798              	.LVL129:
+ 799              	.L63:
+ 254:srcc/printf.c **** 	{
+ 800              		.loc 1 254 0 discriminator 2
+ 801 005a 5346     		mov	r3, r10
+ 802 005c 5F1C     		adds	r7, r3, #1
+ 803              	.LVL130:
+ 804 005e 0120     		movs	r0, #1
+ 805 0060 1856     		ldrsb	r0, [r3, r0]
+ 806              	.LVL131:
+ 807 0062 0028     		cmp	r0, #0
+ 808 0064 00D1     		bne	.LCB899
+ 809 0066 E6E2     		b	.L60	@long jump
+ 810              	.LCB899:
+ 811              	.LVL132:
+ 812              	.L138:
+ 257:srcc/printf.c **** 		{
+ 813              		.loc 1 257 0
+ 814 0068 2528     		cmp	r0, #37
+ 815 006a 07D0     		beq	.L155
+ 261:srcc/printf.c **** 				printk_putc(c, &count, info);
+ 816              		.loc 1 261 0
+ 817 006c 0A28     		cmp	r0, #10
+ 818 006e E8D0     		beq	.L62
+ 262:srcc/printf.c **** 			}
+ 819              		.loc 1 262 0
+ 820 0070 019A     		ldr	r2, [sp, #4]
+ 821 0072 0EA9     		add	r1, sp, #56
+ 822 0074 FFF7FEFF 		bl	printk_putc
+ 823              	.LVL133:
+ 824 0078 BA46     		mov	r10, r7
+ 825 007a EEE7     		b	.L63
+ 826              	.LVL134:
+ 827              	.L155:
+ 279:srcc/printf.c **** 		done = FALSE;
+ 828              		.loc 1 279 0
+ 829 007c 0025     		movs	r5, #0
+ 296:srcc/printf.c **** 				break;
+ 830              		.loc 1 296 0
+ 831 007e 1023     		movs	r3, #16
+ 832 0080 9C46     		mov	ip, r3
+ 293:srcc/printf.c **** 				break;
+ 833              		.loc 1 293 0
+ 834 0082 083B     		subs	r3, r3, #8
+ 835 0084 9946     		mov	r9, r3
+ 290:srcc/printf.c **** 				break;
+ 836              		.loc 1 290 0
+ 837 0086 0426     		movs	r6, #4
+ 287:srcc/printf.c **** 				break;
+ 838              		.loc 1 287 0
+ 839 0088 0224     		movs	r4, #2
+ 284:srcc/printf.c **** 				break;
+ 840              		.loc 1 284 0
+ 841 008a 0120     		movs	r0, #1
+ 842              	.LVL135:
+ 843 008c 01E0     		b	.L61
+ 844              	.LVL136:
+ 845              	.L69:
+ 846 008e 0543     		orrs	r5, r0
+ 847              	.LVL137:
+ 848              	.L71:
+ 849 0090 1700     		movs	r7, r2
+ 850              	.LVL138:
+ 851              	.L61:
+ 282:srcc/printf.c **** 			case '-':
+ 852              		.loc 1 282 0
+ 853 0092 7A1C     		adds	r2, r7, #1
+ 854              	.LVL139:
+ 855 0094 7B78     		ldrb	r3, [r7, #1]
+ 856 0096 203B     		subs	r3, r3, #32
+ 857 0098 D9B2     		uxtb	r1, r3
+ 858 009a 1029     		cmp	r1, #16
+ 859 009c 0DD8     		bhi	.L156
+ 860 009e 8B00     		lsls	r3, r1, #2
+ 861 00a0 4146     		mov	r1, r8
+ 862 00a2 CB58     		ldr	r3, [r1, r3]
+ 863 00a4 9F46     		mov	pc, r3
+ 864              		.section	.rodata.printk,"a",%progbits
+ 865              		.align	2
+ 866              	.L66:
+ 867 0000 AA000000 		.word	.L65
+ 868 0004 BA000000 		.word	.L156
+ 869 0008 BA000000 		.word	.L156
+ 870 000c B4000000 		.word	.L67
+ 871 0010 BA000000 		.word	.L156
+ 872 0014 BA000000 		.word	.L156
+ 873 0018 BA000000 		.word	.L156
+ 874 001c BA000000 		.word	.L156
+ 875 0020 BA000000 		.word	.L156
+ 876 0024 BA000000 		.word	.L156
+ 877 0028 BA000000 		.word	.L156
+ 878 002c A6000000 		.word	.L68
+ 879 0030 BA000000 		.word	.L156
+ 880 0034 8E000000 		.word	.L69
+ 881 0038 BA000000 		.word	.L156
+ 882 003c BA000000 		.word	.L156
+ 883 0040 AE000000 		.word	.L70
+ 884              		.section	.text.printk
+ 885              	.L68:
+ 287:srcc/printf.c **** 				break;
+ 886              		.loc 1 287 0
+ 887 00a6 2543     		orrs	r5, r4
+ 888              	.LVL140:
+ 288:srcc/printf.c **** 			case ' ':
+ 889              		.loc 1 288 0
+ 890 00a8 F2E7     		b	.L71
+ 891              	.L65:
+ 290:srcc/printf.c **** 				break;
+ 892              		.loc 1 290 0
+ 893 00aa 3543     		orrs	r5, r6
+ 894              	.LVL141:
+ 291:srcc/printf.c **** 			case '0':
+ 895              		.loc 1 291 0
+ 896 00ac F0E7     		b	.L71
+ 897              	.L70:
+ 293:srcc/printf.c **** 				break;
+ 898              		.loc 1 293 0
+ 899 00ae 4B46     		mov	r3, r9
+ 900 00b0 1D43     		orrs	r5, r3
+ 901              	.LVL142:
+ 294:srcc/printf.c **** 			case '#':
+ 902              		.loc 1 294 0
+ 903 00b2 EDE7     		b	.L71
+ 904              	.L67:
+ 296:srcc/printf.c **** 				break;
+ 905              		.loc 1 296 0
+ 906 00b4 6346     		mov	r3, ip
+ 907 00b6 1D43     		orrs	r5, r3
+ 908              	.LVL143:
+ 297:srcc/printf.c **** 			default:
+ 909              		.loc 1 297 0
+ 910 00b8 EAE7     		b	.L71
+ 911              	.L156:
+ 308:srcc/printf.c **** 		done = FALSE;
+ 912              		.loc 1 308 0
+ 913 00ba 0024     		movs	r4, #0
+ 914 00bc 2300     		movs	r3, r4
+ 915 00be 06E0     		b	.L64
+ 916              	.LVL144:
+ 917              	.L196:
+ 322:srcc/printf.c **** 				break;
+ 918              		.loc 1 322 0
+ 919 00c0 9C00     		lsls	r4, r3, #2
+ 920 00c2 E418     		adds	r4, r4, r3
+ 921 00c4 6400     		lsls	r4, r4, #1
+ 922 00c6 0B00     		movs	r3, r1
+ 923              	.LVL145:
+ 924 00c8 303B     		subs	r3, r3, #48
+ 925 00ca 1B19     		adds	r3, r3, r4
+ 926              	.LVL146:
+ 311:srcc/printf.c **** 			case '0':
+ 927              		.loc 1 311 0
+ 928 00cc 0700     		movs	r7, r0
+ 929              	.LVL147:
+ 930              	.L64:
+ 931 00ce 781C     		adds	r0, r7, #1
+ 932              	.LVL148:
+ 933 00d0 0121     		movs	r1, #1
+ 934 00d2 7956     		ldrsb	r1, [r7, r1]
+ 935              	.LVL149:
+ 936 00d4 0A00     		movs	r2, r1
+ 937 00d6 303A     		subs	r2, r2, #48
+ 938 00d8 D2B2     		uxtb	r2, r2
+ 939 00da 092A     		cmp	r2, #9
+ 940 00dc F0D9     		bls	.L196
+ 941 00de 1C00     		movs	r4, r3
+ 942              	.LVL150:
+ 332:srcc/printf.c **** 			/* precision_used = TRUE; */
+ 943              		.loc 1 332 0
+ 944 00e0 0123     		movs	r3, #1
+ 945              	.LVL151:
+ 946 00e2 FB56     		ldrsb	r3, [r7, r3]
+ 947 00e4 2E2B     		cmp	r3, #46
+ 948 00e6 19D0     		beq	.L197
+ 369:srcc/printf.c **** #endif
+ 949              		.loc 1 369 0
+ 950 00e8 0026     		movs	r6, #0
+ 368:srcc/printf.c **** 			precision_width = 0;
+ 951              		.loc 1 368 0
+ 952 00ea 0023     		movs	r3, #0
+ 953 00ec 0393     		str	r3, [sp, #12]
+ 954              	.LVL152:
+ 955              	.L74:
+ 373:srcc/printf.c **** 		case 'h':
+ 956              		.loc 1 373 0
+ 957 00ee 7B1C     		adds	r3, r7, #1
+ 958              	.LVL153:
+ 959 00f0 7A78     		ldrb	r2, [r7, #1]
+ 960 00f2 682A     		cmp	r2, #104
+ 961 00f4 04D0     		beq	.L78
+ 962 00f6 6C2A     		cmp	r2, #108
+ 963 00f8 25D0     		beq	.L79
+ 964 00fa 4C2A     		cmp	r2, #76
+ 965 00fc 28D0     		beq	.L80
+ 385:srcc/printf.c **** 			break;
+ 966              		.loc 1 385 0
+ 967 00fe 3B00     		movs	r3, r7
+ 968              	.LVL154:
+ 969              	.L78:
+ 970              		.loc 1 390 0
+ 971 0100 5A1C     		adds	r2, r3, #1
+ 972 0102 9246     		mov	r10, r2
+ 973              	.LVL155:
+ 974 0104 0120     		movs	r0, #1
+ 975 0106 1856     		ldrsb	r0, [r3, r0]
+ 976              	.LVL156:
+ 977 0108 0300     		movs	r3, r0
+ 978 010a 583B     		subs	r3, r3, #88
+ 979 010c DAB2     		uxtb	r2, r3
+ 980              	.LVL157:
+ 981 010e 202A     		cmp	r2, #32
+ 982 0110 00D9     		bls	.LCB1108
+ 983 0112 52E2     		b	.L81	@long jump
+ 984              	.LCB1108:
+ 985 0114 9300     		lsls	r3, r2, #2
+ 986 0116 8F4A     		ldr	r2, .L214+4
+ 987 0118 D358     		ldr	r3, [r2, r3]
+ 988 011a 9F46     		mov	pc, r3
+ 989              		.section	.rodata.printk
+ 990              		.align	2
+ 991              	.L83:
+ 992 0044 58030000 		.word	.L82
+ 993 0048 BA050000 		.word	.L81
+ 994 004c BA050000 		.word	.L81
+ 995 0050 BA050000 		.word	.L81
+ 996 0054 BA050000 		.word	.L81
+ 997 0058 BA050000 		.word	.L81
+ 998 005c BA050000 		.word	.L81
+ 999 0060 BA050000 		.word	.L81
+ 1000 0064 BA050000 		.word	.L81
+ 1001 0068 BA050000 		.word	.L81
+ 1002 006c 54040000 		.word	.L84
+ 1003 0070 1A050000 		.word	.L85
+ 1004 0074 5A010000 		.word	.L86
+ 1005 0078 BA050000 		.word	.L81
+ 1006 007c 12020000 		.word	.L87
+ 1007 0080 BA050000 		.word	.L81
+ 1008 0084 BA050000 		.word	.L81
+ 1009 0088 5A010000 		.word	.L86
+ 1010 008c BA050000 		.word	.L81
+ 1011 0090 BA050000 		.word	.L81
+ 1012 0094 BA050000 		.word	.L81
+ 1013 0098 BA050000 		.word	.L81
+ 1014 009c AA050000 		.word	.L88
+ 1015 00a0 26040000 		.word	.L89
+ 1016 00a4 6E040000 		.word	.L90
+ 1017 00a8 BA050000 		.word	.L81
+ 1018 00ac BA050000 		.word	.L81
+ 1019 00b0 2E050000 		.word	.L91
+ 1020 00b4 BA050000 		.word	.L81
+ 1021 00b8 88040000 		.word	.L92
+ 1022 00bc BA050000 		.word	.L81
+ 1023 00c0 BA050000 		.word	.L81
+ 1024 00c4 58030000 		.word	.L82
+ 1025              		.section	.text.printk
+ 1026              	.LVL158:
+ 1027              	.L197:
+ 332:srcc/printf.c **** 			/* precision_used = TRUE; */
+ 1028              		.loc 1 332 0
+ 1029 011c 0137     		adds	r7, r7, #1
+ 338:srcc/printf.c **** 			done = FALSE;
+ 1030              		.loc 1 338 0
+ 1031 011e 0026     		movs	r6, #0
+ 1032 0120 3300     		movs	r3, r6
+ 1033              	.LVL159:
+ 1034              	.L76:
+ 341:srcc/printf.c **** 				case '0':
+ 1035              		.loc 1 341 0
+ 1036 0122 791C     		adds	r1, r7, #1
+ 1037              	.LVL160:
+ 1038 0124 0120     		movs	r0, #1
+ 1039 0126 3856     		ldrsb	r0, [r7, r0]
+ 1040              	.LVL161:
+ 1041 0128 0200     		movs	r2, r0
+ 1042 012a 303A     		subs	r2, r2, #48
+ 1043 012c D2B2     		uxtb	r2, r2
+ 1044 012e 092A     		cmp	r2, #9
+ 1045 0130 07D8     		bhi	.L194
+ 353:srcc/printf.c **** 
+ 1046              		.loc 1 353 0
+ 1047 0132 9E00     		lsls	r6, r3, #2
+ 1048 0134 F618     		adds	r6, r6, r3
+ 1049 0136 7600     		lsls	r6, r6, #1
+ 1050 0138 0300     		movs	r3, r0
+ 1051              	.LVL162:
+ 1052 013a 303B     		subs	r3, r3, #48
+ 1053 013c 9B19     		adds	r3, r3, r6
+ 1054              	.LVL163:
+ 341:srcc/printf.c **** 				case '0':
+ 1055              		.loc 1 341 0
+ 1056 013e 0F00     		movs	r7, r1
+ 1057 0140 EFE7     		b	.L76
+ 1058              	.L194:
+ 1059 0142 1E00     		movs	r6, r3
+ 1060 0144 D3E7     		b	.L74
+ 1061              	.LVL164:
+ 1062              	.L79:
+ 378:srcc/printf.c **** 			break;
+ 1063              		.loc 1 378 0
+ 1064 0146 0122     		movs	r2, #1
+ 1065 0148 0299     		ldr	r1, [sp, #8]
+ 1066 014a 1143     		orrs	r1, r2
+ 1067 014c 0291     		str	r1, [sp, #8]
+ 1068              	.LVL165:
+ 379:srcc/printf.c **** 		case 'L':
+ 1069              		.loc 1 379 0
+ 1070 014e D7E7     		b	.L78
+ 1071              	.LVL166:
+ 1072              	.L80:
+ 381:srcc/printf.c **** 			break;
+ 1073              		.loc 1 381 0
+ 1074 0150 0222     		movs	r2, #2
+ 1075 0152 0299     		ldr	r1, [sp, #8]
+ 1076 0154 1143     		orrs	r1, r2
+ 1077 0156 0291     		str	r1, [sp, #8]
+ 1078              	.LVL167:
+ 382:srcc/printf.c **** 		default:
+ 1079              		.loc 1 382 0
+ 1080 0158 D2E7     		b	.L78
+ 1081              	.LVL168:
+ 1082              	.L86:
+ 391:srcc/printf.c **** 		case 'd':
+ 392:srcc/printf.c **** 		case 'i':
+ 393:srcc/printf.c **** 			 //此时ap为指向可变参数列表的第一个参数
+ 394:srcc/printf.c **** 			ival = (int) va_arg(ap, int);  //返回当前参数，并将ap指向下一个参数
+ 1083              		.loc 1 394 0
+ 1084 015a 5B46     		mov	r3, fp
+ 1085 015c 0433     		adds	r3, r3, #4
+ 1086 015e 0693     		str	r3, [sp, #24]
+ 1087              	.LVL169:
+ 1088 0160 5B46     		mov	r3, fp
+ 1089              	.LVL170:
+ 1090 0162 1B68     		ldr	r3, [r3]
+ 1091 0164 0D93     		str	r3, [sp, #52]
+ 395:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1092              		.loc 1 395 0
+ 1093 0166 0A23     		movs	r3, #10
+ 1094 0168 0122     		movs	r2, #1
+ 1095 016a 0DA9     		add	r1, sp, #52
+ 1096 016c 0FA8     		add	r0, sp, #60
+ 1097              	.LVL171:
+ 1098 016e FFF7FEFF 		bl	printk_mknumstr
+ 1099              	.LVL172:
+ 1100 0172 0700     		movs	r7, r0
+ 1101              	.LVL173:
+ 396:srcc/printf.c **** 			vstrp = &vstr[vlen];  //指向转换后的最后一个字符
+ 1102              		.loc 1 396 0
+ 1103 0174 0FAB     		add	r3, sp, #60
+ 1104 0176 1E18     		adds	r6, r3, r0
+ 1105              	.LVL174:
+ 397:srcc/printf.c **** 
+ 398:srcc/printf.c **** 			//若参数小于0，添加'-'号，并将字符长度加1
+ 399:srcc/printf.c **** 			if (ival < 0) {
+ 1106              		.loc 1 399 0
+ 1107 0178 0D9B     		ldr	r3, [sp, #52]
+ 1108 017a 002B     		cmp	r3, #0
+ 1109 017c 05DB     		blt	.L198
+ 400:srcc/printf.c **** 				schar = '-';
+ 401:srcc/printf.c **** 				++vlen;
+ 402:srcc/printf.c **** 			}
+ 403:srcc/printf.c **** 			//若参数不小于0，添加‘+’号或者‘ ’或者为0，并将字符长度加1
+ 404:srcc/printf.c **** 			else {
+ 405:srcc/printf.c **** 				if (IS_FLAG_PLUS(flags_used)) {
+ 1110              		.loc 1 405 0
+ 1111 017e AB07     		lsls	r3, r5, #30
+ 1112 0180 18D5     		bpl	.L95
+ 1113              	.LVL175:
+ 406:srcc/printf.c **** 					schar = '+';
+ 407:srcc/printf.c **** 					++vlen;
+ 1114              		.loc 1 407 0
+ 1115 0182 0137     		adds	r7, r7, #1
+ 1116              	.LVL176:
+ 406:srcc/printf.c **** 					schar = '+';
+ 1117              		.loc 1 406 0
+ 1118 0184 2B23     		movs	r3, #43
+ 1119 0186 9946     		mov	r9, r3
+ 1120 0188 02E0     		b	.L94
+ 1121              	.LVL177:
+ 1122              	.L198:
+ 401:srcc/printf.c **** 			}
+ 1123              		.loc 1 401 0
+ 1124 018a 0137     		adds	r7, r7, #1
+ 1125              	.LVL178:
+ 400:srcc/printf.c **** 				schar = '-';
+ 1126              		.loc 1 400 0
+ 1127 018c 2D23     		movs	r3, #45
+ 1128 018e 9946     		mov	r9, r3
+ 1129              	.LVL179:
+ 1130              	.L94:
+ 408:srcc/printf.c **** 				} else {
+ 409:srcc/printf.c **** 					if (IS_FLAG_SPACE(flags_used)) {
+ 410:srcc/printf.c **** 						schar = ' ';
+ 411:srcc/printf.c **** 						++vlen;
+ 412:srcc/printf.c **** 					} else {
+ 413:srcc/printf.c **** 						schar = 0;
+ 414:srcc/printf.c **** 					}
+ 415:srcc/printf.c **** 				}
+ 416:srcc/printf.c **** 			}
+ 417:srcc/printf.c **** 			dschar = FALSE;
+ 418:srcc/printf.c **** 
+ 419:srcc/printf.c **** 			/*
+ 420:srcc/printf.c **** 			 * do the ZERO pad.
+ 421:srcc/printf.c **** 			 */
+ 422:srcc/printf.c **** 			if (IS_FLAG_ZERO(flags_used)) {
+ 1131              		.loc 1 422 0
+ 1132 0190 2B07     		lsls	r3, r5, #28
+ 1133 0192 16D4     		bmi	.L199
+ 423:srcc/printf.c **** 				if (schar)
+ 424:srcc/printf.c **** 					printk_putc(schar, &count, info);  //输出符号
+ 425:srcc/printf.c **** 				dschar = TRUE;
+ 426:srcc/printf.c **** 				printk_pad_zero(vlen, field_width, &count, info);
+ 427:srcc/printf.c **** 				vlen = field_width;
+ 428:srcc/printf.c **** 			} else {
+ 429:srcc/printf.c **** 				if (!IS_FLAG_MINUS(flags_used)) {
+ 1134              		.loc 1 429 0
+ 1135 0194 EB07     		lsls	r3, r5, #31
+ 1136 0196 28D5     		bpl	.L200
+ 1137              	.LVL180:
+ 1138              	.L99:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1139              		.loc 1 394 0
+ 1140 0198 069B     		ldr	r3, [sp, #24]
+ 1141 019a 9B46     		mov	fp, r3
+ 430:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);  //输出空格
+ 431:srcc/printf.c **** 
+ 432:srcc/printf.c **** 					if (schar)
+ 433:srcc/printf.c **** 						printk_putc(schar, &count, info);
+ 434:srcc/printf.c **** 					dschar = TRUE;
+ 435:srcc/printf.c **** 				}
+ 436:srcc/printf.c **** 			}
+ 437:srcc/printf.c **** 
+ 438:srcc/printf.c **** 			/* the string was built in reverse order, now display in */
+ 439:srcc/printf.c **** 			/* correct order */
+ 440:srcc/printf.c **** 			if (!dschar && schar) {
+ 1142              		.loc 1 440 0
+ 1143 019c 4B46     		mov	r3, r9
+ 1144 019e 002B     		cmp	r3, #0
+ 1145 01a0 00D1     		bne	.LCB1270
+ 1146 01a2 52E1     		b	.L101	@long jump
+ 1147              	.LCB1270:
+ 441:srcc/printf.c **** 				printk_putc(schar, &count, info);
+ 1148              		.loc 1 441 0
+ 1149 01a4 019A     		ldr	r2, [sp, #4]
+ 1150 01a6 0EA9     		add	r1, sp, #56
+ 1151 01a8 4846     		mov	r0, r9
+ 1152 01aa FFF7FEFF 		bl	printk_putc
+ 1153              	.LVL181:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1154              		.loc 1 394 0
+ 1155 01ae 069B     		ldr	r3, [sp, #24]
+ 1156 01b0 9B46     		mov	fp, r3
+ 1157 01b2 4AE1     		b	.L101
+ 1158              	.LVL182:
+ 1159              	.L95:
+ 409:srcc/printf.c **** 						schar = ' ';
+ 1160              		.loc 1 409 0
+ 1161 01b4 6B07     		lsls	r3, r5, #29
+ 1162 01b6 00D4     		bmi	.LCB1288
+ 1163 01b8 07E2     		b	.L96	@long jump
+ 1164              	.LCB1288:
+ 1165              	.LVL183:
+ 411:srcc/printf.c **** 					} else {
+ 1166              		.loc 1 411 0
+ 1167 01ba 0137     		adds	r7, r7, #1
+ 1168              	.LVL184:
+ 410:srcc/printf.c **** 						++vlen;
+ 1169              		.loc 1 410 0
+ 1170 01bc 2023     		movs	r3, #32
+ 1171 01be 9946     		mov	r9, r3
+ 1172 01c0 E6E7     		b	.L94
+ 1173              	.LVL185:
+ 1174              	.L199:
+ 424:srcc/printf.c **** 				dschar = TRUE;
+ 1175              		.loc 1 424 0
+ 1176 01c2 019A     		ldr	r2, [sp, #4]
+ 1177 01c4 0EA9     		add	r1, sp, #56
+ 1178 01c6 4846     		mov	r0, r9
+ 1179 01c8 FFF7FEFF 		bl	printk_putc
+ 1180              	.LVL186:
+ 1181              	.L141:
+ 1182              	.LBB10:
+ 1183              	.LBB11:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1184              		.loc 1 182 0
+ 1185 01cc BC42     		cmp	r4, r7
+ 1186 01ce 00DC     		bgt	.LCB1314
+ 1187 01d0 95E1     		b	.L158	@long jump
+ 1188              	.LCB1314:
+ 1189              	.LVL187:
+ 1190              	.L98:
+ 183:srcc/printf.c **** 	}
+ 1191              		.loc 1 183 0
+ 1192 01d2 019A     		ldr	r2, [sp, #4]
+ 1193 01d4 0EA9     		add	r1, sp, #56
+ 1194 01d6 3020     		movs	r0, #48
+ 1195 01d8 FFF7FEFF 		bl	printk_putc
+ 1196              	.LVL188:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1197              		.loc 1 182 0
+ 1198 01dc 0137     		adds	r7, r7, #1
+ 1199              	.LVL189:
+ 1200 01de A742     		cmp	r7, r4
+ 1201 01e0 F7D1     		bne	.L98
+ 1202 01e2 2700     		movs	r7, r4
+ 1203              	.LVL190:
+ 1204              	.LBE11:
+ 1205              	.LBE10:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1206              		.loc 1 394 0
+ 1207 01e4 069B     		ldr	r3, [sp, #24]
+ 1208 01e6 9B46     		mov	fp, r3
+ 1209 01e8 66E1     		b	.L97
+ 1210              	.LVL191:
+ 1211              	.L200:
+ 430:srcc/printf.c **** 
+ 1212              		.loc 1 430 0
+ 1213 01ea 019B     		ldr	r3, [sp, #4]
+ 1214 01ec 0EAA     		add	r2, sp, #56
+ 1215 01ee 2100     		movs	r1, r4
+ 1216 01f0 3800     		movs	r0, r7
+ 1217 01f2 FFF7FEFF 		bl	printk_pad_space
+ 1218              	.LVL192:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1219              		.loc 1 394 0
+ 1220 01f6 069B     		ldr	r3, [sp, #24]
+ 1221 01f8 9B46     		mov	fp, r3
+ 432:srcc/printf.c **** 						printk_putc(schar, &count, info);
+ 1222              		.loc 1 432 0
+ 1223 01fa 4B46     		mov	r3, r9
+ 1224 01fc 002B     		cmp	r3, #0
+ 1225 01fe 00D1     		bne	.LCB1353
+ 1226 0200 77E1     		b	.L100	@long jump
+ 1227              	.LCB1353:
+ 1228              	.LVL193:
+ 433:srcc/printf.c **** 					dschar = TRUE;
+ 1229              		.loc 1 433 0
+ 1230 0202 019A     		ldr	r2, [sp, #4]
+ 1231 0204 0EA9     		add	r1, sp, #56
+ 1232 0206 4846     		mov	r0, r9
+ 1233 0208 FFF7FEFF 		bl	printk_putc
+ 1234              	.LVL194:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1235              		.loc 1 394 0
+ 1236 020c 069B     		ldr	r3, [sp, #24]
+ 1237 020e 9B46     		mov	fp, r3
+ 1238 0210 6FE1     		b	.L100
+ 1239              	.LVL195:
+ 1240              	.L87:
+ 442:srcc/printf.c **** 			}
+ 443:srcc/printf.c **** 			goto cont_xd;  //开始跳转
+ 444:srcc/printf.c **** 
+ 445:srcc/printf.c **** 		//------------------此处添加浮点数输出功能---------------------------------------
+ 446:srcc/printf.c **** 		case 'f':
+ 447:srcc/printf.c **** 			//浮点型数据被当做 double型处理，组合方式如下：
+ 448:srcc/printf.c **** 			//3.140001 对应浮点数:0x0x4048F5C3；
+ 449:srcc/printf.c **** 			//3.140001 对double数:0x40091EB85F577E6C
+ 450:srcc/printf.c **** 			//实际传入变参数 函数后 浮点数变为:0x6000000040091EB8 实际是将其转化为dou
+ 451:srcc/printf.c **** 			//但是顺序反了，我们要做的是将后四字节提前，然后把0x60移到紧接着前
+ 452:srcc/printf.c **** 			if(length_modifier==0)
+ 1241              		.loc 1 452 0
+ 1242 0212 029B     		ldr	r3, [sp, #8]
+ 1243 0214 002B     		cmp	r3, #0
+ 1244 0216 23D1     		bne	.L102
+ 453:srcc/printf.c **** 			{
+ 454:srcc/printf.c **** 			un1.a1 = (double ) va_arg(ap, double);  //返回当前参数，并将ap指向下一个参数
+ 1245              		.loc 1 454 0
+ 1246 0218 5F46     		mov	r7, fp
+ 1247 021a 0837     		adds	r7, r7, #8
+ 1248              	.LVL196:
+ 1249 021c 5B46     		mov	r3, fp
+ 1250 021e 1A68     		ldr	r2, [r3]
+ 1251 0220 5B68     		ldr	r3, [r3, #4]
+ 1252              	.LVL197:
+ 455:srcc/printf.c **** 			temp1=un1.tempc.b8;
+ 456:srcc/printf.c **** 			un1.c2=un1.c1;
+ 1253              		.loc 1 456 0
+ 1254 0222 0592     		str	r2, [sp, #20]
+ 457:srcc/printf.c **** 			un1.c1=un1.c1&0x0000;
+ 458:srcc/printf.c **** 			un1.tempc.b4=temp1;
+ 1255              		.loc 1 458 0
+ 1256 0224 1B0E     		lsrs	r3, r3, #24
+ 1257              	.LVL198:
+ 1258 0226 1B06     		lsls	r3, r3, #24
+ 1259 0228 0493     		str	r3, [sp, #16]
+ 459:srcc/printf.c **** 			fval=un1.a1;
+ 1260              		.loc 1 459 0
+ 1261 022a 049A     		ldr	r2, [sp, #16]
+ 1262 022c 059B     		ldr	r3, [sp, #20]
+ 1263              	.LVL199:
+ 1264 022e 0A92     		str	r2, [sp, #40]
+ 1265 0230 0B93     		str	r3, [sp, #44]
+ 460:srcc/printf.c **** 			}
+ 461:srcc/printf.c **** 			else if(length_modifier==1 || length_modifier==2)
+ 462:srcc/printf.c **** 			{
+ 463:srcc/printf.c **** 				ap=ap+4;
+ 464:srcc/printf.c **** 				fval= (double)va_arg(ap,double);
+ 465:srcc/printf.c **** 			}
+ 466:srcc/printf.c **** 			//确定是否使用小数点精度数值
+ 467:srcc/printf.c **** 			if(precision_used)
+ 1266              		.loc 1 467 0
+ 1267 0232 039B     		ldr	r3, [sp, #12]
+ 1268 0234 002B     		cmp	r3, #0
+ 1269 0236 2AD1     		bne	.L201
+ 468:srcc/printf.c **** 			{
+ 469:srcc/printf.c **** 				vlen = printk_mkfloatstr(&fval,vstr,precision_width);//将整型转换成字符型保存在vstr
+ 470:srcc/printf.c **** 				vstrp = &vstr[0];  //指向转换后的第一个字符
+ 471:srcc/printf.c **** 			}
+ 472:srcc/printf.c **** 			else
+ 473:srcc/printf.c **** 			{
+ 474:srcc/printf.c **** 				if(length_modifier==0)   //浮点型精度到小数点后8位
+ 475:srcc/printf.c **** 				{
+ 476:srcc/printf.c **** 					vlen = printk_mkfloatstr(&fval,vstr,8);//将整型转换成字符型保存在vstr中，返回�
+ 1270              		.loc 1 476 0
+ 1271 0238 0822     		movs	r2, #8
+ 1272              	.LVL200:
+ 1273 023a 0FA9     		add	r1, sp, #60
+ 1274 023c 0AA8     		add	r0, sp, #40
+ 1275              	.LVL201:
+ 1276 023e FFF7FEFF 		bl	printk_mkfloatstr
+ 1277              	.LVL202:
+ 1278 0242 0600     		movs	r6, r0
+ 1279              	.LVL203:
+ 454:srcc/printf.c **** 			temp1=un1.tempc.b8;
+ 1280              		.loc 1 454 0
+ 1281 0244 BB46     		mov	fp, r7
+ 1282              	.LVL204:
+ 1283              	.L106:
+ 477:srcc/printf.c **** 					vstrp = &vstr[0];  //指向转换后的第一个字符
+ 478:srcc/printf.c **** 				}
+ 479:srcc/printf.c **** 				else
+ 480:srcc/printf.c **** 				{
+ 481:srcc/printf.c **** 					vlen = printk_mkfloatstr(&fval,vstr,precision_width);//将整型转换成字符型保存在vst
+ 482:srcc/printf.c **** 					vstrp = &vstr[0];  //指向转换后的第一个字符
+ 483:srcc/printf.c **** 				}
+ 484:srcc/printf.c **** 
+ 485:srcc/printf.c **** 			}
+ 486:srcc/printf.c **** 
+ 487:srcc/printf.c **** 			//若参数小于0，添加'-'号，并将字符长度加1
+ 488:srcc/printf.c **** 			if (fval < 0) {
+ 1284              		.loc 1 488 0
+ 1285 0246 0022     		movs	r2, #0
+ 1286 0248 0023     		movs	r3, #0
+ 1287 024a 0A98     		ldr	r0, [sp, #40]
+ 1288 024c 0B99     		ldr	r1, [sp, #44]
+ 1289              	.LVL205:
+ 1290 024e FFF7FEFF 		bl	__aeabi_dcmplt
+ 1291              	.LVL206:
+ 1292 0252 0028     		cmp	r0, #0
+ 1293 0254 23D1     		bne	.L202
+ 489:srcc/printf.c **** 				schar = '-';
+ 490:srcc/printf.c **** 				++vlen;
+ 491:srcc/printf.c **** 			}
+ 492:srcc/printf.c **** 			//若参数不小于0，添加‘+’号或者‘ ’或者为0，并将字符长度加1
+ 493:srcc/printf.c **** 			else {
+ 494:srcc/printf.c **** 				if (IS_FLAG_PLUS(flags_used)) {
+ 1294              		.loc 1 494 0
+ 1295 0256 AB07     		lsls	r3, r5, #30
+ 1296 0258 2FD5     		bpl	.L110
+ 1297              	.LVL207:
+ 495:srcc/printf.c **** 					schar = '+';
+ 496:srcc/printf.c **** 					++vlen;
+ 1298              		.loc 1 496 0
+ 1299 025a 0136     		adds	r6, r6, #1
+ 1300              	.LVL208:
+ 495:srcc/printf.c **** 					schar = '+';
+ 1301              		.loc 1 495 0
+ 1302 025c 2B27     		movs	r7, #43
+ 1303 025e 20E0     		b	.L109
+ 1304              	.LVL209:
+ 1305              	.L102:
+ 461:srcc/printf.c **** 			{
+ 1306              		.loc 1 461 0
+ 1307 0260 029B     		ldr	r3, [sp, #8]
+ 1308 0262 013B     		subs	r3, r3, #1
+ 1309 0264 012B     		cmp	r3, #1
+ 1310 0266 09D9     		bls	.L203
+ 1311              	.L105:
+ 467:srcc/printf.c **** 			{
+ 1312              		.loc 1 467 0
+ 1313 0268 039B     		ldr	r3, [sp, #12]
+ 1314 026a 002B     		cmp	r3, #0
+ 1315 026c 10D1     		bne	.L103
+ 481:srcc/printf.c **** 					vstrp = &vstr[0];  //指向转换后的第一个字符
+ 1316              		.loc 1 481 0
+ 1317 026e 3200     		movs	r2, r6
+ 1318 0270 0FA9     		add	r1, sp, #60
+ 1319 0272 0AA8     		add	r0, sp, #40
+ 1320              	.LVL210:
+ 1321 0274 FFF7FEFF 		bl	printk_mkfloatstr
+ 1322              	.LVL211:
+ 1323 0278 0600     		movs	r6, r0
+ 1324              	.LVL212:
+ 1325 027a E4E7     		b	.L106
+ 1326              	.LVL213:
+ 1327              	.L203:
+ 464:srcc/printf.c **** 			}
+ 1328              		.loc 1 464 0
+ 1329 027c 5B46     		mov	r3, fp
+ 1330 027e 5A68     		ldr	r2, [r3, #4]
+ 1331 0280 9B68     		ldr	r3, [r3, #8]
+ 1332 0282 0A92     		str	r2, [sp, #40]
+ 1333 0284 0B93     		str	r3, [sp, #44]
+ 1334 0286 0C23     		movs	r3, #12
+ 1335 0288 9C46     		mov	ip, r3
+ 1336 028a E344     		add	fp, fp, ip
+ 1337              	.LVL214:
+ 1338 028c ECE7     		b	.L105
+ 1339              	.LVL215:
+ 1340              	.L201:
+ 454:srcc/printf.c **** 			temp1=un1.tempc.b8;
+ 1341              		.loc 1 454 0
+ 1342 028e BB46     		mov	fp, r7
+ 1343              	.LVL216:
+ 1344              	.L103:
+ 469:srcc/printf.c **** 				vstrp = &vstr[0];  //指向转换后的第一个字符
+ 1345              		.loc 1 469 0
+ 1346 0290 3200     		movs	r2, r6
+ 1347              	.LVL217:
+ 1348 0292 0FA9     		add	r1, sp, #60
+ 1349 0294 0AA8     		add	r0, sp, #40
+ 1350              	.LVL218:
+ 1351 0296 FFF7FEFF 		bl	printk_mkfloatstr
+ 1352              	.LVL219:
+ 1353 029a 0600     		movs	r6, r0
+ 1354              	.LVL220:
+ 1355 029c D3E7     		b	.L106
+ 1356              	.LVL221:
+ 1357              	.L202:
+ 490:srcc/printf.c **** 			}
+ 1358              		.loc 1 490 0
+ 1359 029e 0136     		adds	r6, r6, #1
+ 1360              	.LVL222:
+ 489:srcc/printf.c **** 				++vlen;
+ 1361              		.loc 1 489 0
+ 1362 02a0 2D27     		movs	r7, #45
+ 1363              	.LVL223:
+ 1364              	.L109:
+ 497:srcc/printf.c **** 				} else {
+ 498:srcc/printf.c **** 					if (IS_FLAG_SPACE(flags_used)) {
+ 499:srcc/printf.c **** 						schar = ' ';
+ 500:srcc/printf.c **** 						++vlen;
+ 501:srcc/printf.c **** 					} else {
+ 502:srcc/printf.c **** 						schar = 0;
+ 503:srcc/printf.c **** 					}
+ 504:srcc/printf.c **** 				}
+ 505:srcc/printf.c **** 			}
+ 506:srcc/printf.c **** 			dschar = FALSE;
+ 507:srcc/printf.c **** 
+ 508:srcc/printf.c **** 			/*
+ 509:srcc/printf.c **** 			 * do the ZERO pad.
+ 510:srcc/printf.c **** 			 */
+ 511:srcc/printf.c **** 			if (IS_FLAG_ZERO(flags_used)) {
+ 1365              		.loc 1 511 0
+ 1366 02a2 2B07     		lsls	r3, r5, #28
+ 1367 02a4 0FD4     		bmi	.L204
+ 512:srcc/printf.c **** 				if (schar)
+ 513:srcc/printf.c **** 					printk_putc(schar, &count, info);  //输出符号
+ 514:srcc/printf.c **** 				dschar = TRUE;
+ 515:srcc/printf.c **** 				printk_pad_zero(vlen, field_width, &count, info);
+ 516:srcc/printf.c **** 				vlen = field_width;
+ 517:srcc/printf.c **** 			} else {
+ 518:srcc/printf.c **** 				if (!IS_FLAG_MINUS(flags_used)) {
+ 1368              		.loc 1 518 0
+ 1369 02a6 EB07     		lsls	r3, r5, #31
+ 1370 02a8 36D5     		bpl	.L205
+ 1371              	.LVL224:
+ 1372              	.L114:
+ 519:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);  //输出空格
+ 520:srcc/printf.c **** 
+ 521:srcc/printf.c **** 					if (schar)
+ 522:srcc/printf.c **** 						printk_putc(schar, &count, info);
+ 523:srcc/printf.c **** 					dschar = TRUE;
+ 524:srcc/printf.c **** 				}
+ 525:srcc/printf.c **** 			}
+ 526:srcc/printf.c **** 
+ 527:srcc/printf.c **** 			/* the string was built in reverse order, now display in */
+ 528:srcc/printf.c **** 			/* correct order */
+ 529:srcc/printf.c **** 			if (!dschar && schar) {
+ 1373              		.loc 1 529 0
+ 1374 02aa 002F     		cmp	r7, #0
+ 1375 02ac 49D1     		bne	.L206
+ 1376              	.L116:
+ 530:srcc/printf.c **** 				printk_putc(schar, &count, info);
+ 531:srcc/printf.c **** 			}
+ 532:srcc/printf.c **** 			while (*vstrp)
+ 1377              		.loc 1 532 0
+ 1378 02ae 0FAB     		add	r3, sp, #60
+ 1379              	.LVL225:
+ 1380 02b0 0020     		movs	r0, #0
+ 1381 02b2 1856     		ldrsb	r0, [r3, r0]
+ 1382 02b4 0028     		cmp	r0, #0
+ 1383 02b6 1BD1     		bne	.L119
+ 1384 02b8 27E0     		b	.L148
+ 1385              	.LVL226:
+ 1386              	.L110:
+ 498:srcc/printf.c **** 						schar = ' ';
+ 1387              		.loc 1 498 0
+ 1388 02ba 6B07     		lsls	r3, r5, #29
+ 1389 02bc 00D4     		bmi	.LCB1567
+ 1390 02be 95E1     		b	.L111	@long jump
+ 1391              	.LCB1567:
+ 1392              	.LVL227:
+ 500:srcc/printf.c **** 					} else {
+ 1393              		.loc 1 500 0
+ 1394 02c0 0136     		adds	r6, r6, #1
+ 1395              	.LVL228:
+ 499:srcc/printf.c **** 						++vlen;
+ 1396              		.loc 1 499 0
+ 1397 02c2 2027     		movs	r7, #32
+ 1398 02c4 EDE7     		b	.L109
+ 1399              	.LVL229:
+ 1400              	.L204:
+ 513:srcc/printf.c **** 				dschar = TRUE;
+ 1401              		.loc 1 513 0
+ 1402 02c6 019A     		ldr	r2, [sp, #4]
+ 1403 02c8 0EA9     		add	r1, sp, #56
+ 1404 02ca 3800     		movs	r0, r7
+ 1405 02cc FFF7FEFF 		bl	printk_putc
+ 1406              	.LVL230:
+ 1407              	.L146:
+ 1408              	.LBB13:
+ 1409              	.LBB14:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1410              		.loc 1 182 0
+ 1411 02d0 B442     		cmp	r4, r6
+ 1412 02d2 07DD     		ble	.L112
+ 1413              	.LVL231:
+ 1414              	.L113:
+ 183:srcc/printf.c **** 	}
+ 1415              		.loc 1 183 0
+ 1416 02d4 019A     		ldr	r2, [sp, #4]
+ 1417 02d6 0EA9     		add	r1, sp, #56
+ 1418 02d8 3020     		movs	r0, #48
+ 1419 02da FFF7FEFF 		bl	printk_putc
+ 1420              	.LVL232:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1421              		.loc 1 182 0
+ 1422 02de 0136     		adds	r6, r6, #1
+ 1423              	.LVL233:
+ 1424 02e0 A642     		cmp	r6, r4
+ 1425 02e2 F7D1     		bne	.L113
+ 1426              	.L112:
+ 1427              	.LBE14:
+ 1428              	.LBE13:
+ 1429              		.loc 1 532 0
+ 1430 02e4 0FAB     		add	r3, sp, #60
+ 1431              	.LVL234:
+ 1432 02e6 0020     		movs	r0, #0
+ 1433 02e8 1856     		ldrsb	r0, [r3, r0]
+ 1434 02ea 2600     		movs	r6, r4
+ 1435              	.LVL235:
+ 1436 02ec 0028     		cmp	r0, #0
+ 1437 02ee 09D0     		beq	.L118
+ 1438              	.L119:
+ 1439 02f0 0FAF     		add	r7, sp, #60
+ 1440              	.LVL236:
+ 1441              	.L117:
+ 533:srcc/printf.c **** 				printk_putc(*vstrp++, &count, info);
+ 1442              		.loc 1 533 0
+ 1443 02f2 0137     		adds	r7, r7, #1
+ 1444              	.LVL237:
+ 1445 02f4 019A     		ldr	r2, [sp, #4]
+ 1446 02f6 0EA9     		add	r1, sp, #56
+ 1447 02f8 FFF7FEFF 		bl	printk_putc
+ 1448              	.LVL238:
+ 532:srcc/printf.c **** 				printk_putc(*vstrp++, &count, info);
+ 1449              		.loc 1 532 0
+ 1450 02fc 0020     		movs	r0, #0
+ 1451 02fe 3856     		ldrsb	r0, [r7, r0]
+ 1452 0300 0028     		cmp	r0, #0
+ 1453 0302 F6D1     		bne	.L117
+ 1454              	.LVL239:
+ 1455              	.L118:
+ 534:srcc/printf.c **** 			if (IS_FLAG_MINUS(flags_used)) {
+ 1456              		.loc 1 534 0
+ 1457 0304 EB07     		lsls	r3, r5, #31
+ 1458 0306 00D4     		bmi	.LCB1648
+ 1459 0308 A7E6     		b	.L63	@long jump
+ 1460              	.LCB1648:
+ 1461              	.L148:
+ 535:srcc/printf.c **** 				printk_pad_space(vlen, field_width, &count, info);
+ 1462              		.loc 1 535 0
+ 1463 030a 019B     		ldr	r3, [sp, #4]
+ 1464 030c 0EAA     		add	r2, sp, #56
+ 1465 030e 2100     		movs	r1, r4
+ 1466 0310 3000     		movs	r0, r6
+ 1467 0312 FFF7FEFF 		bl	printk_pad_space
+ 1468              	.LVL240:
+ 1469 0316 A0E6     		b	.L63
+ 1470              	.LVL241:
+ 1471              	.L205:
+ 519:srcc/printf.c **** 
+ 1472              		.loc 1 519 0
+ 1473 0318 019B     		ldr	r3, [sp, #4]
+ 1474 031a 0EAA     		add	r2, sp, #56
+ 1475 031c 2100     		movs	r1, r4
+ 1476 031e 3000     		movs	r0, r6
+ 1477 0320 FFF7FEFF 		bl	printk_pad_space
+ 1478              	.LVL242:
+ 521:srcc/printf.c **** 						printk_putc(schar, &count, info);
+ 1479              		.loc 1 521 0
+ 1480 0324 002F     		cmp	r7, #0
+ 1481 0326 06D1     		bne	.L207
+ 1482              	.LVL243:
+ 1483              	.L115:
+ 532:srcc/printf.c **** 				printk_putc(*vstrp++, &count, info);
+ 1484              		.loc 1 532 0
+ 1485 0328 0FAB     		add	r3, sp, #60
+ 1486              	.LVL244:
+ 1487 032a 0020     		movs	r0, #0
+ 1488 032c 1856     		ldrsb	r0, [r3, r0]
+ 1489 032e 0028     		cmp	r0, #0
+ 1490 0330 00D1     		bne	.LCB1682
+ 1491 0332 92E6     		b	.L63	@long jump
+ 1492              	.LCB1682:
+ 1493 0334 DCE7     		b	.L119
+ 1494              	.LVL245:
+ 1495              	.L207:
+ 522:srcc/printf.c **** 					dschar = TRUE;
+ 1496              		.loc 1 522 0
+ 1497 0336 019A     		ldr	r2, [sp, #4]
+ 1498 0338 0EA9     		add	r1, sp, #56
+ 1499 033a 3800     		movs	r0, r7
+ 1500 033c FFF7FEFF 		bl	printk_putc
+ 1501              	.LVL246:
+ 1502 0340 F2E7     		b	.L115
+ 1503              	.LVL247:
+ 1504              	.L206:
+ 530:srcc/printf.c **** 			}
+ 1505              		.loc 1 530 0
+ 1506 0342 019A     		ldr	r2, [sp, #4]
+ 1507 0344 0EA9     		add	r1, sp, #56
+ 1508 0346 3800     		movs	r0, r7
+ 1509 0348 FFF7FEFF 		bl	printk_putc
+ 1510              	.LVL248:
+ 1511 034c AFE7     		b	.L116
+ 1512              	.L215:
+ 1513 034e C046     		.align	2
+ 1514              	.L214:
+ 1515 0350 00000000 		.word	.L66
+ 1516 0354 44000000 		.word	.L83
+ 1517              	.LVL249:
+ 1518              	.L82:
+ 536:srcc/printf.c **** 			}
+ 537:srcc/printf.c ****             break;
+ 538:srcc/printf.c ****         //以下是16进制整形输出
+ 539:srcc/printf.c **** 		case 'x':
+ 540:srcc/printf.c **** 		case 'X':
+ 541:srcc/printf.c **** 			uval = (unsigned int) va_arg(ap, unsigned int);
+ 1519              		.loc 1 541 0
+ 1520 0358 5B46     		mov	r3, fp
+ 1521 035a 0433     		adds	r3, r3, #4
+ 1522 035c 0693     		str	r3, [sp, #24]
+ 1523              	.LVL250:
+ 1524 035e 5B46     		mov	r3, fp
+ 1525              	.LVL251:
+ 1526 0360 1B68     		ldr	r3, [r3]
+ 1527 0362 0993     		str	r3, [sp, #36]
+ 542:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1528              		.loc 1 542 0
+ 1529 0364 1023     		movs	r3, #16
+ 1530 0366 0022     		movs	r2, #0
+ 1531 0368 09A9     		add	r1, sp, #36
+ 1532 036a 0FA8     		add	r0, sp, #60
+ 1533              	.LVL252:
+ 1534 036c FFF7FEFF 		bl	printk_mknumstr
+ 1535              	.LVL253:
+ 1536 0370 0700     		movs	r7, r0
+ 1537              	.LVL254:
+ 543:srcc/printf.c **** 			vstrp = &vstr[vlen];
+ 1538              		.loc 1 543 0
+ 1539 0372 0FAB     		add	r3, sp, #60
+ 1540 0374 1E18     		adds	r6, r3, r0
+ 1541              	.LVL255:
+ 544:srcc/printf.c **** 
+ 545:srcc/printf.c **** 			dschar = FALSE;
+ 546:srcc/printf.c **** 			if (IS_FLAG_ZERO(flags_used)) {
+ 1542              		.loc 1 546 0
+ 1543 0376 2B07     		lsls	r3, r5, #28
+ 1544 0378 28D5     		bpl	.L120
+ 547:srcc/printf.c **** 				if (IS_FLAG_POUND(flags_used)) {
+ 1545              		.loc 1 547 0
+ 1546 037a 1023     		movs	r3, #16
+ 1547 037c 2B40     		ands	r3, r5
+ 1548 037e 9946     		mov	r9, r3
+ 1549 0380 14D1     		bne	.L208
+ 1550              	.LVL256:
+ 1551              	.LBB15:
+ 1552              	.LBB16:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1553              		.loc 1 182 0
+ 1554 0382 A042     		cmp	r0, r4
+ 1555 0384 00DB     		blt	.LCB1767
+ 1556 0386 3FE1     		b	.L209	@long jump
+ 1557              	.LCB1767:
+ 1558              	.LVL257:
+ 1559              	.L122:
+ 183:srcc/printf.c **** 	}
+ 1560              		.loc 1 183 0
+ 1561 0388 019A     		ldr	r2, [sp, #4]
+ 1562 038a 0EA9     		add	r1, sp, #56
+ 1563              	.LVL258:
+ 1564 038c 3020     		movs	r0, #48
+ 1565 038e FFF7FEFF 		bl	printk_putc
+ 1566              	.LVL259:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1567              		.loc 1 182 0
+ 1568 0392 0137     		adds	r7, r7, #1
+ 1569              	.LVL260:
+ 1570 0394 A742     		cmp	r7, r4
+ 1571 0396 F7DB     		blt	.L122
+ 1572              	.LVL261:
+ 1573              	.LBE16:
+ 1574              	.LBE15:
+ 548:srcc/printf.c **** 					printk_putc('0', &count, info);
+ 549:srcc/printf.c **** 					printk_putc('x', &count, info);
+ 550:srcc/printf.c **** 					/*vlen += 2;*/
+ 551:srcc/printf.c **** 					dschar = TRUE;
+ 552:srcc/printf.c **** 				}
+ 553:srcc/printf.c **** 				printk_pad_zero(vlen, field_width, &count, info);
+ 554:srcc/printf.c **** 				vlen = field_width;
+ 555:srcc/printf.c **** 			} else {
+ 556:srcc/printf.c **** 				if (!IS_FLAG_MINUS(flags_used)) {
+ 557:srcc/printf.c **** 					if (IS_FLAG_POUND(flags_used)) {
+ 558:srcc/printf.c **** 						vlen += 2;
+ 559:srcc/printf.c **** 					}
+ 560:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);
+ 561:srcc/printf.c **** 					if (IS_FLAG_POUND(flags_used)) {
+ 562:srcc/printf.c **** 						printk_putc('0', &count, info);
+ 563:srcc/printf.c **** 						printk_putc('x', &count, info);
+ 564:srcc/printf.c **** 						dschar = TRUE;
+ 565:srcc/printf.c **** 					}
+ 566:srcc/printf.c **** 				}
+ 567:srcc/printf.c **** 			}
+ 568:srcc/printf.c **** 
+ 569:srcc/printf.c **** 			if ((IS_FLAG_POUND(flags_used)) && !dschar) {
+ 1575              		.loc 1 569 0
+ 1576 0398 EB06     		lsls	r3, r5, #27
+ 1577 039a 00D4     		bmi	.LCB1796
+ 1578 039c B7E0     		b	.L165	@long jump
+ 1579              	.LCB1796:
+ 1580              		.loc 1 569 0 is_stmt 0 discriminator 1
+ 1581 039e 4B46     		mov	r3, r9
+ 1582 03a0 002B     		cmp	r3, #0
+ 1583 03a2 31D0     		beq	.L210
+ 1584 03a4 2700     		movs	r7, r4
+ 1585              	.LVL262:
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1586              		.loc 1 541 0 is_stmt 1
+ 1587 03a6 069B     		ldr	r3, [sp, #24]
+ 1588 03a8 9B46     		mov	fp, r3
+ 1589 03aa 85E0     		b	.L97
+ 1590              	.LVL263:
+ 1591              	.L208:
+ 548:srcc/printf.c **** 					printk_putc('0', &count, info);
+ 1592              		.loc 1 548 0
+ 1593 03ac 019A     		ldr	r2, [sp, #4]
+ 1594 03ae 0EA9     		add	r1, sp, #56
+ 1595 03b0 3020     		movs	r0, #48
+ 1596              	.LVL264:
+ 1597 03b2 FFF7FEFF 		bl	printk_putc
+ 1598              	.LVL265:
+ 549:srcc/printf.c **** 					/*vlen += 2;*/
+ 1599              		.loc 1 549 0
+ 1600 03b6 019A     		ldr	r2, [sp, #4]
+ 1601 03b8 0EA9     		add	r1, sp, #56
+ 1602 03ba 7820     		movs	r0, #120
+ 1603 03bc FFF7FEFF 		bl	printk_putc
+ 1604              	.LVL266:
+ 1605              	.LBB20:
+ 1606              	.LBB17:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1607              		.loc 1 182 0
+ 1608 03c0 A742     		cmp	r7, r4
+ 1609 03c2 00DB     		blt	.LCB1838
+ 1610 03c4 9FE0     		b	.L163	@long jump
+ 1611              	.LCB1838:
+ 1612              	.LBE17:
+ 1613              	.LBE20:
+ 551:srcc/printf.c **** 				}
+ 1614              		.loc 1 551 0
+ 1615 03c6 0123     		movs	r3, #1
+ 1616 03c8 9946     		mov	r9, r3
+ 1617 03ca DDE7     		b	.L122
+ 1618              	.LVL267:
+ 1619              	.L120:
+ 556:srcc/printf.c **** 					if (IS_FLAG_POUND(flags_used)) {
+ 1620              		.loc 1 556 0
+ 1621 03cc EB07     		lsls	r3, r5, #31
+ 1622 03ce 00D5     		bpl	.LCB1860
+ 1623 03d0 26E1     		b	.L124	@long jump
+ 1624              	.LCB1860:
+ 557:srcc/printf.c **** 						vlen += 2;
+ 1625              		.loc 1 557 0
+ 1626 03d2 EB06     		lsls	r3, r5, #27
+ 1627 03d4 00D4     		bmi	.LCB1864
+ 1628 03d6 1BE1     		b	.L125	@long jump
+ 1629              	.LCB1864:
+ 558:srcc/printf.c **** 					}
+ 1630              		.loc 1 558 0
+ 1631 03d8 0237     		adds	r7, r7, #2
+ 1632              	.LVL268:
+ 560:srcc/printf.c **** 					if (IS_FLAG_POUND(flags_used)) {
+ 1633              		.loc 1 560 0
+ 1634 03da 019B     		ldr	r3, [sp, #4]
+ 1635 03dc 0EAA     		add	r2, sp, #56
+ 1636 03de 2100     		movs	r1, r4
+ 1637 03e0 3800     		movs	r0, r7
+ 1638 03e2 FFF7FEFF 		bl	printk_pad_space
+ 1639              	.LVL269:
+ 562:srcc/printf.c **** 						printk_putc('x', &count, info);
+ 1640              		.loc 1 562 0
+ 1641 03e6 019A     		ldr	r2, [sp, #4]
+ 1642 03e8 0EA9     		add	r1, sp, #56
+ 1643 03ea 3020     		movs	r0, #48
+ 1644 03ec FFF7FEFF 		bl	printk_putc
+ 1645              	.LVL270:
+ 563:srcc/printf.c **** 						dschar = TRUE;
+ 1646              		.loc 1 563 0
+ 1647 03f0 019A     		ldr	r2, [sp, #4]
+ 1648 03f2 0EA9     		add	r1, sp, #56
+ 1649 03f4 7820     		movs	r0, #120
+ 1650 03f6 FFF7FEFF 		bl	printk_putc
+ 1651              	.LVL271:
+ 570:srcc/printf.c **** 				printk_putc('0', &count, info);
+ 571:srcc/printf.c **** 				printk_putc('x', &count, info);
+ 572:srcc/printf.c **** 				vlen += 2;
+ 573:srcc/printf.c **** 			}
+ 574:srcc/printf.c **** 			goto cont_xd;
+ 575:srcc/printf.c **** 		//无符号以八进制表示的整数输出
+ 576:srcc/printf.c **** 		case 'o':
+ 577:srcc/printf.c **** 			uval = (unsigned int) va_arg(ap, unsigned int);
+ 578:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 8);
+ 579:srcc/printf.c **** 			goto cont_u;
+ 580:srcc/printf.c **** 		//二进制输出
+ 581:srcc/printf.c **** 		case 'b':
+ 582:srcc/printf.c **** 			uval = (unsigned int) va_arg(ap, unsigned int);
+ 583:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 2);
+ 584:srcc/printf.c **** 			goto cont_u;
+ 585:srcc/printf.c **** 		//输出指针的值
+ 586:srcc/printf.c **** 		case 'p':
+ 587:srcc/printf.c **** 			uval = (unsigned int) va_arg(ap, void *);
+ 588:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 589:srcc/printf.c **** 			goto cont_u;
+ 590:srcc/printf.c **** 		case 'u':
+ 591:srcc/printf.c **** 			uval = (unsigned int) va_arg(ap, unsigned int);
+ 592:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 10);
+ 593:srcc/printf.c **** 
+ 594:srcc/printf.c **** 			cont_u: vstrp = &vstr[vlen];
+ 595:srcc/printf.c **** 
+ 596:srcc/printf.c **** 			if (IS_FLAG_ZERO(flags_used)) {
+ 597:srcc/printf.c **** 				printk_pad_zero(vlen, field_width, &count, info);
+ 598:srcc/printf.c **** 				vlen = field_width;
+ 599:srcc/printf.c **** 			} else {
+ 600:srcc/printf.c **** 				if (!IS_FLAG_MINUS(flags_used)) {
+ 601:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);
+ 602:srcc/printf.c **** 				}
+ 603:srcc/printf.c **** 			}
+ 604:srcc/printf.c **** 
+ 605:srcc/printf.c **** 			cont_xd: while (*vstrp)
+ 1652              		.loc 1 605 0
+ 1653 03fa 0020     		movs	r0, #0
+ 1654 03fc 3056     		ldrsb	r0, [r6, r0]
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1655              		.loc 1 541 0
+ 1656 03fe 069B     		ldr	r3, [sp, #24]
+ 1657 0400 9B46     		mov	fp, r3
+ 1658              		.loc 1 605 0
+ 1659 0402 0028     		cmp	r0, #0
+ 1660 0404 5CD1     		bne	.L130
+ 1661 0406 28E6     		b	.L63
+ 1662              	.LVL272:
+ 1663              	.L210:
+ 1664 0408 2700     		movs	r7, r4
+ 1665              	.LVL273:
+ 1666              	.L150:
+ 570:srcc/printf.c **** 				printk_putc('0', &count, info);
+ 1667              		.loc 1 570 0
+ 1668 040a 019A     		ldr	r2, [sp, #4]
+ 1669 040c 0EA9     		add	r1, sp, #56
+ 1670 040e 3020     		movs	r0, #48
+ 1671 0410 FFF7FEFF 		bl	printk_putc
+ 1672              	.LVL274:
+ 571:srcc/printf.c **** 				vlen += 2;
+ 1673              		.loc 1 571 0
+ 1674 0414 019A     		ldr	r2, [sp, #4]
+ 1675 0416 0EA9     		add	r1, sp, #56
+ 1676 0418 7820     		movs	r0, #120
+ 1677 041a FFF7FEFF 		bl	printk_putc
+ 1678              	.LVL275:
+ 572:srcc/printf.c **** 			}
+ 1679              		.loc 1 572 0
+ 1680 041e 0237     		adds	r7, r7, #2
+ 1681              	.LVL276:
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1682              		.loc 1 541 0
+ 1683 0420 069B     		ldr	r3, [sp, #24]
+ 1684 0422 9B46     		mov	fp, r3
+ 1685 0424 48E0     		b	.L97
+ 1686              	.LVL277:
+ 1687              	.L89:
+ 577:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 8);
+ 1688              		.loc 1 577 0
+ 1689 0426 5B46     		mov	r3, fp
+ 1690 0428 1E1D     		adds	r6, r3, #4
+ 1691              	.LVL278:
+ 1692 042a 1B68     		ldr	r3, [r3]
+ 1693 042c 0993     		str	r3, [sp, #36]
+ 578:srcc/printf.c **** 			goto cont_u;
+ 1694              		.loc 1 578 0
+ 1695 042e 0823     		movs	r3, #8
+ 1696 0430 0022     		movs	r2, #0
+ 1697 0432 09A9     		add	r1, sp, #36
+ 1698 0434 0FA8     		add	r0, sp, #60
+ 1699              	.LVL279:
+ 1700 0436 FFF7FEFF 		bl	printk_mknumstr
+ 1701              	.LVL280:
+ 1702 043a 0700     		movs	r7, r0
+ 1703              	.LVL281:
+ 577:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 8);
+ 1704              		.loc 1 577 0
+ 1705 043c B346     		mov	fp, r6
+ 1706              	.L127:
+ 594:srcc/printf.c **** 
+ 1707              		.loc 1 594 0
+ 1708 043e 0FAB     		add	r3, sp, #60
+ 1709 0440 DE19     		adds	r6, r3, r7
+ 1710              	.LVL282:
+ 596:srcc/printf.c **** 				printk_pad_zero(vlen, field_width, &count, info);
+ 1711              		.loc 1 596 0
+ 1712 0442 2B07     		lsls	r3, r5, #28
+ 1713 0444 2DD4     		bmi	.L211
+ 600:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);
+ 1714              		.loc 1 600 0
+ 1715 0446 EB07     		lsls	r3, r5, #31
+ 1716 0448 4DD5     		bpl	.L212
+ 1717              	.LVL283:
+ 1718              	.L101:
+ 1719              		.loc 1 605 0
+ 1720 044a 0020     		movs	r0, #0
+ 1721 044c 3056     		ldrsb	r0, [r6, r0]
+ 1722 044e 0028     		cmp	r0, #0
+ 1723 0450 36D1     		bne	.L130
+ 1724 0452 41E0     		b	.L152
+ 1725              	.LVL284:
+ 1726              	.L84:
+ 582:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 2);
+ 1727              		.loc 1 582 0
+ 1728 0454 5B46     		mov	r3, fp
+ 1729 0456 1E1D     		adds	r6, r3, #4
+ 1730              	.LVL285:
+ 1731 0458 1B68     		ldr	r3, [r3]
+ 1732 045a 0993     		str	r3, [sp, #36]
+ 583:srcc/printf.c **** 			goto cont_u;
+ 1733              		.loc 1 583 0
+ 1734 045c 0223     		movs	r3, #2
+ 1735 045e 0022     		movs	r2, #0
+ 1736 0460 09A9     		add	r1, sp, #36
+ 1737 0462 0FA8     		add	r0, sp, #60
+ 1738              	.LVL286:
+ 1739 0464 FFF7FEFF 		bl	printk_mknumstr
+ 1740              	.LVL287:
+ 1741 0468 0700     		movs	r7, r0
+ 1742              	.LVL288:
+ 582:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 2);
+ 1743              		.loc 1 582 0
+ 1744 046a B346     		mov	fp, r6
+ 584:srcc/printf.c **** 		//输出指针的值
+ 1745              		.loc 1 584 0
+ 1746 046c E7E7     		b	.L127
+ 1747              	.LVL289:
+ 1748              	.L90:
+ 587:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1749              		.loc 1 587 0
+ 1750 046e 5B46     		mov	r3, fp
+ 1751 0470 1E1D     		adds	r6, r3, #4
+ 1752              	.LVL290:
+ 1753 0472 1B68     		ldr	r3, [r3]
+ 1754 0474 0993     		str	r3, [sp, #36]
+ 588:srcc/printf.c **** 			goto cont_u;
+ 1755              		.loc 1 588 0
+ 1756 0476 1023     		movs	r3, #16
+ 1757 0478 0022     		movs	r2, #0
+ 1758 047a 09A9     		add	r1, sp, #36
+ 1759 047c 0FA8     		add	r0, sp, #60
+ 1760              	.LVL291:
+ 1761 047e FFF7FEFF 		bl	printk_mknumstr
+ 1762              	.LVL292:
+ 1763 0482 0700     		movs	r7, r0
+ 1764              	.LVL293:
+ 587:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1765              		.loc 1 587 0
+ 1766 0484 B346     		mov	fp, r6
+ 589:srcc/printf.c **** 		case 'u':
+ 1767              		.loc 1 589 0
+ 1768 0486 DAE7     		b	.L127
+ 1769              	.LVL294:
+ 1770              	.L92:
+ 591:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 10);
+ 1771              		.loc 1 591 0
+ 1772 0488 5B46     		mov	r3, fp
+ 1773 048a 1E1D     		adds	r6, r3, #4
+ 1774              	.LVL295:
+ 1775 048c 1B68     		ldr	r3, [r3]
+ 1776 048e 0993     		str	r3, [sp, #36]
+ 592:srcc/printf.c **** 
+ 1777              		.loc 1 592 0
+ 1778 0490 0A23     		movs	r3, #10
+ 1779 0492 0022     		movs	r2, #0
+ 1780 0494 09A9     		add	r1, sp, #36
+ 1781 0496 0FA8     		add	r0, sp, #60
+ 1782              	.LVL296:
+ 1783 0498 FFF7FEFF 		bl	printk_mknumstr
+ 1784              	.LVL297:
+ 1785 049c 0700     		movs	r7, r0
+ 1786              	.LVL298:
+ 591:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 10);
+ 1787              		.loc 1 591 0
+ 1788 049e B346     		mov	fp, r6
+ 1789 04a0 CDE7     		b	.L127
+ 1790              	.LVL299:
+ 1791              	.L211:
+ 1792              	.LBB21:
+ 1793              	.LBB22:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1794              		.loc 1 182 0
+ 1795 04a2 A742     		cmp	r7, r4
+ 1796 04a4 37DA     		bge	.L167
+ 1797              	.LVL300:
+ 1798              	.L129:
+ 183:srcc/printf.c **** 	}
+ 1799              		.loc 1 183 0
+ 1800 04a6 019A     		ldr	r2, [sp, #4]
+ 1801 04a8 0EA9     		add	r1, sp, #56
+ 1802 04aa 3020     		movs	r0, #48
+ 1803 04ac FFF7FEFF 		bl	printk_putc
+ 1804              	.LVL301:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1805              		.loc 1 182 0
+ 1806 04b0 0137     		adds	r7, r7, #1
+ 1807              	.LVL302:
+ 1808 04b2 A742     		cmp	r7, r4
+ 1809 04b4 F7D1     		bne	.L129
+ 1810 04b6 2700     		movs	r7, r4
+ 1811              	.LVL303:
+ 1812              	.L97:
+ 1813              	.LBE22:
+ 1814              	.LBE21:
+ 1815              		.loc 1 605 0 discriminator 1
+ 1816 04b8 0020     		movs	r0, #0
+ 1817 04ba 3056     		ldrsb	r0, [r6, r0]
+ 1818 04bc 0028     		cmp	r0, #0
+ 1819 04be 08D0     		beq	.L131
+ 1820              	.L130:
+ 606:srcc/printf.c **** 				printk_putc(*vstrp--, &count, info);
+ 1821              		.loc 1 606 0
+ 1822 04c0 013E     		subs	r6, r6, #1
+ 1823              	.LVL304:
+ 1824 04c2 019A     		ldr	r2, [sp, #4]
+ 1825 04c4 0EA9     		add	r1, sp, #56
+ 1826 04c6 FFF7FEFF 		bl	printk_putc
+ 1827              	.LVL305:
+ 605:srcc/printf.c **** 				printk_putc(*vstrp--, &count, info);
+ 1828              		.loc 1 605 0
+ 1829 04ca 0020     		movs	r0, #0
+ 1830 04cc 3056     		ldrsb	r0, [r6, r0]
+ 1831 04ce 0028     		cmp	r0, #0
+ 1832 04d0 F6D1     		bne	.L130
+ 1833              	.L131:
+ 607:srcc/printf.c **** 
+ 608:srcc/printf.c **** 			if (IS_FLAG_MINUS(flags_used)) {
+ 1834              		.loc 1 608 0
+ 1835 04d2 EB07     		lsls	r3, r5, #31
+ 1836 04d4 00D4     		bmi	.LCB2150
+ 1837 04d6 C0E5     		b	.L63	@long jump
+ 1838              	.LCB2150:
+ 1839              	.L152:
+ 609:srcc/printf.c **** 				printk_pad_space(vlen, field_width, &count, info);
+ 1840              		.loc 1 609 0
+ 1841 04d8 019B     		ldr	r3, [sp, #4]
+ 1842 04da 0EAA     		add	r2, sp, #56
+ 1843 04dc 2100     		movs	r1, r4
+ 1844 04de 3800     		movs	r0, r7
+ 1845 04e0 FFF7FEFF 		bl	printk_pad_space
+ 1846              	.LVL306:
+ 1847 04e4 B9E5     		b	.L63
+ 1848              	.LVL307:
+ 1849              	.L212:
+ 601:srcc/printf.c **** 				}
+ 1850              		.loc 1 601 0
+ 1851 04e6 019B     		ldr	r3, [sp, #4]
+ 1852 04e8 0EAA     		add	r2, sp, #56
+ 1853 04ea 2100     		movs	r1, r4
+ 1854 04ec 3800     		movs	r0, r7
+ 1855              	.LVL308:
+ 1856 04ee FFF7FEFF 		bl	printk_pad_space
+ 1857              	.LVL309:
+ 1858              	.L100:
+ 605:srcc/printf.c **** 				printk_putc(*vstrp--, &count, info);
+ 1859              		.loc 1 605 0
+ 1860 04f2 0020     		movs	r0, #0
+ 1861 04f4 3056     		ldrsb	r0, [r6, r0]
+ 1862 04f6 0028     		cmp	r0, #0
+ 1863 04f8 00D1     		bne	.LCB2188
+ 1864 04fa AEE5     		b	.L63	@long jump
+ 1865              	.LCB2188:
+ 1866 04fc E0E7     		b	.L130
+ 1867              	.LVL310:
+ 1868              	.L158:
+ 1869              	.LBB24:
+ 1870              	.LBB12:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1871              		.loc 1 182 0
+ 1872 04fe 2700     		movs	r7, r4
+ 1873              	.LVL311:
+ 1874              	.LBE12:
+ 1875              	.LBE24:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 1876              		.loc 1 394 0
+ 1877 0500 069B     		ldr	r3, [sp, #24]
+ 1878 0502 9B46     		mov	fp, r3
+ 1879 0504 D8E7     		b	.L97
+ 1880              	.LVL312:
+ 1881              	.L163:
+ 1882              	.LBB25:
+ 1883              	.LBB18:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1884              		.loc 1 182 0
+ 1885 0506 2700     		movs	r7, r4
+ 1886              	.LVL313:
+ 1887              	.LBE18:
+ 1888              	.LBE25:
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 1889              		.loc 1 541 0
+ 1890 0508 069B     		ldr	r3, [sp, #24]
+ 1891 050a 9B46     		mov	fp, r3
+ 1892 050c D4E7     		b	.L97
+ 1893              	.LVL314:
+ 1894              	.L165:
+ 1895 050e 2700     		movs	r7, r4
+ 1896              	.LVL315:
+ 1897 0510 069B     		ldr	r3, [sp, #24]
+ 1898 0512 9B46     		mov	fp, r3
+ 1899 0514 D0E7     		b	.L97
+ 1900              	.LVL316:
+ 1901              	.L167:
+ 1902              	.LBB26:
+ 1903              	.LBB23:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 1904              		.loc 1 182 0
+ 1905 0516 2700     		movs	r7, r4
+ 1906 0518 CEE7     		b	.L97
+ 1907              	.LVL317:
+ 1908              	.L85:
+ 1909              	.LBE23:
+ 1910              	.LBE26:
+ 610:srcc/printf.c **** 			}
+ 611:srcc/printf.c **** 
+ 612:srcc/printf.c **** 			break;
+ 613:srcc/printf.c ****         //字符型输出
+ 614:srcc/printf.c **** 		case 'c':
+ 615:srcc/printf.c **** 			cval = (char) va_arg(ap, unsigned int);
+ 1911              		.loc 1 615 0
+ 1912 051a 5B46     		mov	r3, fp
+ 1913 051c 1C1D     		adds	r4, r3, #4
+ 1914              	.LVL318:
+ 1915 051e 0020     		movs	r0, #0
+ 1916              	.LVL319:
+ 1917 0520 1856     		ldrsb	r0, [r3, r0]
+ 616:srcc/printf.c **** 			printk_putc(cval, &count, info);
+ 1918              		.loc 1 616 0
+ 1919 0522 019A     		ldr	r2, [sp, #4]
+ 1920 0524 0EA9     		add	r1, sp, #56
+ 1921 0526 FFF7FEFF 		bl	printk_putc
+ 1922              	.LVL320:
+ 615:srcc/printf.c **** 			printk_putc(cval, &count, info);
+ 1923              		.loc 1 615 0
+ 1924 052a A346     		mov	fp, r4
+ 617:srcc/printf.c **** 			break;
+ 1925              		.loc 1 617 0
+ 1926 052c 95E5     		b	.L63
+ 1927              	.LVL321:
+ 1928              	.L91:
+ 618:srcc/printf.c **** 		case 's':
+ 619:srcc/printf.c **** 			sval = (char *) va_arg(ap, char *);
+ 1929              		.loc 1 619 0
+ 1930 052e 5B46     		mov	r3, fp
+ 1931 0530 0433     		adds	r3, r3, #4
+ 1932 0532 0693     		str	r3, [sp, #24]
+ 1933              	.LVL322:
+ 1934 0534 5B46     		mov	r3, fp
+ 1935              	.LVL323:
+ 1936 0536 1F68     		ldr	r7, [r3]
+ 1937              	.LVL324:
+ 620:srcc/printf.c **** 			if (sval) {
+ 1938              		.loc 1 620 0
+ 1939 0538 002F     		cmp	r7, #0
+ 1940 053a 43D0     		beq	.L168
+ 621:srcc/printf.c **** 				vlen = strlen(sval);
+ 1941              		.loc 1 621 0
+ 1942 053c 3800     		movs	r0, r7
+ 1943              	.LVL325:
+ 1944 053e FFF7FEFF 		bl	strlen
+ 1945              	.LVL326:
+ 1946 0542 0790     		str	r0, [sp, #28]
+ 1947              	.LVL327:
+ 622:srcc/printf.c **** 				if (!IS_FLAG_MINUS(flags_used)) {
+ 1948              		.loc 1 622 0
+ 1949 0544 0123     		movs	r3, #1
+ 1950 0546 1D40     		ands	r5, r3
+ 1951              	.LVL328:
+ 1952 0548 1CD0     		beq	.L213
+ 1953              	.LVL329:
+ 1954              	.L132:
+ 623:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);
+ 624:srcc/printf.c **** 				}
+ 625:srcc/printf.c **** 				if(precision_width!=0)
+ 1955              		.loc 1 625 0
+ 1956 054a 002E     		cmp	r6, #0
+ 1957 054c 20D1     		bne	.L133
+ 626:srcc/printf.c **** 				{
+ 627:srcc/printf.c **** 					while (*sval)
+ 628:srcc/printf.c **** 					{
+ 629:srcc/printf.c **** 						if(precision_width>=1)
+ 630:srcc/printf.c **** 						{
+ 631:srcc/printf.c **** 							precision_width--;
+ 632:srcc/printf.c **** 							printk_putc(*sval++, &count, info);
+ 633:srcc/printf.c **** 						}
+ 634:srcc/printf.c **** 					}
+ 635:srcc/printf.c **** 				}
+ 636:srcc/printf.c **** 				else    //precision_width=0情况
+ 637:srcc/printf.c **** 				{
+ 638:srcc/printf.c **** 					while (*sval)
+ 1958              		.loc 1 638 0
+ 1959 054e 0020     		movs	r0, #0
+ 1960 0550 3856     		ldrsb	r0, [r7, r0]
+ 1961 0552 0028     		cmp	r0, #0
+ 1962 0554 08D0     		beq	.L135
+ 1963              	.L134:
+ 639:srcc/printf.c **** 					   printk_putc(*sval++, &count, info);
+ 1964              		.loc 1 639 0
+ 1965 0556 0137     		adds	r7, r7, #1
+ 1966              	.LVL330:
+ 1967 0558 019A     		ldr	r2, [sp, #4]
+ 1968 055a 0EA9     		add	r1, sp, #56
+ 1969 055c FFF7FEFF 		bl	printk_putc
+ 1970              	.LVL331:
+ 638:srcc/printf.c **** 					   printk_putc(*sval++, &count, info);
+ 1971              		.loc 1 638 0
+ 1972 0560 0020     		movs	r0, #0
+ 1973 0562 3856     		ldrsb	r0, [r7, r0]
+ 1974 0564 0028     		cmp	r0, #0
+ 1975 0566 F6D1     		bne	.L134
+ 1976              	.L135:
+ 619:srcc/printf.c **** 			if (sval) {
+ 1977              		.loc 1 619 0
+ 1978 0568 069B     		ldr	r3, [sp, #24]
+ 1979 056a 9B46     		mov	fp, r3
+ 640:srcc/printf.c **** 				}
+ 641:srcc/printf.c **** 				if (IS_FLAG_MINUS(flags_used)) {
+ 1980              		.loc 1 641 0
+ 1981 056c 002D     		cmp	r5, #0
+ 1982 056e 00D1     		bne	.LCB2358
+ 1983 0570 73E5     		b	.L63	@long jump
+ 1984              	.LCB2358:
+ 642:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);
+ 1985              		.loc 1 642 0
+ 1986 0572 019B     		ldr	r3, [sp, #4]
+ 1987 0574 0EAA     		add	r2, sp, #56
+ 1988 0576 2100     		movs	r1, r4
+ 1989 0578 0798     		ldr	r0, [sp, #28]
+ 1990 057a FFF7FEFF 		bl	printk_pad_space
+ 1991              	.LVL332:
+ 619:srcc/printf.c **** 			if (sval) {
+ 1992              		.loc 1 619 0
+ 1993 057e 069B     		ldr	r3, [sp, #24]
+ 1994 0580 9B46     		mov	fp, r3
+ 1995 0582 6AE5     		b	.L63
+ 1996              	.LVL333:
+ 1997              	.L213:
+ 623:srcc/printf.c **** 				}
+ 1998              		.loc 1 623 0
+ 1999 0584 019B     		ldr	r3, [sp, #4]
+ 2000 0586 0EAA     		add	r2, sp, #56
+ 2001 0588 2100     		movs	r1, r4
+ 2002 058a FFF7FEFF 		bl	printk_pad_space
+ 2003              	.LVL334:
+ 2004 058e DCE7     		b	.L132
+ 2005              	.L133:
+ 627:srcc/printf.c **** 					{
+ 2006              		.loc 1 627 0
+ 2007 0590 0020     		movs	r0, #0
+ 2008 0592 3856     		ldrsb	r0, [r7, r0]
+ 2009              	.L136:
+ 2010 0594 0028     		cmp	r0, #0
+ 2011 0596 E7D0     		beq	.L135
+ 629:srcc/printf.c **** 						{
+ 2012              		.loc 1 629 0
+ 2013 0598 002E     		cmp	r6, #0
+ 2014 059a FBDD     		ble	.L136
+ 631:srcc/printf.c **** 							printk_putc(*sval++, &count, info);
+ 2015              		.loc 1 631 0
+ 2016 059c 013E     		subs	r6, r6, #1
+ 2017              	.LVL335:
+ 632:srcc/printf.c **** 						}
+ 2018              		.loc 1 632 0
+ 2019 059e 0137     		adds	r7, r7, #1
+ 2020              	.LVL336:
+ 2021 05a0 019A     		ldr	r2, [sp, #4]
+ 2022 05a2 0EA9     		add	r1, sp, #56
+ 2023 05a4 FFF7FEFF 		bl	printk_putc
+ 2024              	.LVL337:
+ 2025 05a8 F2E7     		b	.L133
+ 2026              	.LVL338:
+ 2027              	.L88:
+ 643:srcc/printf.c **** 				}
+ 644:srcc/printf.c **** 			}
+ 645:srcc/printf.c **** 			break;
+ 646:srcc/printf.c **** 		case 'n':
+ 647:srcc/printf.c **** 			ivalp = (int *) va_arg(ap, int *);
+ 2028              		.loc 1 647 0
+ 2029 05aa 5B46     		mov	r3, fp
+ 2030 05ac 1B68     		ldr	r3, [r3]
+ 2031              	.LVL339:
+ 648:srcc/printf.c **** 			*ivalp = count;
+ 2032              		.loc 1 648 0
+ 2033 05ae 0E9A     		ldr	r2, [sp, #56]
+ 2034 05b0 1A60     		str	r2, [r3]
+ 647:srcc/printf.c **** 			*ivalp = count;
+ 2035              		.loc 1 647 0
+ 2036 05b2 0423     		movs	r3, #4
+ 2037              	.LVL340:
+ 2038 05b4 9C46     		mov	ip, r3
+ 2039 05b6 E344     		add	fp, fp, ip
+ 2040              	.LVL341:
+ 649:srcc/printf.c **** 			break;
+ 2041              		.loc 1 649 0
+ 2042 05b8 4FE5     		b	.L63
+ 2043              	.L81:
+ 650:srcc/printf.c **** 
+ 651:srcc/printf.c **** 		default:
+ 652:srcc/printf.c **** 			printk_putc(c, &count, info);
+ 2044              		.loc 1 652 0
+ 2045 05ba 019A     		ldr	r2, [sp, #4]
+ 2046 05bc 0EA9     		add	r1, sp, #56
+ 2047 05be FFF7FEFF 		bl	printk_putc
+ 2048              	.LVL342:
+ 653:srcc/printf.c **** 			break;
+ 2049              		.loc 1 653 0
+ 2050 05c2 4AE5     		b	.L63
+ 2051              	.LVL343:
+ 2052              	.L168:
+ 619:srcc/printf.c **** 			if (sval) {
+ 2053              		.loc 1 619 0
+ 2054 05c4 069B     		ldr	r3, [sp, #24]
+ 2055 05c6 9B46     		mov	fp, r3
+ 2056 05c8 47E5     		b	.L63
+ 2057              	.LVL344:
+ 2058              	.L96:
+ 422:srcc/printf.c **** 				if (schar)
+ 2059              		.loc 1 422 0
+ 2060 05ca 0823     		movs	r3, #8
+ 2061 05cc 2B40     		ands	r3, r5
+ 2062 05ce 9946     		mov	r9, r3
+ 2063 05d0 00D0     		beq	.LCB2470
+ 2064 05d2 FBE5     		b	.L141	@long jump
+ 2065              	.LCB2470:
+ 429:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);  //输出空格
+ 2066              		.loc 1 429 0
+ 2067 05d4 EB07     		lsls	r3, r5, #31
+ 2068 05d6 00D5     		bpl	.LCB2474
+ 2069 05d8 DEE5     		b	.L99	@long jump
+ 2070              	.LCB2474:
+ 430:srcc/printf.c **** 
+ 2071              		.loc 1 430 0
+ 2072 05da 019B     		ldr	r3, [sp, #4]
+ 2073 05dc 0EAA     		add	r2, sp, #56
+ 2074 05de 2100     		movs	r1, r4
+ 2075 05e0 3800     		movs	r0, r7
+ 2076 05e2 FFF7FEFF 		bl	printk_pad_space
+ 2077              	.LVL345:
+ 394:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &ival, TRUE, 10);//将整型转换成字符型保存在vstr中，�
+ 2078              		.loc 1 394 0
+ 2079 05e6 069B     		ldr	r3, [sp, #24]
+ 2080 05e8 9B46     		mov	fp, r3
+ 2081 05ea 82E7     		b	.L100
+ 2082              	.LVL346:
+ 2083              	.L111:
+ 511:srcc/printf.c **** 				if (schar)
+ 2084              		.loc 1 511 0
+ 2085 05ec 0827     		movs	r7, #8
+ 2086 05ee 2F40     		ands	r7, r5
+ 2087 05f0 00D0     		beq	.LCB2502
+ 2088 05f2 6DE6     		b	.L146	@long jump
+ 2089              	.LCB2502:
+ 518:srcc/printf.c **** 					printk_pad_space(vlen, field_width, &count, info);  //输出空格
+ 2090              		.loc 1 518 0
+ 2091 05f4 EB07     		lsls	r3, r5, #31
+ 2092 05f6 00D5     		bpl	.LCB2506
+ 2093 05f8 57E6     		b	.L114	@long jump
+ 2094              	.LCB2506:
+ 519:srcc/printf.c **** 
+ 2095              		.loc 1 519 0
+ 2096 05fa 019B     		ldr	r3, [sp, #4]
+ 2097 05fc 0EAA     		add	r2, sp, #56
+ 2098 05fe 2100     		movs	r1, r4
+ 2099 0600 3000     		movs	r0, r6
+ 2100 0602 FFF7FEFF 		bl	printk_pad_space
+ 2101              	.LVL347:
+ 2102 0606 8FE6     		b	.L115
+ 2103              	.LVL348:
+ 2104              	.L209:
+ 2105              	.LBB27:
+ 2106              	.LBB19:
+ 182:srcc/printf.c **** 		printk_putc('0', count, info);
+ 2107              		.loc 1 182 0
+ 2108 0608 2700     		movs	r7, r4
+ 2109              	.LBE19:
+ 2110              	.LBE27:
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 2111              		.loc 1 541 0
+ 2112 060a 069B     		ldr	r3, [sp, #24]
+ 2113 060c 9B46     		mov	fp, r3
+ 2114 060e 53E7     		b	.L97
+ 2115              	.LVL349:
+ 2116              	.L125:
+ 560:srcc/printf.c **** 					if (IS_FLAG_POUND(flags_used)) {
+ 2117              		.loc 1 560 0
+ 2118 0610 019B     		ldr	r3, [sp, #4]
+ 2119 0612 0EAA     		add	r2, sp, #56
+ 2120 0614 2100     		movs	r1, r4
+ 2121 0616 FFF7FEFF 		bl	printk_pad_space
+ 2122              	.LVL350:
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 2123              		.loc 1 541 0
+ 2124 061a 069B     		ldr	r3, [sp, #24]
+ 2125 061c 9B46     		mov	fp, r3
+ 2126 061e 4BE7     		b	.L97
+ 2127              	.LVL351:
+ 2128              	.L124:
+ 569:srcc/printf.c **** 				printk_putc('0', &count, info);
+ 2129              		.loc 1 569 0
+ 2130 0620 EB06     		lsls	r3, r5, #27
+ 2131 0622 00D5     		bpl	.LCB2569
+ 2132 0624 F1E6     		b	.L150	@long jump
+ 2133              	.LCB2569:
+ 605:srcc/printf.c **** 				printk_putc(*vstrp--, &count, info);
+ 2134              		.loc 1 605 0
+ 2135 0626 0020     		movs	r0, #0
+ 2136              	.LVL352:
+ 2137 0628 3056     		ldrsb	r0, [r6, r0]
+ 541:srcc/printf.c **** 			vlen = printk_mknumstr(vstr, &uval, FALSE, 16);
+ 2138              		.loc 1 541 0
+ 2139 062a 069B     		ldr	r3, [sp, #24]
+ 2140 062c 9B46     		mov	fp, r3
+ 605:srcc/printf.c **** 				printk_putc(*vstrp--, &count, info);
+ 2141              		.loc 1 605 0
+ 2142 062e 0028     		cmp	r0, #0
+ 2143 0630 00D0     		beq	.LCB2579
+ 2144 0632 45E7     		b	.L130	@long jump
+ 2145              	.LCB2579:
+ 2146 0634 50E7     		b	.L152
+ 2147              	.LVL353:
+ 2148              	.L60:
+ 654:srcc/printf.c **** 		}
+ 655:srcc/printf.c **** 	}
+ 656:srcc/printf.c **** 	return count;
+ 2149              		.loc 1 656 0
+ 2150 0636 0E98     		ldr	r0, [sp, #56]
+ 2151              	.LVL354:
+ 657:srcc/printf.c **** }
+ 2152              		.loc 1 657 0
+ 2153 0638 19B0     		add	sp, sp, #100
+ 2154              		@ sp needed
+ 2155              	.LVL355:
+ 2156 063a 3CBC     		pop	{r2, r3, r4, r5}
+ 2157 063c 9046     		mov	r8, r2
+ 2158 063e 9946     		mov	r9, r3
+ 2159 0640 A246     		mov	r10, r4
+ 2160 0642 AB46     		mov	fp, r5
+ 2161 0644 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 2162              		.cfi_endproc
+ 2163              	.LFE44:
+ 2165 0646 C046     		.section	.text.myprintf,"ax",%progbits
+ 2166              		.align	1
+ 2167              		.global	myprintf
+ 2168              		.syntax unified
+ 2169              		.code	16
+ 2170              		.thumb_func
+ 2171              		.fpu softvfp
+ 2173              	myprintf:
+ 2174              	.LFB45:
+ 658:srcc/printf.c **** //======================================================================
+ 659:srcc/printf.c **** //函数名称：myprintf
+ 660:srcc/printf.c **** //功能概要：根据输入的参数进行解析然后将数据通过串口打出
+ 661:srcc/printf.c **** //参数说明：const char *:打印参数字符串：对输入的字符串进行解析并按格式
+ 662:srcc/printf.c **** //       例如： printf("c=%c\n",c); 将c按char型进行输出
+ 663:srcc/printf.c **** //函数返回：字符串长度
+ 664:srcc/printf.c **** //======================================================================
+ 665:srcc/printf.c **** int myprintf(const char *fmt, ...)
+ 666:srcc/printf.c **** {
+ 2175              		.loc 1 666 0
+ 2176              		.cfi_startproc
+ 2177              		@ args = 4, pretend = 16, frame = 16
+ 2178              		@ frame_needed = 0, uses_anonymous_args = 1
+ 2179              	.LVL356:
+ 2180 0000 0FB4     		push	{r0, r1, r2, r3}
+ 2181              		.cfi_def_cfa_offset 16
+ 2182 0002 00B5     		push	{lr}
+ 2183              		.cfi_def_cfa_offset 20
+ 2184              		.cfi_offset 14, -20
+ 2185 0004 85B0     		sub	sp, sp, #20
+ 2186              		.cfi_def_cfa_offset 40
+ 667:srcc/printf.c **** 	va_list ap;
+ 668:srcc/printf.c **** 	int rvalue;
+ 669:srcc/printf.c **** 	PRINTK_INFO info;
+ 670:srcc/printf.c **** 	info.dest = DEST_CONSOLE;  //宏定义为1
+ 2187              		.loc 1 670 0
+ 2188 0006 0123     		movs	r3, #1
+ 2189 0008 0193     		str	r3, [sp, #4]
+ 671:srcc/printf.c **** 	info.func = &out_char;     //调用的串口输出函数
+ 2190              		.loc 1 671 0
+ 2191 000a 054B     		ldr	r3, .L217
+ 2192 000c 0293     		str	r3, [sp, #8]
+ 2193              	.LVL357:
+ 672:srcc/printf.c **** 	va_start(ap, fmt);  //对ap 进行初始化，让它指向可变参数表里面的第一个参数
+ 673:srcc/printf.c **** 	rvalue = printk(&info, fmt, ap);
+ 2194              		.loc 1 673 0
+ 2195 000e 07AA     		add	r2, sp, #28
+ 2196              	.LVL358:
+ 2197 0010 0699     		ldr	r1, [sp, #24]
+ 2198 0012 01A8     		add	r0, sp, #4
+ 2199 0014 FFF7FEFF 		bl	printk
+ 2200              	.LVL359:
+ 674:srcc/printf.c **** 
+ 675:srcc/printf.c **** 	va_end(ap);
+ 676:srcc/printf.c **** 
+ 677:srcc/printf.c **** 	return rvalue;
+ 678:srcc/printf.c **** }
+ 2201              		.loc 1 678 0
+ 2202 0018 05B0     		add	sp, sp, #20
+ 2203              		@ sp needed
+ 2204 001a 08BC     		pop	{r3}
+ 2205 001c 04B0     		add	sp, sp, #16
+ 2206 001e 1847     		bx	r3
+ 2207              	.L218:
+ 2208              		.align	2
+ 2209              	.L217:
+ 2210 0020 00000000 		.word	out_char
+ 2211              		.cfi_endproc
+ 2212              	.LFE45:
+ 2214              		.comm	bios_fun_point,4,4
+ 2215              		.text
+ 2216              	.Letext0:
+ 2217              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 2218              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 2219              		.file 4 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 2220              		.file 5 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 2221              		.file 6 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+ 2222              		.file 7 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 2223              		.file 8 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 2224              		.file 9 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 2225              		.file 10 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_F
+ 2226              		.file 11 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_F
+ 2227              		.file 12 "<built-in>"
+ 2228              		.file 13 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\string.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 printf.c
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:16     .text.out_char:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:23     .text.out_char:00000000 out_char
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:52     .text.out_char:00000014 $d
+                            *COM*:00000004 bios_fun_point
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:57     .text.printk_putc:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:63     .text.printk_putc:00000000 printk_putc
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:120    .text.printk_mknumstr:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:126    .text.printk_mknumstr:00000000 printk_mknumstr
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:281    .text.printk_pad_space:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:287    .text.printk_pad_space:00000000 printk_pad_space
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:342    .text.printk_mkfloatstr:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:349    .text.printk_mkfloatstr:00000000 printk_mkfloatstr
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:700    .text.printk_mkfloatstr:000001b0 $d
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:709    .text.printk:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:716    .text.printk:00000000 printk
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:865    .rodata.printk:00000000 $d
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:1515   .text.printk:00000350 $d
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:1520   .text.printk:00000358 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:2166   .text.myprintf:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:2173   .text.myprintf:00000000 myprintf
+C:\Users\WYH\AppData\Local\Temp\cc1UGvlr.s:2210   .text.myprintf:00000020 $d
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.newlib.h.21.64e14ed41172bf448383d50cbb14725e
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.features.h.22.0e8d07d991f6850e8439e4b604e8e02e
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4._default_types.h.6.959254cf5f09734ea7516c89e8bb21bd
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.adc.h.16.46085ea51e91d3cad1570882ff063879
+                           .group:00000000 wm4.gpio.h.10.986b0e721a5f8dc53d90b6e6479bc010
+                           .group:00000000 wm4.timer.h.9.0c2434e998dc154a3e9828da4a1f6235
+                           .group:00000000 wm4.uart.h.10.bff5e701e40630e1d7de2b8037fde34b
+                           .group:00000000 wm4.flash.h.10.6c61dd182e565e4eb3a9a8d3876dbdb0
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:00000000 wm4.types.h.114.fb65732f4f5f288a036a25898de2c91f
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.2a55589bfa3ee24eeb84e3c79458e4a9
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stdlib.h.56.b4ddaf162082f284ba35b4444af99a9a
+                           .group:00000000 wm4.uecom.h.31.34c033455bb0111d79414f629e02f44f
+                           .group:00000000 wm4.gec.h.47.b03261d3256f000bba71e6d32e104a70
+                           .group:00000000 wm4.printf.h.9.78ec013c0f7472ae256e006f4424e5a0
+
+UNDEFINED SYMBOLS
+__aeabi_idiv
+__aeabi_idivmod
+__aeabi_uidiv
+__aeabi_uidivmod
+__aeabi_d2uiz
+__aeabi_ui2d
+__aeabi_dsub
+__aeabi_dmul
+__aeabi_d2ulz
+__aeabi_dcmplt
+__aeabi_uldivmod
+memset
+strlen

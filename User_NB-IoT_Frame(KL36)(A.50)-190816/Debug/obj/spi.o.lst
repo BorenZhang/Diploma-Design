@@ -1,0 +1,1058 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"spi.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.global	__aeabi_idiv
+  16              		.section	.text.spi_init,"ax",%progbits
+  17              		.align	1
+  18              		.global	spi_init
+  19              		.syntax unified
+  20              		.code	16
+  21              		.thumb_func
+  22              		.fpu softvfp
+  24              	spi_init:
+  25              	.LFB38:
+  26              		.file 1 "srcc/spi.c"
+   1:srcc/spi.c    **** //=====================================================================
+   2:srcc/spi.c    **** //文件名称：spi.c
+   3:srcc/spi.c    **** //功能概要：spi底层驱动构件源文件
+   4:srcc/spi.c    **** //制作单位：苏州大学嵌入式系统与物联网研究所(sumcu.suda.edu.cn)
+   5:srcc/spi.c    **** //版    本：  2019-05-09  V2.0
+   6:srcc/spi.c    **** //适用芯片：KL25、KL26、KL36
+   7:srcc/spi.c    **** //=====================================================================
+   8:srcc/spi.c    **** #include "spi.h"
+   9:srcc/spi.c    **** 
+  10:srcc/spi.c    **** 
+  11:srcc/spi.c    **** //=====================================================================
+  12:srcc/spi.c    **** //函数名称：spi_init。
+  13:srcc/spi.c    **** //功能说明：SPI初始化
+  14:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+  15:srcc/spi.c    **** //       MSTR：SPI主从机选择，0选择为从机,1选择为主机。
+  16:srcc/spi.c    **** //       BaudRate：波特率，可取12000、6000、4000、3000、1500、1000，单位：bps
+  17:srcc/spi.c    **** //       CPOL：CPOL=0：高有效SPI时钟（低无效）；CPOL=1：低有效SPI时钟（高无效）
+  18:srcc/spi.c    **** //       CPHA：CPHA=0相位为0； CPHA=1相位为1；
+  19:srcc/spi.c    **** //函数返回：无
+  20:srcc/spi.c    **** //=====================================================================
+  21:srcc/spi.c    **** void spi_init(uint_8 No,uint_8 MSTR,uint_16 BaudRate,\
+  22:srcc/spi.c    **** 		uint_8 CPOL,uint_8 CPHA)
+  23:srcc/spi.c    **** {
+  27              		.loc 1 23 0
+  28              		.cfi_startproc
+  29              		@ args = 4, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 3, -24
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 06AC     		add	r4, sp, #24
+  41              	.LVL1:
+  42 0004 2678     		ldrb	r6, [r4]
+  24:srcc/spi.c    ****     uint_8 BaudRate_Mode;
+  25:srcc/spi.c    ****     uint_8 BaudRate_High;
+  26:srcc/spi.c    ****     uint_8 BaudRate_Low;
+  27:srcc/spi.c    ****     if(No<SPIA||No>SPIB)   No=SPIA;    //如果SPI号参数错误则强制选择 0号模块
+  28:srcc/spi.c    ****     if(No==SPIA)                         //初始化SPI0功能
+  43              		.loc 1 28 0
+  44 0006 0128     		cmp	r0, #1
+  45 0008 00D1     		bne	.LCB22
+  46 000a 6BE0     		b	.L2	@long jump
+  47              	.LCB22:
+  29:srcc/spi.c    ****     {
+  30:srcc/spi.c    ****         BSET(SIM_SCGC4_SPI0_SHIFT,SIM_SCGC4);   //打开SPI0模块时钟。
+  48              		.loc 1 30 0
+  49 000c 6B4D     		ldr	r5, .L34
+  50 000e 6C4C     		ldr	r4, .L34+4
+  51              	.LVL2:
+  52 0010 2F59     		ldr	r7, [r5, r4]
+  53 0012 8020     		movs	r0, #128
+  54              	.LVL3:
+  55 0014 C003     		lsls	r0, r0, #15
+  56 0016 3843     		orrs	r0, r7
+  57 0018 2851     		str	r0, [r5, r4]
+  58              	.LVL4:
+  31:srcc/spi.c    ****         //引脚复用为SPI0功能
+  32:srcc/spi.c    ****         PORTC_PCR4=(0|PORT_PCR_MUX(0x02));        //选择PTC4的SS功能
+  59              		.loc 1 32 0
+  60 001a 6A48     		ldr	r0, .L34+8
+  61 001c 8024     		movs	r4, #128
+  62 001e A400     		lsls	r4, r4, #2
+  63 0020 0461     		str	r4, [r0, #16]
+  33:srcc/spi.c    ****         PORTC_PCR5=(0|PORT_PCR_MUX(0x02));        //选择PTC5的SCK功能
+  64              		.loc 1 33 0
+  65 0022 4461     		str	r4, [r0, #20]
+  34:srcc/spi.c    ****         PORTC_PCR6=(0|PORT_PCR_MUX(0x02));        //选择PTC6的MOSI功能
+  66              		.loc 1 34 0
+  67 0024 8461     		str	r4, [r0, #24]
+  35:srcc/spi.c    ****         PORTC_PCR7=(0|PORT_PCR_MUX(0x02));        //选择PTC7的MIOS功能
+  68              		.loc 1 35 0
+  69 0026 C461     		str	r4, [r0, #28]
+  36:srcc/spi.c    **** 
+  37:srcc/spi.c    ****         SPI0_C1=0x00;                           //SPI控制寄存器1清零
+  70              		.loc 1 37 0
+  71 0028 6748     		ldr	r0, .L34+12
+  72 002a 0024     		movs	r4, #0
+  73 002c C470     		strb	r4, [r0, #3]
+  38:srcc/spi.c    ****         BSET(SPI_C1_SPE_SHIFT,SPI0_C1);         //使能SPI模块
+  74              		.loc 1 38 0
+  75 002e C478     		ldrb	r4, [r0, #3]
+  76 0030 4025     		movs	r5, #64
+  77 0032 2C43     		orrs	r4, r5
+  78 0034 C470     		strb	r4, [r0, #3]
+  39:srcc/spi.c    **** 
+  40:srcc/spi.c    ****         //MSTR=1为主机模式；
+  41:srcc/spi.c    ****         //MSTR=0为从机模式（因MSTR初始值为0，无需更改）
+  42:srcc/spi.c    ****         (MSTR==1)?BSET(SPI_C1_MSTR_SHIFT,SPI0_C1):\
+  79              		.loc 1 42 0
+  80 0036 0129     		cmp	r1, #1
+  81 0038 36D0     		beq	.L30
+  43:srcc/spi.c    ****                        BSET(SPI_C1_SPIE_SHIFT,SPI0_C1);
+  82              		.loc 1 43 0 discriminator 2
+  83 003a 634C     		ldr	r4, .L34+12
+  84 003c E078     		ldrb	r0, [r4, #3]
+  85 003e 8025     		movs	r5, #128
+  86 0040 2843     		orrs	r0, r5
+  87 0042 E070     		strb	r0, [r4, #3]
+  88              	.L4:
+  44:srcc/spi.c    **** 
+  45:srcc/spi.c    ****         //时钟极性配置，CPOL=0，平时时钟为高电平，反之CPOL=1，平时时钟为低电平
+  46:srcc/spi.c    ****         (0==CPOL)?BCLR(SPI_C1_CPOL_SHIFT,SPI0_C1):\
+  89              		.loc 1 46 0
+  90 0044 002B     		cmp	r3, #0
+  91 0046 35D1     		bne	.L5
+  92              		.loc 1 46 0 is_stmt 0 discriminator 1
+  93 0048 5F48     		ldr	r0, .L34+12
+  94 004a C378     		ldrb	r3, [r0, #3]
+  95              	.LVL5:
+  96 004c 0824     		movs	r4, #8
+  97 004e A343     		bics	r3, r4
+  98 0050 C370     		strb	r3, [r0, #3]
+  99              	.L6:
+  47:srcc/spi.c    ****                         BSET(SPI_C1_CPOL_SHIFT,SPI0_C1);
+  48:srcc/spi.c    **** 
+  49:srcc/spi.c    ****         //时钟相位CPHA
+  50:srcc/spi.c    ****         (0 == CPHA)?BCLR(SPI_C1_CPHA_SHIFT,SPI0_C1):\
+ 100              		.loc 1 50 0 is_stmt 1
+ 101 0052 002E     		cmp	r6, #0
+ 102 0054 34D1     		bne	.L7
+ 103              		.loc 1 50 0 is_stmt 0 discriminator 1
+ 104 0056 5C48     		ldr	r0, .L34+12
+ 105 0058 C378     		ldrb	r3, [r0, #3]
+ 106 005a 0424     		movs	r4, #4
+ 107 005c A343     		bics	r3, r4
+ 108 005e C370     		strb	r3, [r0, #3]
+ 109              	.L8:
+  51:srcc/spi.c    ****                               BSET(SPI_C1_CPHA_SHIFT,SPI0_C1);
+  52:srcc/spi.c    **** 
+  53:srcc/spi.c    ****         ////SSOE为1,MODFEN为1，配置本模块为自动SS输出
+  54:srcc/spi.c    ****         BSET(SPI_C1_SSOE_SHIFT,SPI0_C1);
+ 110              		.loc 1 54 0 is_stmt 1
+ 111 0060 594B     		ldr	r3, .L34+12
+ 112 0062 D878     		ldrb	r0, [r3, #3]
+ 113 0064 0224     		movs	r4, #2
+ 114 0066 2043     		orrs	r0, r4
+ 115 0068 D870     		strb	r0, [r3, #3]
+  55:srcc/spi.c    ****         //对SPI0的C1寄存器配置为主机模式、从机选择自动模式并使能SPI0模块。
+  56:srcc/spi.c    ****         SPI0_C2=0x00;
+ 116              		.loc 1 56 0
+ 117 006a 0020     		movs	r0, #0
+ 118 006c 9870     		strb	r0, [r3, #2]
+  57:srcc/spi.c    ****         if(MSTR == 1 )  //主机模式
+ 119              		.loc 1 57 0
+ 120 006e 0129     		cmp	r1, #1
+ 121 0070 2CD0     		beq	.L31
+ 122              	.LVL6:
+ 123              	.L9:
+  58:srcc/spi.c    ****             BSET(SPI_C2_MODFEN_SHIFT,SPI0_C2);
+  59:srcc/spi.c    ****         SPI0_BR = 0x00U;//波特率寄存器清零
+ 124              		.loc 1 59 0
+ 125 0072 554B     		ldr	r3, .L34+12
+ 126 0074 0021     		movs	r1, #0
+ 127 0076 5970     		strb	r1, [r3, #1]
+ 128              	.LVL7:
+  60:srcc/spi.c    ****         //重新设置波特率
+  61:srcc/spi.c    ****         BaudRate_High=0;
+  62:srcc/spi.c    ****         BaudRate_Low=0;
+  63:srcc/spi.c    ****         BaudRate_Mode=24000/BaudRate;
+ 129              		.loc 1 63 0
+ 130 0078 1100     		movs	r1, r2
+ 131 007a 5448     		ldr	r0, .L34+16
+ 132 007c FFF7FEFF 		bl	__aeabi_idiv
+ 133              	.LVL8:
+ 134 0080 C0B2     		uxtb	r0, r0
+ 135              	.LVL9:
+  64:srcc/spi.c    ****         if(BaudRate_Mode <= 8)
+ 136              		.loc 1 64 0
+ 137 0082 0828     		cmp	r0, #8
+ 138 0084 28D9     		bls	.L10
+  62:srcc/spi.c    ****         BaudRate_Mode=24000/BaudRate;
+ 139              		.loc 1 62 0
+ 140 0086 0023     		movs	r3, #0
+  65:srcc/spi.c    ****          {
+  66:srcc/spi.c    ****          	SPI0_BR = (BaudRate_Mode - 1) << 4;
+  67:srcc/spi.c    ****          }
+  68:srcc/spi.c    ****          else
+  69:srcc/spi.c    ****          {
+  70:srcc/spi.c    ****          	while(BaudRate_Mode / 2 > 8)
+ 141              		.loc 1 70 0
+ 142 0088 1128     		cmp	r0, #17
+ 143 008a 04D9     		bls	.L12
+ 144              	.LVL10:
+ 145              	.L11:
+  71:srcc/spi.c    ****          	{
+  72:srcc/spi.c    ****          		BaudRate_Low++;
+ 146              		.loc 1 72 0
+ 147 008c 0133     		adds	r3, r3, #1
+ 148              	.LVL11:
+ 149 008e DBB2     		uxtb	r3, r3
+ 150              	.LVL12:
+  73:srcc/spi.c    ****          		BaudRate_Mode=BaudRate_Mode/2;
+ 151              		.loc 1 73 0
+ 152 0090 4008     		lsrs	r0, r0, #1
+ 153              	.LVL13:
+  70:srcc/spi.c    ****          	{
+ 154              		.loc 1 70 0
+ 155 0092 1128     		cmp	r0, #17
+ 156 0094 FAD8     		bhi	.L11
+ 157              	.LVL14:
+ 158              	.L12:
+  74:srcc/spi.c    ****          	}
+  75:srcc/spi.c    ****          	BaudRate_High=--BaudRate_Mode;
+ 159              		.loc 1 75 0
+ 160 0096 0138     		subs	r0, r0, #1
+ 161              	.LVL15:
+  76:srcc/spi.c    ****              SPI0_BR=BaudRate_High<<4;//数值赋给SPI0_BR的SPPR的D6D5D4位
+ 162              		.loc 1 76 0
+ 163 0098 0001     		lsls	r0, r0, #4
+ 164 009a C0B2     		uxtb	r0, r0
+ 165 009c 4A4A     		ldr	r2, .L34+12
+ 166 009e 5070     		strb	r0, [r2, #1]
+  77:srcc/spi.c    ****              SPI0_BR|=BaudRate_Low;//赋值给SPI0_BR的SPR的 D2D1D0位
+ 167              		.loc 1 77 0
+ 168 00a0 5178     		ldrb	r1, [r2, #1]
+ 169 00a2 0B43     		orrs	r3, r1
+ 170 00a4 5370     		strb	r3, [r2, #1]
+ 171              	.L1:
+  78:srcc/spi.c    ****          }
+  79:srcc/spi.c    ****     }
+  80:srcc/spi.c    ****      else         //初始化SPI1功能
+  81:srcc/spi.c    ****     {
+  82:srcc/spi.c    ****         BSET(SIM_SCGC4_SPI1_SHIFT,SIM_SCGC4);   //打开SPI1模块时钟。
+  83:srcc/spi.c    ****         //引脚复用为SPI1功能
+  84:srcc/spi.c    ****         PORTD_PCR4=(0|PORT_PCR_MUX(0x02));        //选择PTD4的SS功能
+  85:srcc/spi.c    ****         PORTD_PCR5=(0|PORT_PCR_MUX(0x02));        //选择PTD5的SCK功能
+  86:srcc/spi.c    ****         PORTD_PCR6=(0|PORT_PCR_MUX(0x02));        //选择PTD6的MOSI功能
+  87:srcc/spi.c    ****         PORTD_PCR7=(0|PORT_PCR_MUX(0x02));        //选择PTD7的MIOS功能
+  88:srcc/spi.c    **** 
+  89:srcc/spi.c    ****         SPI1_C1=0x00;                     //SPI控制寄存器1清零
+  90:srcc/spi.c    ****         BSET(SPI_C1_SPE_SHIFT,SPI1_C1);   //使能SPI模块
+  91:srcc/spi.c    ****         //MSTR=1为主机模式；
+  92:srcc/spi.c    ****         //MSTR=0为从机模式（因MSTR初始值为0，无需更改）
+  93:srcc/spi.c    ****         (MSTR==1)?BSET(SPI_C1_MSTR_SHIFT,SPI1_C1):\
+  94:srcc/spi.c    ****                                             BSET(SPI_C1_SPIE_SHIFT,SPI1_C1);
+  95:srcc/spi.c    **** 
+  96:srcc/spi.c    ****         //时钟极性配置，CPOL=0，平时时钟为高电平，反之CPOL=1，平时时钟为低电平
+  97:srcc/spi.c    ****         (0 == CPOL)?BCLR(SPI_C1_CPOL_SHIFT,SPI1_C1):\
+  98:srcc/spi.c    ****                                             BSET(SPI_C1_CPOL_SHIFT,SPI1_C1);
+  99:srcc/spi.c    **** 
+ 100:srcc/spi.c    ****         //CPHA=0时钟信号的第一个边沿出现在8周期数据传输的第一个周期的中央；
+ 101:srcc/spi.c    ****         //CPHA=1时钟信号的第一个边沿出现在8周期数据传输的第一个周期的起点。
+ 102:srcc/spi.c    ****         (0 == CPHA)?BCLR(SPI_C1_CPHA_SHIFT,SPI1_C1): \
+ 103:srcc/spi.c    ****                                             BSET(SPI_C1_CPHA_SHIFT,SPI1_C1);
+ 104:srcc/spi.c    **** 
+ 105:srcc/spi.c    ****         BSET(SPI_C1_SSOE_SHIFT,SPI1_C1);//SSOE为1,MODFEN为1，配置本模块为自动SS输出
+ 106:srcc/spi.c    ****         //对SPI0的C1寄存器配置为主机模式、从机选择自动模式并使能SPI0模块。
+ 107:srcc/spi.c    **** 
+ 108:srcc/spi.c    **** //        BSET(SPI_C1_SPIE_SHIFT,SPI1_C1);  //开本模块的SPI中断
+ 109:srcc/spi.c    ****         SPI1_C2 = 0x00U;
+ 110:srcc/spi.c    ****         if(MSTR == 1 )  //主机模式
+ 111:srcc/spi.c    ****             BSET(SPI_C2_MODFEN_SHIFT,SPI1_C2);
+ 112:srcc/spi.c    ****         SPI1_BR = 0x00U;
+ 113:srcc/spi.c    ****         //重新设置波特率
+ 114:srcc/spi.c    ****         BaudRate_High=0;
+ 115:srcc/spi.c    ****         BaudRate_Low=0;
+ 116:srcc/spi.c    ****         BaudRate_Mode=24000/BaudRate;   //取除数用于寄存器中数据计算
+ 117:srcc/spi.c    ****         if(BaudRate_Mode <= 8)
+ 118:srcc/spi.c    ****          {
+ 119:srcc/spi.c    ****          	SPI0_BR = (BaudRate_Mode - 1) << 4;
+ 120:srcc/spi.c    ****          }
+ 121:srcc/spi.c    ****          else
+ 122:srcc/spi.c    ****          {
+ 123:srcc/spi.c    ****          	while(BaudRate_Mode / 2 > 8)
+ 124:srcc/spi.c    ****          	{
+ 125:srcc/spi.c    ****          		BaudRate_Low++;
+ 126:srcc/spi.c    ****          		BaudRate_Mode=BaudRate_Mode/2;
+ 127:srcc/spi.c    ****          	}
+ 128:srcc/spi.c    ****          	BaudRate_High=--BaudRate_Mode;
+ 129:srcc/spi.c    ****              SPI0_BR=BaudRate_High<<4;//数值赋给SPI0_BR的SPPR的D6D5D4位
+ 130:srcc/spi.c    ****              SPI0_BR|=BaudRate_Low;//赋值给SPI0_BR的SPR的 D2D1D0位
+ 131:srcc/spi.c    ****          }
+ 132:srcc/spi.c    ****     }
+ 133:srcc/spi.c    **** }
+ 172              		.loc 1 133 0
+ 173              		@ sp needed
+ 174 00a6 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 175              	.LVL16:
+ 176              	.L30:
+  42:srcc/spi.c    ****                        BSET(SPI_C1_SPIE_SHIFT,SPI0_C1);
+ 177              		.loc 1 42 0 discriminator 1
+ 178 00a8 0400     		movs	r4, r0
+ 179 00aa C078     		ldrb	r0, [r0, #3]
+ 180 00ac 1025     		movs	r5, #16
+ 181 00ae 2843     		orrs	r0, r5
+ 182 00b0 E070     		strb	r0, [r4, #3]
+ 183 00b2 C7E7     		b	.L4
+ 184              	.L5:
+  47:srcc/spi.c    **** 
+ 185              		.loc 1 47 0 discriminator 2
+ 186 00b4 4448     		ldr	r0, .L34+12
+ 187 00b6 C378     		ldrb	r3, [r0, #3]
+ 188              	.LVL17:
+ 189 00b8 0824     		movs	r4, #8
+ 190 00ba 2343     		orrs	r3, r4
+ 191 00bc C370     		strb	r3, [r0, #3]
+ 192 00be C8E7     		b	.L6
+ 193              	.L7:
+  51:srcc/spi.c    **** 
+ 194              		.loc 1 51 0 discriminator 2
+ 195 00c0 4148     		ldr	r0, .L34+12
+ 196 00c2 C378     		ldrb	r3, [r0, #3]
+ 197 00c4 0424     		movs	r4, #4
+ 198 00c6 2343     		orrs	r3, r4
+ 199 00c8 C370     		strb	r3, [r0, #3]
+ 200 00ca C9E7     		b	.L8
+ 201              	.L31:
+  58:srcc/spi.c    ****         SPI0_BR = 0x00U;//波特率寄存器清零
+ 202              		.loc 1 58 0
+ 203 00cc 1900     		movs	r1, r3
+ 204              	.LVL18:
+ 205 00ce 9B78     		ldrb	r3, [r3, #2]
+ 206 00d0 1020     		movs	r0, #16
+ 207 00d2 0343     		orrs	r3, r0
+ 208 00d4 8B70     		strb	r3, [r1, #2]
+ 209 00d6 CCE7     		b	.L9
+ 210              	.LVL19:
+ 211              	.L10:
+  66:srcc/spi.c    ****          }
+ 212              		.loc 1 66 0
+ 213 00d8 0138     		subs	r0, r0, #1
+ 214              	.LVL20:
+ 215 00da 0001     		lsls	r0, r0, #4
+ 216              	.LVL21:
+ 217 00dc C0B2     		uxtb	r0, r0
+ 218 00de 3A4B     		ldr	r3, .L34+12
+ 219 00e0 5870     		strb	r0, [r3, #1]
+ 220 00e2 E0E7     		b	.L1
+ 221              	.LVL22:
+ 222              	.L2:
+  82:srcc/spi.c    ****         //引脚复用为SPI1功能
+ 223              		.loc 1 82 0
+ 224 00e4 354D     		ldr	r5, .L34
+ 225 00e6 364C     		ldr	r4, .L34+4
+ 226              	.LVL23:
+ 227 00e8 2F59     		ldr	r7, [r5, r4]
+ 228 00ea 8020     		movs	r0, #128
+ 229              	.LVL24:
+ 230 00ec 0004     		lsls	r0, r0, #16
+ 231 00ee 3843     		orrs	r0, r7
+ 232 00f0 2851     		str	r0, [r5, r4]
+ 233              	.LVL25:
+  84:srcc/spi.c    ****         PORTD_PCR5=(0|PORT_PCR_MUX(0x02));        //选择PTD5的SCK功能
+ 234              		.loc 1 84 0
+ 235 00f2 3748     		ldr	r0, .L34+20
+ 236 00f4 8024     		movs	r4, #128
+ 237 00f6 A400     		lsls	r4, r4, #2
+ 238 00f8 0461     		str	r4, [r0, #16]
+  85:srcc/spi.c    ****         PORTD_PCR6=(0|PORT_PCR_MUX(0x02));        //选择PTD6的MOSI功能
+ 239              		.loc 1 85 0
+ 240 00fa 4461     		str	r4, [r0, #20]
+  86:srcc/spi.c    ****         PORTD_PCR7=(0|PORT_PCR_MUX(0x02));        //选择PTD7的MIOS功能
+ 241              		.loc 1 86 0
+ 242 00fc 8461     		str	r4, [r0, #24]
+  87:srcc/spi.c    **** 
+ 243              		.loc 1 87 0
+ 244 00fe C461     		str	r4, [r0, #28]
+  89:srcc/spi.c    ****         BSET(SPI_C1_SPE_SHIFT,SPI1_C1);   //使能SPI模块
+ 245              		.loc 1 89 0
+ 246 0100 3448     		ldr	r0, .L34+24
+ 247 0102 0024     		movs	r4, #0
+ 248 0104 C470     		strb	r4, [r0, #3]
+  90:srcc/spi.c    ****         //MSTR=1为主机模式；
+ 249              		.loc 1 90 0
+ 250 0106 C478     		ldrb	r4, [r0, #3]
+ 251 0108 4025     		movs	r5, #64
+ 252 010a 2C43     		orrs	r4, r5
+ 253 010c C470     		strb	r4, [r0, #3]
+  93:srcc/spi.c    ****                                             BSET(SPI_C1_SPIE_SHIFT,SPI1_C1);
+ 254              		.loc 1 93 0
+ 255 010e 0129     		cmp	r1, #1
+ 256 0110 36D0     		beq	.L32
+  94:srcc/spi.c    **** 
+ 257              		.loc 1 94 0 discriminator 2
+ 258 0112 304C     		ldr	r4, .L34+24
+ 259 0114 E078     		ldrb	r0, [r4, #3]
+ 260 0116 8025     		movs	r5, #128
+ 261 0118 2843     		orrs	r0, r5
+ 262 011a E070     		strb	r0, [r4, #3]
+ 263              	.L15:
+  97:srcc/spi.c    ****                                             BSET(SPI_C1_CPOL_SHIFT,SPI1_C1);
+ 264              		.loc 1 97 0
+ 265 011c 002B     		cmp	r3, #0
+ 266 011e 35D1     		bne	.L16
+  97:srcc/spi.c    ****                                             BSET(SPI_C1_CPOL_SHIFT,SPI1_C1);
+ 267              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 268 0120 2C48     		ldr	r0, .L34+24
+ 269 0122 C378     		ldrb	r3, [r0, #3]
+ 270              	.LVL26:
+ 271 0124 0824     		movs	r4, #8
+ 272 0126 A343     		bics	r3, r4
+ 273 0128 C370     		strb	r3, [r0, #3]
+ 274              	.L17:
+ 102:srcc/spi.c    ****                                             BSET(SPI_C1_CPHA_SHIFT,SPI1_C1);
+ 275              		.loc 1 102 0 is_stmt 1
+ 276 012a 002E     		cmp	r6, #0
+ 277 012c 34D1     		bne	.L18
+ 102:srcc/spi.c    ****                                             BSET(SPI_C1_CPHA_SHIFT,SPI1_C1);
+ 278              		.loc 1 102 0 is_stmt 0 discriminator 1
+ 279 012e 2948     		ldr	r0, .L34+24
+ 280 0130 C378     		ldrb	r3, [r0, #3]
+ 281 0132 0424     		movs	r4, #4
+ 282 0134 A343     		bics	r3, r4
+ 283 0136 C370     		strb	r3, [r0, #3]
+ 284              	.L19:
+ 105:srcc/spi.c    ****         //对SPI0的C1寄存器配置为主机模式、从机选择自动模式并使能SPI0模块。
+ 285              		.loc 1 105 0 is_stmt 1
+ 286 0138 264B     		ldr	r3, .L34+24
+ 287 013a D878     		ldrb	r0, [r3, #3]
+ 288 013c 0224     		movs	r4, #2
+ 289 013e 2043     		orrs	r0, r4
+ 290 0140 D870     		strb	r0, [r3, #3]
+ 109:srcc/spi.c    ****         if(MSTR == 1 )  //主机模式
+ 291              		.loc 1 109 0
+ 292 0142 0020     		movs	r0, #0
+ 293 0144 9870     		strb	r0, [r3, #2]
+ 110:srcc/spi.c    ****             BSET(SPI_C2_MODFEN_SHIFT,SPI1_C2);
+ 294              		.loc 1 110 0
+ 295 0146 0129     		cmp	r1, #1
+ 296 0148 2CD0     		beq	.L33
+ 297              	.LVL27:
+ 298              	.L20:
+ 112:srcc/spi.c    ****         //重新设置波特率
+ 299              		.loc 1 112 0
+ 300 014a 224B     		ldr	r3, .L34+24
+ 301 014c 0021     		movs	r1, #0
+ 302 014e 5970     		strb	r1, [r3, #1]
+ 303              	.LVL28:
+ 116:srcc/spi.c    ****         if(BaudRate_Mode <= 8)
+ 304              		.loc 1 116 0
+ 305 0150 1100     		movs	r1, r2
+ 306 0152 1E48     		ldr	r0, .L34+16
+ 307 0154 FFF7FEFF 		bl	__aeabi_idiv
+ 308              	.LVL29:
+ 309 0158 C0B2     		uxtb	r0, r0
+ 310              	.LVL30:
+ 117:srcc/spi.c    ****          {
+ 311              		.loc 1 117 0
+ 312 015a 0828     		cmp	r0, #8
+ 313 015c 28D9     		bls	.L21
+ 115:srcc/spi.c    ****         BaudRate_Mode=24000/BaudRate;   //取除数用于寄存器中数据计算
+ 314              		.loc 1 115 0
+ 315 015e 0023     		movs	r3, #0
+ 123:srcc/spi.c    ****          	{
+ 316              		.loc 1 123 0
+ 317 0160 1128     		cmp	r0, #17
+ 318 0162 04D9     		bls	.L23
+ 319              	.LVL31:
+ 320              	.L22:
+ 125:srcc/spi.c    ****          		BaudRate_Mode=BaudRate_Mode/2;
+ 321              		.loc 1 125 0
+ 322 0164 0133     		adds	r3, r3, #1
+ 323              	.LVL32:
+ 324 0166 DBB2     		uxtb	r3, r3
+ 325              	.LVL33:
+ 126:srcc/spi.c    ****          	}
+ 326              		.loc 1 126 0
+ 327 0168 4008     		lsrs	r0, r0, #1
+ 328              	.LVL34:
+ 123:srcc/spi.c    ****          	{
+ 329              		.loc 1 123 0
+ 330 016a 1128     		cmp	r0, #17
+ 331 016c FAD8     		bhi	.L22
+ 332              	.LVL35:
+ 333              	.L23:
+ 128:srcc/spi.c    ****              SPI0_BR=BaudRate_High<<4;//数值赋给SPI0_BR的SPPR的D6D5D4位
+ 334              		.loc 1 128 0
+ 335 016e 0138     		subs	r0, r0, #1
+ 336              	.LVL36:
+ 129:srcc/spi.c    ****              SPI0_BR|=BaudRate_Low;//赋值给SPI0_BR的SPR的 D2D1D0位
+ 337              		.loc 1 129 0
+ 338 0170 0001     		lsls	r0, r0, #4
+ 339 0172 C0B2     		uxtb	r0, r0
+ 340 0174 144A     		ldr	r2, .L34+12
+ 341 0176 5070     		strb	r0, [r2, #1]
+ 130:srcc/spi.c    ****          }
+ 342              		.loc 1 130 0
+ 343 0178 5178     		ldrb	r1, [r2, #1]
+ 344 017a 0B43     		orrs	r3, r1
+ 345 017c 5370     		strb	r3, [r2, #1]
+ 346              		.loc 1 133 0
+ 347 017e 92E7     		b	.L1
+ 348              	.LVL37:
+ 349              	.L32:
+  93:srcc/spi.c    ****                                             BSET(SPI_C1_SPIE_SHIFT,SPI1_C1);
+ 350              		.loc 1 93 0 discriminator 1
+ 351 0180 0400     		movs	r4, r0
+ 352 0182 C078     		ldrb	r0, [r0, #3]
+ 353 0184 1025     		movs	r5, #16
+ 354 0186 2843     		orrs	r0, r5
+ 355 0188 E070     		strb	r0, [r4, #3]
+ 356 018a C7E7     		b	.L15
+ 357              	.L16:
+  98:srcc/spi.c    **** 
+ 358              		.loc 1 98 0 discriminator 2
+ 359 018c 1148     		ldr	r0, .L34+24
+ 360 018e C378     		ldrb	r3, [r0, #3]
+ 361              	.LVL38:
+ 362 0190 0824     		movs	r4, #8
+ 363 0192 2343     		orrs	r3, r4
+ 364 0194 C370     		strb	r3, [r0, #3]
+ 365 0196 C8E7     		b	.L17
+ 366              	.L18:
+ 103:srcc/spi.c    **** 
+ 367              		.loc 1 103 0 discriminator 2
+ 368 0198 0E48     		ldr	r0, .L34+24
+ 369 019a C378     		ldrb	r3, [r0, #3]
+ 370 019c 0424     		movs	r4, #4
+ 371 019e 2343     		orrs	r3, r4
+ 372 01a0 C370     		strb	r3, [r0, #3]
+ 373 01a2 C9E7     		b	.L19
+ 374              	.L33:
+ 111:srcc/spi.c    ****         SPI1_BR = 0x00U;
+ 375              		.loc 1 111 0
+ 376 01a4 1900     		movs	r1, r3
+ 377              	.LVL39:
+ 378 01a6 9B78     		ldrb	r3, [r3, #2]
+ 379 01a8 1020     		movs	r0, #16
+ 380 01aa 0343     		orrs	r3, r0
+ 381 01ac 8B70     		strb	r3, [r1, #2]
+ 382 01ae CCE7     		b	.L20
+ 383              	.LVL40:
+ 384              	.L21:
+ 119:srcc/spi.c    ****          }
+ 385              		.loc 1 119 0
+ 386 01b0 0138     		subs	r0, r0, #1
+ 387              	.LVL41:
+ 388 01b2 0001     		lsls	r0, r0, #4
+ 389              	.LVL42:
+ 390 01b4 C0B2     		uxtb	r0, r0
+ 391 01b6 044A     		ldr	r2, .L34+12
+ 392 01b8 5070     		strb	r0, [r2, #1]
+ 393 01ba 74E7     		b	.L1
+ 394              	.L35:
+ 395              		.align	2
+ 396              	.L34:
+ 397 01bc 00700440 		.word	1074032640
+ 398 01c0 34100000 		.word	4148
+ 399 01c4 00B00440 		.word	1074049024
+ 400 01c8 00600740 		.word	1074225152
+ 401 01cc C05D0000 		.word	24000
+ 402 01d0 00C00440 		.word	1074053120
+ 403 01d4 00700740 		.word	1074229248
+ 404              		.cfi_endproc
+ 405              	.LFE38:
+ 407              		.section	.text.spi_send1,"ax",%progbits
+ 408              		.align	1
+ 409              		.global	spi_send1
+ 410              		.syntax unified
+ 411              		.code	16
+ 412              		.thumb_func
+ 413              		.fpu softvfp
+ 415              	spi_send1:
+ 416              	.LFB39:
+ 134:srcc/spi.c    **** 
+ 135:srcc/spi.c    **** //=====================================================================
+ 136:srcc/spi.c    **** //函数名称：spi_send1.
+ 137:srcc/spi.c    **** //功能说明：SPI发送一字节数据。
+ 138:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 139:srcc/spi.c    **** //       data：     需要发送的一字节数据。
+ 140:srcc/spi.c    **** //函数返回：0：发送失败；1：发送成功。
+ 141:srcc/spi.c    **** //=====================================================================
+ 142:srcc/spi.c    **** uint_8 spi_send1(uint_8 No,uint_8 data)
+ 143:srcc/spi.c    **** {
+ 417              		.loc 1 143 0
+ 418              		.cfi_startproc
+ 419              		@ args = 0, pretend = 0, frame = 0
+ 420              		@ frame_needed = 0, uses_anonymous_args = 0
+ 421              		@ link register save eliminated.
+ 422              	.LVL43:
+ 144:srcc/spi.c    ****     uint_32 i;
+ 145:srcc/spi.c    ****     SPI_MemMapPtr baseadd=SPI_baseadd(No);
+ 423              		.loc 1 145 0
+ 424 0000 0C4B     		ldr	r3, .L44
+ 425 0002 9C46     		mov	ip, r3
+ 426 0004 6044     		add	r0, r0, ip
+ 427              	.LVL44:
+ 428 0006 0003     		lsls	r0, r0, #12
+ 429              	.LVL45:
+ 146:srcc/spi.c    ****     while(!(SPI_S_REG(baseadd)&SPI_S_SPTEF_MASK));//等待发送缓冲区空闲
+ 430              		.loc 1 146 0
+ 431 0008 2022     		movs	r2, #32
+ 432              	.L37:
+ 433              		.loc 1 146 0 is_stmt 0 discriminator 1
+ 434 000a 0378     		ldrb	r3, [r0]
+ 435 000c 1342     		tst	r3, r2
+ 436 000e FCD0     		beq	.L37
+ 147:srcc/spi.c    ****         SPI_DL_REG(baseadd)=data;//数据寄存器接收数据
+ 437              		.loc 1 147 0 is_stmt 1
+ 438 0010 8171     		strb	r1, [r0, #6]
+ 439              	.LVL46:
+ 148:srcc/spi.c    ****     for(i=0;i<0xFFF0;i++)        //在一定时间内发送不能完成，则认为发送失败。
+ 149:srcc/spi.c    ****     {
+ 150:srcc/spi.c    ****         if(SPI_S_REG(baseadd)&SPI_S_SPTEF_MASK)//判断发送缓冲区是否接到数据
+ 440              		.loc 1 150 0
+ 441 0012 0378     		ldrb	r3, [r0]
+ 442 0014 9B06     		lsls	r3, r3, #26
+ 443 0016 09D4     		bmi	.L40
+ 444 0018 074B     		ldr	r3, .L44+4
+ 445 001a 2021     		movs	r1, #32
+ 446              	.LVL47:
+ 447              	.L39:
+ 448 001c 0278     		ldrb	r2, [r0]
+ 449 001e 0A42     		tst	r2, r1
+ 450 0020 06D1     		bne	.L41
+ 451              	.LVL48:
+ 452 0022 013B     		subs	r3, r3, #1
+ 453              	.LVL49:
+ 148:srcc/spi.c    ****     for(i=0;i<0xFFF0;i++)        //在一定时间内发送不能完成，则认为发送失败。
+ 454              		.loc 1 148 0 discriminator 2
+ 455 0024 002B     		cmp	r3, #0
+ 456 0026 F9D1     		bne	.L39
+ 151:srcc/spi.c    ****         {
+ 152:srcc/spi.c    ****             return(1);
+ 153:srcc/spi.c    ****         }
+ 154:srcc/spi.c    ****      }
+ 155:srcc/spi.c    ****     return(0);
+ 457              		.loc 1 155 0
+ 458 0028 0020     		movs	r0, #0
+ 459              	.LVL50:
+ 460 002a 02E0     		b	.L38
+ 461              	.LVL51:
+ 462              	.L40:
+ 152:srcc/spi.c    ****         }
+ 463              		.loc 1 152 0
+ 464 002c 0120     		movs	r0, #1
+ 465              	.LVL52:
+ 466 002e 00E0     		b	.L38
+ 467              	.LVL53:
+ 468              	.L41:
+ 469 0030 0120     		movs	r0, #1
+ 470              	.LVL54:
+ 471              	.L38:
+ 156:srcc/spi.c    **** }
+ 472              		.loc 1 156 0
+ 473              		@ sp needed
+ 474 0032 7047     		bx	lr
+ 475              	.L45:
+ 476              		.align	2
+ 477              	.L44:
+ 478 0034 76000400 		.word	262262
+ 479 0038 EFFF0000 		.word	65519
+ 480              		.cfi_endproc
+ 481              	.LFE39:
+ 483              		.section	.text.spi_sendN,"ax",%progbits
+ 484              		.align	1
+ 485              		.global	spi_sendN
+ 486              		.syntax unified
+ 487              		.code	16
+ 488              		.thumb_func
+ 489              		.fpu softvfp
+ 491              	spi_sendN:
+ 492              	.LFB40:
+ 157:srcc/spi.c    **** 
+ 158:srcc/spi.c    **** //=====================================================================
+ 159:srcc/spi.c    **** //函数名称：spi_sendN
+ 160:srcc/spi.c    **** //功能说明：SPI发送数据。
+ 161:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 162:srcc/spi.c    **** //       n:     要发送的字节个数。范围为(1~255)
+ 163:srcc/spi.c    **** //       data[]:所发数组的首地址。
+ 164:srcc/spi.c    **** //函数返回：无。
+ 165:srcc/spi.c    **** //=====================================================================
+ 166:srcc/spi.c    **** void spi_sendN(uint_8 No,uint_8 n,uint_8 data[])
+ 167:srcc/spi.c    **** {
+ 493              		.loc 1 167 0
+ 494              		.cfi_startproc
+ 495              		@ args = 0, pretend = 0, frame = 0
+ 496              		@ frame_needed = 0, uses_anonymous_args = 0
+ 497              	.LVL55:
+ 498 0000 30B5     		push	{r4, r5, lr}
+ 499              		.cfi_def_cfa_offset 12
+ 500              		.cfi_offset 4, -12
+ 501              		.cfi_offset 5, -8
+ 502              		.cfi_offset 14, -4
+ 168:srcc/spi.c    ****     SPI_MemMapPtr baseadd=SPI_baseadd(No);
+ 503              		.loc 1 168 0
+ 504 0002 094B     		ldr	r3, .L52
+ 505 0004 9C46     		mov	ip, r3
+ 506 0006 6044     		add	r0, r0, ip
+ 507              	.LVL56:
+ 508 0008 0003     		lsls	r0, r0, #12
+ 509              	.LVL57:
+ 169:srcc/spi.c    ****     uint_32 k;
+ 170:srcc/spi.c    ****     for(k=0;k<n;k++)
+ 510              		.loc 1 170 0
+ 511 000a 0029     		cmp	r1, #0
+ 512 000c 0BD0     		beq	.L46
+ 513 000e 1500     		movs	r5, r2
+ 514 0010 5118     		adds	r1, r2, r1
+ 515              	.LVL58:
+ 171:srcc/spi.c    ****     {
+ 172:srcc/spi.c    ****         //状态寄存器的SPTEF位不空
+ 173:srcc/spi.c    ****         while(!(SPI_S_REG(baseadd)&SPI_S_SPTEF_MASK));
+ 516              		.loc 1 173 0
+ 517 0012 2024     		movs	r4, #32
+ 518              	.LVL59:
+ 519              	.L48:
+ 520              		.loc 1 173 0 is_stmt 0 discriminator 1
+ 521 0014 0378     		ldrb	r3, [r0]
+ 522 0016 2342     		tst	r3, r4
+ 523 0018 FCD0     		beq	.L48
+ 174:srcc/spi.c    ****         SPI_DL_REG(baseadd)=data[k];
+ 524              		.loc 1 174 0 is_stmt 1 discriminator 2
+ 525 001a 2B78     		ldrb	r3, [r5]
+ 526 001c 8371     		strb	r3, [r0, #6]
+ 175:srcc/spi.c    ****            SPI_S_REG(baseadd) !=  SPI_S_SPTEF_MASK;    //清除SPTEF位
+ 527              		.loc 1 175 0 discriminator 2
+ 528 001e 0378     		ldrb	r3, [r0]
+ 529              	.LVL60:
+ 530 0020 0135     		adds	r5, r5, #1
+ 531              	.LVL61:
+ 170:srcc/spi.c    ****     {
+ 532              		.loc 1 170 0 discriminator 2
+ 533 0022 8D42     		cmp	r5, r1
+ 534 0024 F6D1     		bne	.L48
+ 535              	.LVL62:
+ 536              	.L46:
+ 176:srcc/spi.c    ****     }
+ 177:srcc/spi.c    **** }
+ 537              		.loc 1 177 0
+ 538              		@ sp needed
+ 539 0026 30BD     		pop	{r4, r5, pc}
+ 540              	.L53:
+ 541              		.align	2
+ 542              	.L52:
+ 543 0028 76000400 		.word	262262
+ 544              		.cfi_endproc
+ 545              	.LFE40:
+ 547              		.section	.text.spi_receive1,"ax",%progbits
+ 548              		.align	1
+ 549              		.global	spi_receive1
+ 550              		.syntax unified
+ 551              		.code	16
+ 552              		.thumb_func
+ 553              		.fpu softvfp
+ 555              	spi_receive1:
+ 556              	.LFB41:
+ 178:srcc/spi.c    **** 
+ 179:srcc/spi.c    **** //=====================================================================
+ 180:srcc/spi.c    **** //函数名称：spi_receive1.
+ 181:srcc/spi.c    **** //功能说明：SPI接收一个字节的数据
+ 182:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 183:srcc/spi.c    **** //函数返回：接收到的数据。
+ 184:srcc/spi.c    **** //=====================================================================
+ 185:srcc/spi.c    **** uint_8 spi_receive1(uint_8 No)
+ 186:srcc/spi.c    **** {
+ 557              		.loc 1 186 0
+ 558              		.cfi_startproc
+ 559              		@ args = 0, pretend = 0, frame = 0
+ 560              		@ frame_needed = 0, uses_anonymous_args = 0
+ 561              		@ link register save eliminated.
+ 562              	.LVL63:
+ 187:srcc/spi.c    ****     SPI_MemMapPtr baseadd=SPI_baseadd(No);
+ 563              		.loc 1 187 0
+ 564 0000 054B     		ldr	r3, .L57
+ 565 0002 9C46     		mov	ip, r3
+ 566 0004 6044     		add	r0, r0, ip
+ 567              	.LVL64:
+ 568 0006 0003     		lsls	r0, r0, #12
+ 569              	.LVL65:
+ 570              	.L55:
+ 188:srcc/spi.c    ****     while(!(SPI_S_REG(baseadd)& SPI_S_SPRF_MASK));    //检测SPI是否收到了数据。
+ 571              		.loc 1 188 0 discriminator 1
+ 572 0008 0378     		ldrb	r3, [r0]
+ 573 000a 5BB2     		sxtb	r3, r3
+ 574 000c 002B     		cmp	r3, #0
+ 575 000e FBDA     		bge	.L55
+ 189:srcc/spi.c    ****         return SPI_DL_REG(baseadd);
+ 576              		.loc 1 189 0
+ 577 0010 8079     		ldrb	r0, [r0, #6]
+ 578              	.LVL66:
+ 579 0012 C0B2     		uxtb	r0, r0
+ 190:srcc/spi.c    **** }
+ 580              		.loc 1 190 0
+ 581              		@ sp needed
+ 582 0014 7047     		bx	lr
+ 583              	.L58:
+ 584 0016 C046     		.align	2
+ 585              	.L57:
+ 586 0018 76000400 		.word	262262
+ 587              		.cfi_endproc
+ 588              	.LFE41:
+ 590              		.section	.text.spi_receiveN,"ax",%progbits
+ 591              		.align	1
+ 592              		.global	spi_receiveN
+ 593              		.syntax unified
+ 594              		.code	16
+ 595              		.thumb_func
+ 596              		.fpu softvfp
+ 598              	spi_receiveN:
+ 599              	.LFB42:
+ 191:srcc/spi.c    **** 
+ 192:srcc/spi.c    **** //=====================================================================
+ 193:srcc/spi.c    **** //函数名称：spi_receiveN.
+ 194:srcc/spi.c    **** //功能说明：SPI接收数据。当n=1时，就是接受一个字节的数据……
+ 195:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 196:srcc/spi.c    **** //        n:    要发送的字节个数。范围为(1~255),
+ 197:srcc/spi.c    **** //       data[]:接收到的数据存放的首地址。
+ 198:srcc/spi.c    **** //函数返回：1：接收成功,其他情况：失败。
+ 199:srcc/spi.c    **** //=====================================================================
+ 200:srcc/spi.c    **** uint_8 spi_receiveN(uint_8 No,uint_8 n,uint_8 data[])
+ 201:srcc/spi.c    **** {
+ 600              		.loc 1 201 0
+ 601              		.cfi_startproc
+ 602              		@ args = 0, pretend = 0, frame = 0
+ 603              		@ frame_needed = 0, uses_anonymous_args = 0
+ 604              	.LVL67:
+ 605 0000 10B5     		push	{r4, lr}
+ 606              		.cfi_def_cfa_offset 8
+ 607              		.cfi_offset 4, -8
+ 608              		.cfi_offset 14, -4
+ 202:srcc/spi.c    ****     SPI_MemMapPtr baseadd=SPI_baseadd(No);
+ 609              		.loc 1 202 0
+ 610 0002 084B     		ldr	r3, .L65
+ 611 0004 9C46     		mov	ip, r3
+ 612 0006 6044     		add	r0, r0, ip
+ 613              	.LVL68:
+ 614 0008 0003     		lsls	r0, r0, #12
+ 615              	.LVL69:
+ 203:srcc/spi.c    ****     uint_32 m=0;
+ 616              		.loc 1 203 0
+ 617 000a 0024     		movs	r4, #0
+ 618              	.LVL70:
+ 619              	.L61:
+ 204:srcc/spi.c    ****     while(m<n)
+ 620              		.loc 1 204 0
+ 621 000c A142     		cmp	r1, r4
+ 622 000e 07D9     		bls	.L64
+ 205:srcc/spi.c    ****     {
+ 206:srcc/spi.c    ****         if(SPI_S_REG(baseadd)&SPI_S_SPRF_MASK)
+ 623              		.loc 1 206 0
+ 624 0010 0378     		ldrb	r3, [r0]
+ 625 0012 5BB2     		sxtb	r3, r3
+ 626 0014 002B     		cmp	r3, #0
+ 627 0016 F9DA     		bge	.L61
+ 207:srcc/spi.c    ****         {
+ 208:srcc/spi.c    ****              data[m]=SPI_DL_REG(baseadd);
+ 628              		.loc 1 208 0
+ 629 0018 8379     		ldrb	r3, [r0, #6]
+ 630 001a 1355     		strb	r3, [r2, r4]
+ 209:srcc/spi.c    ****                  m++;
+ 631              		.loc 1 209 0
+ 632 001c 0134     		adds	r4, r4, #1
+ 633              	.LVL71:
+ 634 001e F5E7     		b	.L61
+ 635              	.L64:
+ 210:srcc/spi.c    ****         }
+ 211:srcc/spi.c    ****     }
+ 212:srcc/spi.c    ****     return(1);
+ 213:srcc/spi.c    **** }
+ 636              		.loc 1 213 0
+ 637 0020 0120     		movs	r0, #1
+ 638              	.LVL72:
+ 639              		@ sp needed
+ 640              	.LVL73:
+ 641 0022 10BD     		pop	{r4, pc}
+ 642              	.L66:
+ 643              		.align	2
+ 644              	.L65:
+ 645 0024 76000400 		.word	262262
+ 646              		.cfi_endproc
+ 647              	.LFE42:
+ 649              		.section	.text.spi_enable_re_int,"ax",%progbits
+ 650              		.align	1
+ 651              		.global	spi_enable_re_int
+ 652              		.syntax unified
+ 653              		.code	16
+ 654              		.thumb_func
+ 655              		.fpu softvfp
+ 657              	spi_enable_re_int:
+ 658              	.LFB43:
+ 214:srcc/spi.c    **** 
+ 215:srcc/spi.c    **** //=====================================================================
+ 216:srcc/spi.c    **** //函数名称：spi_enable_re_int
+ 217:srcc/spi.c    **** //功能说明：打开SPI接收中断。
+ 218:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 219:srcc/spi.c    **** //函数返回：无。
+ 220:srcc/spi.c    **** //=====================================================================
+ 221:srcc/spi.c    **** void spi_enable_re_int(uint_8 No)
+ 222:srcc/spi.c    **** {
+ 659              		.loc 1 222 0
+ 660              		.cfi_startproc
+ 661              		@ args = 0, pretend = 0, frame = 0
+ 662              		@ frame_needed = 0, uses_anonymous_args = 0
+ 663              	.LVL74:
+ 664 0000 10B5     		push	{r4, lr}
+ 665              		.cfi_def_cfa_offset 8
+ 666              		.cfi_offset 4, -8
+ 667              		.cfi_offset 14, -4
+ 223:srcc/spi.c    ****     enable_irq (No+10);
+ 668              		.loc 1 223 0
+ 669 0002 0A30     		adds	r0, r0, #10
+ 670              	.LVL75:
+ 671 0004 40B2     		sxtb	r0, r0
+ 672 0006 FFF7FEFF 		bl	enable_irq
+ 673              	.LVL76:
+ 224:srcc/spi.c    **** }
+ 674              		.loc 1 224 0
+ 675              		@ sp needed
+ 676 000a 10BD     		pop	{r4, pc}
+ 677              		.cfi_endproc
+ 678              	.LFE43:
+ 680              		.section	.text.spi_disable_re_int,"ax",%progbits
+ 681              		.align	1
+ 682              		.global	spi_disable_re_int
+ 683              		.syntax unified
+ 684              		.code	16
+ 685              		.thumb_func
+ 686              		.fpu softvfp
+ 688              	spi_disable_re_int:
+ 689              	.LFB44:
+ 225:srcc/spi.c    **** 
+ 226:srcc/spi.c    **** //=====================================================================
+ 227:srcc/spi.c    **** //函数名称：spi_disable_re_int
+ 228:srcc/spi.c    **** //功能说明：关闭SPI接收中断。
+ 229:srcc/spi.c    **** //函数参数：No：模块号，可用参数可参见gec.h文件
+ 230:srcc/spi.c    **** //函数返回：无。
+ 231:srcc/spi.c    **** //=====================================================================
+ 232:srcc/spi.c    **** void spi_disable_re_int(uint_8 No)
+ 233:srcc/spi.c    **** {
+ 690              		.loc 1 233 0
+ 691              		.cfi_startproc
+ 692              		@ args = 0, pretend = 0, frame = 0
+ 693              		@ frame_needed = 0, uses_anonymous_args = 0
+ 694              	.LVL77:
+ 695 0000 10B5     		push	{r4, lr}
+ 696              		.cfi_def_cfa_offset 8
+ 697              		.cfi_offset 4, -8
+ 698              		.cfi_offset 14, -4
+ 234:srcc/spi.c    ****     disable_irq (No+10);
+ 699              		.loc 1 234 0
+ 700 0002 0A30     		adds	r0, r0, #10
+ 701              	.LVL78:
+ 702 0004 40B2     		sxtb	r0, r0
+ 703 0006 FFF7FEFF 		bl	disable_irq
+ 704              	.LVL79:
+ 235:srcc/spi.c    **** }
+ 705              		.loc 1 235 0
+ 706              		@ sp needed
+ 707 000a 10BD     		pop	{r4, pc}
+ 708              		.cfi_endproc
+ 709              	.LFE44:
+ 711              		.comm	bios_fun_point,4,4
+ 712              		.text
+ 713              	.Letext0:
+ 714              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 715              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 716              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 717              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 718              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 719              		.file 7 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 720              		.file 8 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 721              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 722              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 723              		.file 11 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 spi.c
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:17     .text.spi_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:24     .text.spi_init:00000000 spi_init
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:397    .text.spi_init:000001bc $d
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:408    .text.spi_send1:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:415    .text.spi_send1:00000000 spi_send1
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:478    .text.spi_send1:00000034 $d
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:484    .text.spi_sendN:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:491    .text.spi_sendN:00000000 spi_sendN
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:543    .text.spi_sendN:00000028 $d
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:548    .text.spi_receive1:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:555    .text.spi_receive1:00000000 spi_receive1
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:586    .text.spi_receive1:00000018 $d
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:591    .text.spi_receiveN:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:598    .text.spi_receiveN:00000000 spi_receiveN
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:645    .text.spi_receiveN:00000024 $d
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:650    .text.spi_enable_re_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:657    .text.spi_enable_re_int:00000000 spi_enable_re_int
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:681    .text.spi_disable_re_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccsWHsLZ.s:688    .text.spi_disable_re_int:00000000 spi_disable_re_int
+                            *COM*:00000004 bios_fun_point
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.adc.h.10.e8118470c5f79896b3fd6b7dad5e6b92
+                           .group:00000000 wm4.gpio.h.10.986b0e721a5f8dc53d90b6e6479bc010
+                           .group:00000000 wm4.timer.h.9.0c2434e998dc154a3e9828da4a1f6235
+                           .group:00000000 wm4.uart.h.10.bff5e701e40630e1d7de2b8037fde34b
+                           .group:00000000 wm4.flash.h.10.6c61dd182e565e4eb3a9a8d3876dbdb0
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:00000000 wm4.types.h.114.fb65732f4f5f288a036a25898de2c91f
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.2a55589bfa3ee24eeb84e3c79458e4a9
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stdlib.h.56.b4ddaf162082f284ba35b4444af99a9a
+                           .group:00000000 wm4.uecom.h.31.34c033455bb0111d79414f629e02f44f
+                           .group:00000000 wm4.gec.h.47.b03261d3256f000bba71e6d32e104a70
+
+UNDEFINED SYMBOLS
+__aeabi_idiv
+enable_irq
+disable_irq

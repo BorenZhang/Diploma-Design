@@ -1,0 +1,1299 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"timeStamp.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.global	__aeabi_uldivmod
+  16              		.global	__aeabi_lmul
+  17              		.section	.text.transformToDate,"ax",%progbits
+  18              		.align	1
+  19              		.global	transformToDate
+  20              		.syntax unified
+  21              		.code	16
+  22              		.thumb_func
+  23              		.fpu softvfp
+  25              	transformToDate:
+  26              	.LFB37:
+  27              		.file 1 "srcc/timeStamp.c"
+   1:srcc/timeStamp.c **** #include "timeStamp.h"
+   2:srcc/timeStamp.c **** //#include "stdio.h"
+   3:srcc/timeStamp.c **** 
+   4:srcc/timeStamp.c **** void transformToDateString(uint_64 timeStamp ,char *dateString);
+   5:srcc/timeStamp.c **** void transformToDate(uint_64 timeStamp ,uint_64 **dateArry);
+   6:srcc/timeStamp.c **** void intToString(uint_64 num,uint_8* str,uint_8 len);
+   7:srcc/timeStamp.c **** 
+   8:srcc/timeStamp.c **** //=====================================================================
+   9:srcc/timeStamp.c **** //函数名称：timeChange
+  10:srcc/timeStamp.c **** //函数返回：无
+  11:srcc/timeStamp.c **** //参数说明：ticks：时间戳
+  12:srcc/timeStamp.c **** //       time：解析后的日期，例:19700101000000(1970-01-01 00:00:00)
+  13:srcc/timeStamp.c **** //功能概要：时间戳转成字符表示日期
+  14:srcc/timeStamp.c **** //=====================================================================
+  15:srcc/timeStamp.c **** void timeChange(uint_64 ticks,uint_8 *curtime)
+  16:srcc/timeStamp.c **** {
+  17:srcc/timeStamp.c **** 	//62135625600000                 1970年之前的毫秒数      东八区，减8小时
+  18:srcc/timeStamp.c **** 	transformToDateString(ticks*1000+62135625600000-28800*1000,curtime);
+  19:srcc/timeStamp.c **** }
+  20:srcc/timeStamp.c **** 
+  21:srcc/timeStamp.c **** //将64位时间戳转化为时间字符串
+  22:srcc/timeStamp.c **** void transformToDateString(uint_64 timeStamp ,char *dateString)
+  23:srcc/timeStamp.c **** {
+  24:srcc/timeStamp.c ****     uint_64 year ,month ,day ,hour ,minute ,second ,milliSecond;
+  25:srcc/timeStamp.c ****     uint_64 *intp[] = {&year ,&month ,&day ,&hour ,&minute ,&second ,&milliSecond };
+  26:srcc/timeStamp.c **** 
+  27:srcc/timeStamp.c ****     transformToDate(timeStamp ,intp);
+  28:srcc/timeStamp.c **** 
+  29:srcc/timeStamp.c **** 	intToString(year,dateString,4);
+  30:srcc/timeStamp.c **** 	dateString[4] = '-';
+  31:srcc/timeStamp.c **** 	intToString(month,dateString+5,2);
+  32:srcc/timeStamp.c **** 	dateString[7] = '-';
+  33:srcc/timeStamp.c **** 	intToString(day+1,dateString+8,2);
+  34:srcc/timeStamp.c **** 	dateString[10] = ' ';
+  35:srcc/timeStamp.c **** 	intToString(hour,dateString+11,2);
+  36:srcc/timeStamp.c **** 	dateString[13] = ':';
+  37:srcc/timeStamp.c **** 	intToString(minute,dateString+14,2);
+  38:srcc/timeStamp.c **** 	dateString[16] = ':';
+  39:srcc/timeStamp.c **** 	intToString(second,dateString+17,2);
+  40:srcc/timeStamp.c **** 	dateString[19] = 0;
+  41:srcc/timeStamp.c **** }
+  42:srcc/timeStamp.c **** 
+  43:srcc/timeStamp.c **** //将64位时间戳转化为时间数组
+  44:srcc/timeStamp.c **** void transformToDate(uint_64 timeStamp ,uint_64 **dateArry)
+  45:srcc/timeStamp.c **** {
+  28              		.loc 1 45 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 200
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 DE46     		mov	lr, fp
+  41 0004 5746     		mov	r7, r10
+  42 0006 4E46     		mov	r6, r9
+  43 0008 4546     		mov	r5, r8
+  44 000a E0B5     		push	{r5, r6, r7, lr}
+  45              		.cfi_def_cfa_offset 36
+  46              		.cfi_offset 8, -36
+  47              		.cfi_offset 9, -32
+  48              		.cfi_offset 10, -28
+  49              		.cfi_offset 11, -24
+  50 000c B3B0     		sub	sp, sp, #204
+  51              		.cfi_def_cfa_offset 240
+  52 000e 0500     		movs	r5, r0
+  53 0010 0C00     		movs	r4, r1
+  54 0012 9146     		mov	r9, r2
+  46:srcc/timeStamp.c ****     uint_64 low ,high ,mid ,t;
+  47:srcc/timeStamp.c ****     uint_64 year ,month ,day ,hour ,minute ,second ,milliSecond;
+  48:srcc/timeStamp.c ****     uint_64 daySum[] = {0 ,31 ,59 ,90 ,120 ,151 ,181 ,212 ,243 ,273 ,304 ,334 ,365};
+  55              		.loc 1 48 0
+  56 0014 6822     		movs	r2, #104
+  57              	.LVL1:
+  58 0016 CF49     		ldr	r1, .L48
+  59 0018 18A8     		add	r0, sp, #96
+  60              	.LVL2:
+  61 001a FFF7FEFF 		bl	memcpy
+  62              	.LVL3:
+  63 001e 0C95     		str	r5, [sp, #48]
+  64 0020 0D94     		str	r4, [sp, #52]
+  65 0022 CD4B     		ldr	r3, .L48+4
+  66 0024 0C99     		ldr	r1, [sp, #48]
+  67 0026 0D9A     		ldr	r2, [sp, #52]
+  68 0028 9A42     		cmp	r2, r3
+  69 002a 03D8     		bhi	.L3
+  70 002c 06D1     		bne	.L2
+  71 002e CB4B     		ldr	r3, .L48+8
+  72 0030 9D42     		cmp	r5, r3
+  73 0032 03D9     		bls	.L2
+  74              	.L3:
+  75 0034 C94B     		ldr	r3, .L48+8
+  76 0036 C84C     		ldr	r4, .L48+4
+  77 0038 0C93     		str	r3, [sp, #48]
+  78 003a 0D94     		str	r4, [sp, #52]
+  79              	.L2:
+  80              	.LVL4:
+  49:srcc/timeStamp.c ****     uint_64 milOfDay = 24 * 3600 * 1000;
+  50:srcc/timeStamp.c ****     uint_64 milOfHour = 3600 * 1000;
+  51:srcc/timeStamp.c **** 
+  52:srcc/timeStamp.c ****     /*防止超过9999-12-31 23:59:59:999*/
+  53:srcc/timeStamp.c ****     if(timeStamp > 315537897599999) {
+  54:srcc/timeStamp.c ****         timeStamp = 315537897599999;
+  55:srcc/timeStamp.c ****     }
+  56:srcc/timeStamp.c **** 
+  57:srcc/timeStamp.c ****     low = 1;
+  58:srcc/timeStamp.c ****     high = 9999;
+  81              		.loc 1 58 0
+  82 003c C84B     		ldr	r3, .L48+12
+  83 003e 0024     		movs	r4, #0
+  84 0040 0893     		str	r3, [sp, #32]
+  85 0042 0994     		str	r4, [sp, #36]
+  57:srcc/timeStamp.c ****     high = 9999;
+  86              		.loc 1 57 0
+  87 0044 0123     		movs	r3, #1
+  88 0046 0024     		movs	r4, #0
+  89 0048 0E93     		str	r3, [sp, #56]
+  90 004a 0F94     		str	r4, [sp, #60]
+  91              	.LVL5:
+  92              	.L4:
+  59:srcc/timeStamp.c **** 
+  60:srcc/timeStamp.c ****     while(low <= high)
+  61:srcc/timeStamp.c ****     {
+  62:srcc/timeStamp.c ****         mid = (low+high)>>1;
+  93              		.loc 1 62 0
+  94 004c 089A     		ldr	r2, [sp, #32]
+  95 004e 099B     		ldr	r3, [sp, #36]
+  96 0050 0E98     		ldr	r0, [sp, #56]
+  97 0052 0F99     		ldr	r1, [sp, #60]
+  98 0054 1218     		adds	r2, r2, r0
+  99 0056 4B41     		adcs	r3, r3, r1
+ 100 0058 D907     		lsls	r1, r3, #31
+ 101 005a 5608     		lsrs	r6, r2, #1
+ 102 005c 0E43     		orrs	r6, r1
+ 103 005e 5F08     		lsrs	r7, r3, #1
+ 104              	.LVL6:
+  63:srcc/timeStamp.c ****         t = ((mid-1) * 365 + (mid-1)/4 - (mid-1)/100 + (mid-1)/400) * milOfDay;
+ 105              		.loc 1 63 0
+ 106 0060 0120     		movs	r0, #1
+ 107 0062 4042     		rsbs	r0, r0, #0
+ 108 0064 C117     		asrs	r1, r0, #31
+ 109 0066 8019     		adds	r0, r0, r6
+ 110 0068 7941     		adcs	r1, r1, r7
+ 111 006a 0A90     		str	r0, [sp, #40]
+ 112 006c 0B91     		str	r1, [sp, #44]
+ 113 006e 730F     		lsrs	r3, r6, #29
+ 114 0070 FA00     		lsls	r2, r7, #3
+ 115 0072 1A43     		orrs	r2, r3
+ 116 0074 1192     		str	r2, [sp, #68]
+ 117 0076 F300     		lsls	r3, r6, #3
+ 118 0078 1093     		str	r3, [sp, #64]
+ 119 007a 109A     		ldr	r2, [sp, #64]
+ 120 007c 119B     		ldr	r3, [sp, #68]
+ 121 007e 9219     		adds	r2, r2, r6
+ 122 0080 7B41     		adcs	r3, r3, r7
+ 123 0082 510F     		lsrs	r1, r2, #29
+ 124 0084 DC00     		lsls	r4, r3, #3
+ 125 0086 0C43     		orrs	r4, r1
+ 126 0088 1394     		str	r4, [sp, #76]
+ 127 008a D300     		lsls	r3, r2, #3
+ 128 008c 1293     		str	r3, [sp, #72]
+ 129 008e 129C     		ldr	r4, [sp, #72]
+ 130 0090 139D     		ldr	r5, [sp, #76]
+ 131 0092 A419     		adds	r4, r4, r6
+ 132 0094 7D41     		adcs	r5, r5, r7
+ 133 0096 A30F     		lsrs	r3, r4, #30
+ 134 0098 AA00     		lsls	r2, r5, #2
+ 135 009a 1A43     		orrs	r2, r3
+ 136 009c 1592     		str	r2, [sp, #84]
+ 137 009e A300     		lsls	r3, r4, #2
+ 138 00a0 1493     		str	r3, [sp, #80]
+ 139 00a2 149A     		ldr	r2, [sp, #80]
+ 140 00a4 159B     		ldr	r3, [sp, #84]
+ 141 00a6 A418     		adds	r4, r4, r2
+ 142 00a8 5D41     		adcs	r5, r5, r3
+ 143 00aa AE4A     		ldr	r2, .L48+16
+ 144 00ac 0123     		movs	r3, #1
+ 145 00ae 5B42     		rsbs	r3, r3, #0
+ 146 00b0 A418     		adds	r4, r4, r2
+ 147 00b2 5D41     		adcs	r5, r5, r3
+ 148 00b4 0A98     		ldr	r0, [sp, #40]
+ 149 00b6 0B99     		ldr	r1, [sp, #44]
+ 150 00b8 8B07     		lsls	r3, r1, #30
+ 151 00ba 8208     		lsrs	r2, r0, #2
+ 152 00bc 1A43     		orrs	r2, r3
+ 153 00be 1692     		str	r2, [sp, #88]
+ 154 00c0 8B08     		lsrs	r3, r1, #2
+ 155 00c2 1793     		str	r3, [sp, #92]
+ 156 00c4 169A     		ldr	r2, [sp, #88]
+ 157 00c6 179B     		ldr	r3, [sp, #92]
+ 158 00c8 A418     		adds	r4, r4, r2
+ 159 00ca 5D41     		adcs	r5, r5, r3
+ 160 00cc C822     		movs	r2, #200
+ 161 00ce 5200     		lsls	r2, r2, #1
+ 162 00d0 0023     		movs	r3, #0
+ 163 00d2 FFF7FEFF 		bl	__aeabi_uldivmod
+ 164              	.LVL7:
+ 165 00d6 2418     		adds	r4, r4, r0
+ 166 00d8 4D41     		adcs	r5, r5, r1
+ 167 00da 6422     		movs	r2, #100
+ 168 00dc 0023     		movs	r3, #0
+ 169 00de 0A98     		ldr	r0, [sp, #40]
+ 170 00e0 0B99     		ldr	r1, [sp, #44]
+ 171 00e2 FFF7FEFF 		bl	__aeabi_uldivmod
+ 172              	.LVL8:
+ 173 00e6 241A     		subs	r4, r4, r0
+ 174 00e8 8D41     		sbcs	r5, r5, r1
+ 175 00ea 2000     		movs	r0, r4
+ 176 00ec 2900     		movs	r1, r5
+ 177 00ee 9E4A     		ldr	r2, .L48+20
+ 178 00f0 0023     		movs	r3, #0
+ 179 00f2 FFF7FEFF 		bl	__aeabi_lmul
+ 180              	.LVL9:
+  64:srcc/timeStamp.c **** 
+  65:srcc/timeStamp.c ****         if(t == timeStamp)
+ 181              		.loc 1 65 0
+ 182 00f6 0C9B     		ldr	r3, [sp, #48]
+ 183 00f8 8342     		cmp	r3, r0
+ 184 00fa 00D1     		bne	.LCB147
+ 185 00fc 12E1     		b	.L42	@long jump
+ 186              	.LCB147:
+ 187              	.L32:
+  66:srcc/timeStamp.c ****         {
+  67:srcc/timeStamp.c ****             low = mid + 1;
+  68:srcc/timeStamp.c ****             break;
+  69:srcc/timeStamp.c ****         }
+  70:srcc/timeStamp.c ****         else if(t < timeStamp)
+ 188              		.loc 1 70 0
+ 189 00fe 0C9B     		ldr	r3, [sp, #48]
+ 190 0100 0D9C     		ldr	r4, [sp, #52]
+ 191 0102 8C42     		cmp	r4, r1
+ 192 0104 00D9     		bls	.LCB151
+ 193 0106 F4E0     		b	.L7	@long jump
+ 194              	.LCB151:
+ 195 0108 00D0     		beq	.LCB153
+ 196 010a 84E0     		b	.L15	@long jump
+ 197              	.LCB153:
+ 198 010c 0C9B     		ldr	r3, [sp, #48]
+ 199 010e 8342     		cmp	r3, r0
+ 200 0110 00D8     		bhi	.LCB156
+ 201 0112 80E0     		b	.L15	@long jump
+ 202              	.LCB156:
+ 203 0114 EDE0     		b	.L7
+ 204              	.LVL10:
+ 205              	.L44:
+  65:srcc/timeStamp.c ****         {
+ 206              		.loc 1 65 0
+ 207 0116 0D9B     		ldr	r3, [sp, #52]
+ 208 0118 9942     		cmp	r1, r3
+ 209 011a 00D0     		beq	.LCB167
+ 210 011c DDE0     		b	.L5	@long jump
+ 211              	.LCB167:
+ 212              	.LVL11:
+ 213              	.L12:
+  67:srcc/timeStamp.c ****             break;
+ 214              		.loc 1 67 0
+ 215 011e 0122     		movs	r2, #1
+ 216 0120 0023     		movs	r3, #0
+ 217 0122 B618     		adds	r6, r6, r2
+ 218 0124 5F41     		adcs	r7, r7, r3
+ 219              	.LVL12:
+ 220 0126 0E96     		str	r6, [sp, #56]
+ 221 0128 0F97     		str	r7, [sp, #60]
+ 222              	.LVL13:
+ 223              	.L6:
+  71:srcc/timeStamp.c ****             low = mid + 1;
+  72:srcc/timeStamp.c ****         else
+  73:srcc/timeStamp.c ****             high = mid - 1;
+  74:srcc/timeStamp.c ****     }
+  75:srcc/timeStamp.c ****     year = low-1;
+ 224              		.loc 1 75 0
+ 225 012a 0122     		movs	r2, #1
+ 226 012c 5242     		rsbs	r2, r2, #0
+ 227 012e D317     		asrs	r3, r2, #31
+ 228 0130 0E9C     		ldr	r4, [sp, #56]
+ 229 0132 0F9D     		ldr	r5, [sp, #60]
+ 230 0134 2000     		movs	r0, r4
+ 231 0136 2900     		movs	r1, r5
+ 232 0138 8018     		adds	r0, r0, r2
+ 233 013a 5941     		adcs	r1, r1, r3
+ 234              	.LVL14:
+  76:srcc/timeStamp.c ****     uint_64 cc;
+  77:srcc/timeStamp.c ****     uint_64 aa,bb;
+  78:srcc/timeStamp.c ****     cc = (year-1) * 365;
+  79:srcc/timeStamp.c ****     cc += (year-1)/4;
+ 235              		.loc 1 79 0
+ 236 013c 0226     		movs	r6, #2
+ 237 013e 7642     		rsbs	r6, r6, #0
+ 238 0140 F717     		asrs	r7, r6, #31
+ 239 0142 2300     		movs	r3, r4
+ 240 0144 2C00     		movs	r4, r5
+ 241 0146 9B19     		adds	r3, r3, r6
+ 242 0148 7C41     		adcs	r4, r4, r7
+ 243 014a 1E00     		movs	r6, r3
+ 244 014c 2700     		movs	r7, r4
+ 245              	.LVL15:
+  78:srcc/timeStamp.c ****     cc += (year-1)/4;
+ 246              		.loc 1 78 0
+ 247 014e 0400     		movs	r4, r0
+ 248 0150 0D00     		movs	r5, r1
+ 249 0152 410F     		lsrs	r1, r0, #29
+ 250 0154 EB00     		lsls	r3, r5, #3
+ 251 0156 0B43     		orrs	r3, r1
+ 252 0158 2000     		movs	r0, r4
+ 253              	.LVL16:
+ 254 015a 2900     		movs	r1, r5
+ 255 015c E200     		lsls	r2, r4, #3
+ 256 015e 0290     		str	r0, [sp, #8]
+ 257 0160 0391     		str	r1, [sp, #12]
+ 258 0162 1218     		adds	r2, r2, r0
+ 259 0164 4B41     		adcs	r3, r3, r1
+ 260 0166 510F     		lsrs	r1, r2, #29
+ 261 0168 DD00     		lsls	r5, r3, #3
+ 262 016a 0D43     		orrs	r5, r1
+ 263 016c D400     		lsls	r4, r2, #3
+ 264 016e 0298     		ldr	r0, [sp, #8]
+ 265 0170 0399     		ldr	r1, [sp, #12]
+ 266 0172 2418     		adds	r4, r4, r0
+ 267 0174 4D41     		adcs	r5, r5, r1
+ 268 0176 A30F     		lsrs	r3, r4, #30
+ 269 0178 A900     		lsls	r1, r5, #2
+ 270 017a 1943     		orrs	r1, r3
+ 271 017c A000     		lsls	r0, r4, #2
+ 272 017e 2418     		adds	r4, r4, r0
+ 273 0180 4D41     		adcs	r5, r5, r1
+ 274              		.loc 1 79 0
+ 275 0182 BB07     		lsls	r3, r7, #30
+ 276 0184 B008     		lsrs	r0, r6, #2
+ 277 0186 1843     		orrs	r0, r3
+ 278 0188 B908     		lsrs	r1, r7, #2
+  80:srcc/timeStamp.c ****     aa = (year-1)/100;
+  81:srcc/timeStamp.c ****     bb = (year-1)/400 ;
+  82:srcc/timeStamp.c **** 
+  83:srcc/timeStamp.c ****     cc -= aa;
+  84:srcc/timeStamp.c ****     cc += bb;
+ 279              		.loc 1 84 0
+ 280 018a 2418     		adds	r4, r4, r0
+ 281 018c 4D41     		adcs	r5, r5, r1
+ 282 018e 7548     		ldr	r0, .L48+16
+ 283 0190 0121     		movs	r1, #1
+ 284 0192 4942     		rsbs	r1, r1, #0
+ 285 0194 2418     		adds	r4, r4, r0
+ 286 0196 4D41     		adcs	r5, r5, r1
+  81:srcc/timeStamp.c **** 
+ 287              		.loc 1 81 0
+ 288 0198 C822     		movs	r2, #200
+ 289 019a 5200     		lsls	r2, r2, #1
+ 290 019c 0023     		movs	r3, #0
+ 291 019e 3000     		movs	r0, r6
+ 292 01a0 3900     		movs	r1, r7
+ 293 01a2 FFF7FEFF 		bl	__aeabi_uldivmod
+ 294              	.LVL17:
+ 295              		.loc 1 84 0
+ 296 01a6 2418     		adds	r4, r4, r0
+ 297 01a8 4D41     		adcs	r5, r5, r1
+  80:srcc/timeStamp.c ****     aa = (year-1)/100;
+ 298              		.loc 1 80 0
+ 299 01aa 6422     		movs	r2, #100
+ 300 01ac 0023     		movs	r3, #0
+ 301 01ae 3000     		movs	r0, r6
+ 302 01b0 3900     		movs	r1, r7
+ 303 01b2 FFF7FEFF 		bl	__aeabi_uldivmod
+ 304              	.LVL18:
+ 305              		.loc 1 84 0
+ 306 01b6 241A     		subs	r4, r4, r0
+ 307 01b8 8D41     		sbcs	r5, r5, r1
+ 308 01ba 2000     		movs	r0, r4
+ 309 01bc 2900     		movs	r1, r5
+  85:srcc/timeStamp.c **** 
+  86:srcc/timeStamp.c ****     timeStamp -= cc* milOfDay;
+ 310              		.loc 1 86 0
+ 311 01be 6A4A     		ldr	r2, .L48+20
+ 312 01c0 0023     		movs	r3, #0
+ 313 01c2 FFF7FEFF 		bl	__aeabi_lmul
+ 314              	.LVL19:
+ 315 01c6 0C9B     		ldr	r3, [sp, #48]
+ 316 01c8 0D9C     		ldr	r4, [sp, #52]
+ 317 01ca 1B1A     		subs	r3, r3, r0
+ 318 01cc 8C41     		sbcs	r4, r4, r1
+ 319 01ce 0093     		str	r3, [sp]
+ 320 01d0 0194     		str	r4, [sp, #4]
+ 321              	.LVL20:
+  87:srcc/timeStamp.c **** 
+  88:srcc/timeStamp.c ****     int isLeapYear = ((year&3) == 0 && year%100!=0) || year%400 == 0;
+ 322              		.loc 1 88 0
+ 323 01d2 0323     		movs	r3, #3
+ 324              	.LVL21:
+ 325 01d4 0298     		ldr	r0, [sp, #8]
+ 326 01d6 0399     		ldr	r1, [sp, #12]
+ 327 01d8 0342     		tst	r3, r0
+ 328 01da 08D1     		bne	.L16
+ 329              		.loc 1 88 0 is_stmt 0 discriminator 1
+ 330 01dc 6422     		movs	r2, #100
+ 331 01de 0023     		movs	r3, #0
+ 332 01e0 FFF7FEFF 		bl	__aeabi_uldivmod
+ 333              	.LVL22:
+ 334 01e4 1A43     		orrs	r2, r3
+ 335 01e6 0123     		movs	r3, #1
+ 336 01e8 9A46     		mov	r10, r3
+ 337 01ea 002A     		cmp	r2, #0
+ 338 01ec 0AD1     		bne	.L17
+ 339              	.L16:
+ 340              		.loc 1 88 0 discriminator 4
+ 341 01ee C822     		movs	r2, #200
+ 342 01f0 5200     		lsls	r2, r2, #1
+ 343 01f2 0023     		movs	r3, #0
+ 344 01f4 0298     		ldr	r0, [sp, #8]
+ 345 01f6 0399     		ldr	r1, [sp, #12]
+ 346 01f8 FFF7FEFF 		bl	__aeabi_uldivmod
+ 347              	.LVL23:
+ 348 01fc 1A43     		orrs	r2, r3
+ 349 01fe 5342     		rsbs	r3, r2, #0
+ 350 0200 5341     		adcs	r3, r3, r2
+ 351 0202 9A46     		mov	r10, r3
+ 352              	.L17:
+ 353              	.LVL24:
+ 354 0204 1AAB     		add	r3, sp, #104
+ 355 0206 9846     		mov	r8, r3
+  89:srcc/timeStamp.c **** 
+  90:srcc/timeStamp.c ****     for(month = 1 ;(daySum[month] + ((isLeapYear && month > 1) ? 1 : 0)) * milOfDay <= timeStamp &&
+ 356              		.loc 1 90 0 is_stmt 1 discriminator 8
+ 357 0208 0126     		movs	r6, #1
+ 358              	.LVL25:
+ 359 020a 0027     		movs	r7, #0
+ 360 020c C0E0     		b	.L18
+ 361              	.LVL26:
+ 362              	.L31:
+  63:srcc/timeStamp.c **** 
+ 363              		.loc 1 63 0
+ 364 020e 089B     		ldr	r3, [sp, #32]
+ 365 0210 099C     		ldr	r4, [sp, #36]
+ 366 0212 0A93     		str	r3, [sp, #40]
+ 367 0214 0B94     		str	r4, [sp, #44]
+ 368              	.LVL27:
+ 369              	.L15:
+  60:srcc/timeStamp.c ****     {
+ 370              		.loc 1 60 0
+ 371 0216 0E99     		ldr	r1, [sp, #56]
+ 372 0218 0F9A     		ldr	r2, [sp, #60]
+ 373 021a 0A9B     		ldr	r3, [sp, #40]
+ 374 021c 0B9C     		ldr	r4, [sp, #44]
+ 375 021e A242     		cmp	r2, r4
+ 376 0220 00D9     		bls	.LCB331
+ 377 0222 82E7     		b	.L6	@long jump
+ 378              	.LCB331:
+ 379 0224 00D1     		bne	.LCB333
+ 380 0226 77E0     		b	.L43	@long jump
+ 381              	.LCB333:
+ 382              	.L9:
+  62:srcc/timeStamp.c ****         t = ((mid-1) * 365 + (mid-1)/4 - (mid-1)/100 + (mid-1)/400) * milOfDay;
+ 383              		.loc 1 62 0
+ 384 0228 0E9A     		ldr	r2, [sp, #56]
+ 385 022a 0F9B     		ldr	r3, [sp, #60]
+ 386 022c 0A98     		ldr	r0, [sp, #40]
+ 387 022e 0B99     		ldr	r1, [sp, #44]
+ 388 0230 1218     		adds	r2, r2, r0
+ 389 0232 4B41     		adcs	r3, r3, r1
+ 390 0234 D907     		lsls	r1, r3, #31
+ 391 0236 5608     		lsrs	r6, r2, #1
+ 392 0238 0E43     		orrs	r6, r1
+ 393 023a 5F08     		lsrs	r7, r3, #1
+ 394              	.LVL28:
+  63:srcc/timeStamp.c **** 
+ 395              		.loc 1 63 0
+ 396 023c 0120     		movs	r0, #1
+ 397 023e 4042     		rsbs	r0, r0, #0
+ 398 0240 C117     		asrs	r1, r0, #31
+ 399 0242 8019     		adds	r0, r0, r6
+ 400 0244 7941     		adcs	r1, r1, r7
+ 401 0246 0890     		str	r0, [sp, #32]
+ 402 0248 0991     		str	r1, [sp, #36]
+ 403 024a 730F     		lsrs	r3, r6, #29
+ 404 024c FA00     		lsls	r2, r7, #3
+ 405 024e 1A43     		orrs	r2, r3
+ 406 0250 0192     		str	r2, [sp, #4]
+ 407 0252 F300     		lsls	r3, r6, #3
+ 408 0254 0093     		str	r3, [sp]
+ 409 0256 009A     		ldr	r2, [sp]
+ 410 0258 019B     		ldr	r3, [sp, #4]
+ 411 025a 9219     		adds	r2, r2, r6
+ 412 025c 7B41     		adcs	r3, r3, r7
+ 413 025e 510F     		lsrs	r1, r2, #29
+ 414 0260 DC00     		lsls	r4, r3, #3
+ 415 0262 0C43     		orrs	r4, r1
+ 416 0264 0394     		str	r4, [sp, #12]
+ 417 0266 D300     		lsls	r3, r2, #3
+ 418 0268 0293     		str	r3, [sp, #8]
+ 419 026a 029C     		ldr	r4, [sp, #8]
+ 420 026c 039D     		ldr	r5, [sp, #12]
+ 421 026e A419     		adds	r4, r4, r6
+ 422 0270 7D41     		adcs	r5, r5, r7
+ 423 0272 A30F     		lsrs	r3, r4, #30
+ 424 0274 AA00     		lsls	r2, r5, #2
+ 425 0276 1A43     		orrs	r2, r3
+ 426 0278 0592     		str	r2, [sp, #20]
+ 427 027a A300     		lsls	r3, r4, #2
+ 428 027c 0493     		str	r3, [sp, #16]
+ 429 027e 049A     		ldr	r2, [sp, #16]
+ 430 0280 059B     		ldr	r3, [sp, #20]
+ 431 0282 A418     		adds	r4, r4, r2
+ 432 0284 5D41     		adcs	r5, r5, r3
+ 433 0286 374A     		ldr	r2, .L48+16
+ 434 0288 0123     		movs	r3, #1
+ 435 028a 5B42     		rsbs	r3, r3, #0
+ 436 028c A418     		adds	r4, r4, r2
+ 437 028e 5D41     		adcs	r5, r5, r3
+ 438 0290 0898     		ldr	r0, [sp, #32]
+ 439 0292 0999     		ldr	r1, [sp, #36]
+ 440 0294 8B07     		lsls	r3, r1, #30
+ 441 0296 8208     		lsrs	r2, r0, #2
+ 442 0298 1A43     		orrs	r2, r3
+ 443 029a 0692     		str	r2, [sp, #24]
+ 444 029c 8B08     		lsrs	r3, r1, #2
+ 445 029e 0793     		str	r3, [sp, #28]
+ 446 02a0 069A     		ldr	r2, [sp, #24]
+ 447 02a2 079B     		ldr	r3, [sp, #28]
+ 448 02a4 A418     		adds	r4, r4, r2
+ 449 02a6 5D41     		adcs	r5, r5, r3
+ 450 02a8 C822     		movs	r2, #200
+ 451 02aa 5200     		lsls	r2, r2, #1
+ 452 02ac 0023     		movs	r3, #0
+ 453 02ae FFF7FEFF 		bl	__aeabi_uldivmod
+ 454              	.LVL29:
+ 455 02b2 2418     		adds	r4, r4, r0
+ 456 02b4 4D41     		adcs	r5, r5, r1
+ 457 02b6 6422     		movs	r2, #100
+ 458 02b8 0023     		movs	r3, #0
+ 459 02ba 0898     		ldr	r0, [sp, #32]
+ 460 02bc 0999     		ldr	r1, [sp, #36]
+ 461 02be FFF7FEFF 		bl	__aeabi_uldivmod
+ 462              	.LVL30:
+ 463 02c2 241A     		subs	r4, r4, r0
+ 464 02c4 8D41     		sbcs	r5, r5, r1
+ 465 02c6 2000     		movs	r0, r4
+ 466 02c8 2900     		movs	r1, r5
+ 467 02ca 274A     		ldr	r2, .L48+20
+ 468 02cc 0023     		movs	r3, #0
+ 469 02ce FFF7FEFF 		bl	__aeabi_lmul
+ 470              	.LVL31:
+  65:srcc/timeStamp.c ****         {
+ 471              		.loc 1 65 0
+ 472 02d2 0C9B     		ldr	r3, [sp, #48]
+ 473 02d4 9842     		cmp	r0, r3
+ 474 02d6 00D1     		bne	.LCB408
+ 475 02d8 1DE7     		b	.L44	@long jump
+ 476              	.LCB408:
+ 477              	.L5:
+  70:srcc/timeStamp.c ****             low = mid + 1;
+ 478              		.loc 1 70 0
+ 479 02da 0C9B     		ldr	r3, [sp, #48]
+ 480 02dc 0D9C     		ldr	r4, [sp, #52]
+ 481 02de 8C42     		cmp	r4, r1
+ 482 02e0 03D8     		bhi	.L29
+ 483 02e2 94D1     		bne	.L31
+ 484 02e4 0C9B     		ldr	r3, [sp, #48]
+ 485 02e6 8342     		cmp	r3, r0
+ 486 02e8 91D9     		bls	.L31
+ 487              	.L29:
+ 488 02ea 0A9B     		ldr	r3, [sp, #40]
+ 489 02ec 0B9C     		ldr	r4, [sp, #44]
+ 490 02ee 0893     		str	r3, [sp, #32]
+ 491 02f0 0994     		str	r4, [sp, #36]
+ 492              	.LVL32:
+ 493              	.L7:
+  71:srcc/timeStamp.c ****         else
+ 494              		.loc 1 71 0
+ 495 02f2 0123     		movs	r3, #1
+ 496 02f4 0024     		movs	r4, #0
+ 497 02f6 9B19     		adds	r3, r3, r6
+ 498 02f8 7C41     		adcs	r4, r4, r7
+ 499 02fa 0E93     		str	r3, [sp, #56]
+ 500 02fc 0F94     		str	r4, [sp, #60]
+ 501              	.LVL33:
+  60:srcc/timeStamp.c ****     {
+ 502              		.loc 1 60 0
+ 503 02fe 0899     		ldr	r1, [sp, #32]
+ 504 0300 099A     		ldr	r2, [sp, #36]
+ 505 0302 9442     		cmp	r4, r2
+ 506 0304 00D9     		bls	.LCB435
+ 507 0306 10E7     		b	.L6	@long jump
+ 508              	.LCB435:
+ 509 0308 00D0     		beq	.LCB438
+ 510 030a 9FE6     		b	.L4	@long jump
+ 511              	.LCB438:
+ 512 030c 0E9B     		ldr	r3, [sp, #56]
+ 513 030e 089A     		ldr	r2, [sp, #32]
+ 514 0310 9342     		cmp	r3, r2
+ 515 0312 00D8     		bhi	.LCB442
+ 516 0314 9AE6     		b	.L4	@long jump
+ 517              	.LCB442:
+ 518 0316 08E7     		b	.L6
+ 519              	.LVL34:
+ 520              	.L43:
+ 521 0318 0E9B     		ldr	r3, [sp, #56]
+ 522              	.LVL35:
+ 523 031a 0A9A     		ldr	r2, [sp, #40]
+ 524 031c 9342     		cmp	r3, r2
+ 525 031e 00D8     		bhi	.LCB455
+ 526 0320 82E7     		b	.L9	@long jump
+ 527              	.LCB455:
+ 528 0322 02E7     		b	.L6
+ 529              	.LVL36:
+ 530              	.L42:
+  65:srcc/timeStamp.c ****         {
+ 531              		.loc 1 65 0
+ 532 0324 0D9B     		ldr	r3, [sp, #52]
+ 533 0326 8B42     		cmp	r3, r1
+ 534 0328 00D0     		beq	.LCB466
+ 535 032a E8E6     		b	.L32	@long jump
+ 536              	.LCB466:
+ 537 032c F7E6     		b	.L12
+ 538              	.LVL37:
+ 539              	.L46:
+ 540              		.loc 1 90 0 discriminator 3
+ 541 032e 002F     		cmp	r7, #0
+ 542 0330 01D1     		bne	.L22
+ 543 0332 012E     		cmp	r6, #1
+ 544 0334 35D8     		bhi	.L20
+ 545              	.L22:
+ 546              		.loc 1 90 0 is_stmt 0
+ 547 0336 0C4A     		ldr	r2, .L48+20
+ 548 0338 0023     		movs	r3, #0
+ 549              	.LVL38:
+ 550 033a 2000     		movs	r0, r4
+ 551 033c 2900     		movs	r1, r5
+ 552 033e FFF7FEFF 		bl	__aeabi_lmul
+ 553              	.LVL39:
+ 554 0342 009B     		ldr	r3, [sp]
+ 555 0344 019C     		ldr	r4, [sp, #4]
+ 556 0346 A142     		cmp	r1, r4
+ 557 0348 49D8     		bhi	.L25
+ 558 034a 1AD1     		bne	.L23
+ 559 034c 009B     		ldr	r3, [sp]
+ 560 034e 9842     		cmp	r0, r3
+ 561 0350 17D9     		bls	.L23
+ 562 0352 44E0     		b	.L25
+ 563              	.L49:
+ 564              		.align	2
+ 565              	.L48:
+ 566 0354 00000000 		.word	.LANCHOR0
+ 567 0358 FA1E0100 		.word	73466
+ 568 035c FFB34CE4 		.word	-464735233
+ 569 0360 0F270000 		.word	9999
+ 570 0364 93FEFFFF 		.word	-365
+ 571 0368 005C2605 		.word	86400000
+ 572              	.LVL40:
+ 573              	.L19:
+ 574 036c 534A     		ldr	r2, .L50
+ 575 036e 0023     		movs	r3, #0
+ 576              	.LVL41:
+ 577 0370 2000     		movs	r0, r4
+ 578 0372 2900     		movs	r1, r5
+ 579 0374 FFF7FEFF 		bl	__aeabi_lmul
+ 580              	.LVL42:
+ 581 0378 009B     		ldr	r3, [sp]
+ 582 037a 019C     		ldr	r4, [sp, #4]
+ 583 037c A142     		cmp	r1, r4
+ 584 037e 2ED8     		bhi	.L25
+ 585 0380 25D0     		beq	.L45
+ 586              	.L23:
+ 587              		.loc 1 90 0 discriminator 2
+ 588 0382 0123     		movs	r3, #1
+ 589 0384 0024     		movs	r4, #0
+ 590 0386 F618     		adds	r6, r6, r3
+ 591 0388 6741     		adcs	r7, r7, r4
+ 592              	.LVL43:
+ 593 038a 0733     		adds	r3, r3, #7
+ 594 038c 9C46     		mov	ip, r3
+ 595 038e E044     		add	r8, r8, ip
+ 596              	.LVL44:
+ 597              	.L18:
+ 598 0390 C346     		mov	fp, r8
+ 599              		.loc 1 90 0 discriminator 1
+ 600 0392 4346     		mov	r3, r8
+ 601 0394 1C68     		ldr	r4, [r3]
+ 602 0396 5D68     		ldr	r5, [r3, #4]
+ 603 0398 5346     		mov	r3, r10
+ 604 039a 002B     		cmp	r3, #0
+ 605 039c E6D0     		beq	.L19
+ 606              	.LVL45:
+ 607              		.loc 1 90 0 discriminator 3
+ 608 039e 002F     		cmp	r7, #0
+ 609 03a0 C5D0     		beq	.L46
+ 610              	.L20:
+ 611              		.loc 1 90 0
+ 612 03a2 0120     		movs	r0, #1
+ 613 03a4 0021     		movs	r1, #0
+ 614 03a6 0019     		adds	r0, r0, r4
+ 615 03a8 6941     		adcs	r1, r1, r5
+ 616 03aa 444A     		ldr	r2, .L50
+ 617 03ac 0023     		movs	r3, #0
+ 618              	.LVL46:
+ 619 03ae FFF7FEFF 		bl	__aeabi_lmul
+ 620              	.LVL47:
+ 621 03b2 0490     		str	r0, [sp, #16]
+ 622 03b4 009A     		ldr	r2, [sp]
+ 623 03b6 019B     		ldr	r3, [sp, #4]
+ 624 03b8 9942     		cmp	r1, r3
+ 625 03ba 10D8     		bhi	.L25
+ 626 03bc 0BD0     		beq	.L47
+ 627              	.L27:
+  91:srcc/timeStamp.c ****         if(isLeapYear && month > 1)
+  92:srcc/timeStamp.c ****             ++daySum[month];
+ 628              		.loc 1 92 0 is_stmt 1
+ 629 03be 0122     		movs	r2, #1
+ 630 03c0 0023     		movs	r3, #0
+ 631 03c2 A418     		adds	r4, r4, r2
+ 632 03c4 5D41     		adcs	r5, r5, r3
+ 633 03c6 5B46     		mov	r3, fp
+ 634 03c8 1C60     		str	r4, [r3]
+ 635 03ca 5D60     		str	r5, [r3, #4]
+ 636 03cc D9E7     		b	.L23
+ 637              	.L45:
+  90:srcc/timeStamp.c ****         if(isLeapYear && month > 1)
+ 638              		.loc 1 90 0
+ 639 03ce 009B     		ldr	r3, [sp]
+ 640 03d0 9842     		cmp	r0, r3
+ 641 03d2 D6D9     		bls	.L23
+ 642 03d4 03E0     		b	.L25
+ 643              	.L47:
+ 644 03d6 009B     		ldr	r3, [sp]
+ 645 03d8 049A     		ldr	r2, [sp, #16]
+ 646 03da 9A42     		cmp	r2, r3
+ 647 03dc EFD9     		bls	.L27
+ 648              	.L25:
+  93:srcc/timeStamp.c ****     }
+  94:srcc/timeStamp.c ****     timeStamp -= daySum[month-1] * milOfDay;
+ 649              		.loc 1 94 0
+ 650 03de F100     		lsls	r1, r6, #3
+ 651 03e0 32AB     		add	r3, sp, #200
+ 652 03e2 9C46     		mov	ip, r3
+ 653 03e4 6144     		add	r1, r1, ip
+ 654 03e6 7039     		subs	r1, r1, #112
+ 655 03e8 344A     		ldr	r2, .L50
+ 656 03ea 0023     		movs	r3, #0
+ 657 03ec 0868     		ldr	r0, [r1]
+ 658 03ee 4968     		ldr	r1, [r1, #4]
+ 659 03f0 FFF7FEFF 		bl	__aeabi_lmul
+ 660              	.LVL48:
+ 661 03f4 009C     		ldr	r4, [sp]
+ 662 03f6 019D     		ldr	r5, [sp, #4]
+ 663 03f8 241A     		subs	r4, r4, r0
+ 664 03fa 8D41     		sbcs	r5, r5, r1
+ 665              	.LVL49:
+ 666 03fc 2F4A     		ldr	r2, .L50
+ 667 03fe 0023     		movs	r3, #0
+ 668 0400 2000     		movs	r0, r4
+ 669 0402 2900     		movs	r1, r5
+ 670 0404 FFF7FEFF 		bl	__aeabi_uldivmod
+ 671              	.LVL50:
+ 672 0408 1000     		movs	r0, r2
+ 673 040a 1900     		movs	r1, r3
+ 674              	.LVL51:
+ 675 040c 2C4A     		ldr	r2, .L50+4
+ 676 040e 0023     		movs	r3, #0
+ 677 0410 0090     		str	r0, [sp]
+ 678 0412 0191     		str	r1, [sp, #4]
+ 679 0414 FFF7FEFF 		bl	__aeabi_uldivmod
+ 680              	.LVL52:
+ 681 0418 1000     		movs	r0, r2
+ 682 041a 1900     		movs	r1, r3
+ 683              	.LVL53:
+ 684 041c 294A     		ldr	r2, .L50+8
+ 685 041e 0023     		movs	r3, #0
+ 686 0420 0490     		str	r0, [sp, #16]
+ 687 0422 0591     		str	r1, [sp, #20]
+ 688 0424 FFF7FEFF 		bl	__aeabi_uldivmod
+ 689              	.LVL54:
+ 690 0428 0692     		str	r2, [sp, #24]
+ 691 042a 0793     		str	r3, [sp, #28]
+ 692              	.LVL55:
+  95:srcc/timeStamp.c **** 
+  96:srcc/timeStamp.c ****     day = timeStamp / milOfDay;
+  97:srcc/timeStamp.c ****     timeStamp -= day * milOfDay;
+  98:srcc/timeStamp.c **** 
+  99:srcc/timeStamp.c ****     hour = timeStamp / milOfHour;
+ 100:srcc/timeStamp.c ****     timeStamp -= hour * milOfHour;
+ 101:srcc/timeStamp.c **** 
+ 102:srcc/timeStamp.c ****     minute = timeStamp / 60000;
+ 103:srcc/timeStamp.c ****     timeStamp -= minute * 60000;
+ 104:srcc/timeStamp.c **** 
+ 105:srcc/timeStamp.c ****     second = timeStamp / 1000;
+ 106:srcc/timeStamp.c ****     milliSecond = timeStamp % 1000;
+ 107:srcc/timeStamp.c **** 
+ 108:srcc/timeStamp.c ****     *dateArry[0] = year;
+ 693              		.loc 1 108 0
+ 694 042c 4B46     		mov	r3, r9
+ 695 042e 1B68     		ldr	r3, [r3]
+ 696 0430 0299     		ldr	r1, [sp, #8]
+ 697 0432 039A     		ldr	r2, [sp, #12]
+ 698 0434 1960     		str	r1, [r3]
+ 699 0436 5A60     		str	r2, [r3, #4]
+ 109:srcc/timeStamp.c ****     *dateArry[1] = month;
+ 700              		.loc 1 109 0
+ 701 0438 4B46     		mov	r3, r9
+ 702 043a 5B68     		ldr	r3, [r3, #4]
+ 703 043c 1E60     		str	r6, [r3]
+ 704 043e 5F60     		str	r7, [r3, #4]
+ 110:srcc/timeStamp.c ****     *dateArry[2] = day;
+ 705              		.loc 1 110 0
+ 706 0440 4B46     		mov	r3, r9
+ 707 0442 9E68     		ldr	r6, [r3, #8]
+ 708              	.LVL56:
+  96:srcc/timeStamp.c ****     timeStamp -= day * milOfDay;
+ 709              		.loc 1 96 0
+ 710 0444 1D4A     		ldr	r2, .L50
+ 711              	.LVL57:
+ 712 0446 0023     		movs	r3, #0
+ 713 0448 2000     		movs	r0, r4
+ 714 044a 2900     		movs	r1, r5
+ 715 044c FFF7FEFF 		bl	__aeabi_uldivmod
+ 716              	.LVL58:
+ 717              		.loc 1 110 0
+ 718 0450 3060     		str	r0, [r6]
+ 719 0452 7160     		str	r1, [r6, #4]
+ 111:srcc/timeStamp.c ****     *dateArry[3] = hour;
+ 720              		.loc 1 111 0
+ 721 0454 4B46     		mov	r3, r9
+ 722 0456 DE68     		ldr	r6, [r3, #12]
+  99:srcc/timeStamp.c ****     timeStamp -= hour * milOfHour;
+ 723              		.loc 1 99 0
+ 724 0458 194A     		ldr	r2, .L50+4
+ 725 045a 0023     		movs	r3, #0
+ 726 045c 0098     		ldr	r0, [sp]
+ 727 045e 0199     		ldr	r1, [sp, #4]
+ 728 0460 FFF7FEFF 		bl	__aeabi_uldivmod
+ 729              	.LVL59:
+ 730              		.loc 1 111 0
+ 731 0464 3060     		str	r0, [r6]
+ 732 0466 7160     		str	r1, [r6, #4]
+ 112:srcc/timeStamp.c ****     *dateArry[4] = minute;
+ 733              		.loc 1 112 0
+ 734 0468 4B46     		mov	r3, r9
+ 735 046a 1E69     		ldr	r6, [r3, #16]
+ 102:srcc/timeStamp.c ****     timeStamp -= minute * 60000;
+ 736              		.loc 1 102 0
+ 737 046c 154A     		ldr	r2, .L50+8
+ 738 046e 0023     		movs	r3, #0
+ 739 0470 0498     		ldr	r0, [sp, #16]
+ 740 0472 0599     		ldr	r1, [sp, #20]
+ 741 0474 FFF7FEFF 		bl	__aeabi_uldivmod
+ 742              	.LVL60:
+ 743              		.loc 1 112 0
+ 744 0478 3060     		str	r0, [r6]
+ 745 047a 7160     		str	r1, [r6, #4]
+ 113:srcc/timeStamp.c ****     *dateArry[5] = second;
+ 746              		.loc 1 113 0
+ 747 047c 4B46     		mov	r3, r9
+ 748 047e 5E69     		ldr	r6, [r3, #20]
+ 105:srcc/timeStamp.c ****     milliSecond = timeStamp % 1000;
+ 749              		.loc 1 105 0
+ 750 0480 FA22     		movs	r2, #250
+ 751 0482 9200     		lsls	r2, r2, #2
+ 752 0484 0023     		movs	r3, #0
+ 753 0486 069C     		ldr	r4, [sp, #24]
+ 754 0488 079D     		ldr	r5, [sp, #28]
+ 755              	.LVL61:
+ 756 048a 2000     		movs	r0, r4
+ 757 048c 2900     		movs	r1, r5
+ 758 048e FFF7FEFF 		bl	__aeabi_uldivmod
+ 759              	.LVL62:
+ 760              		.loc 1 113 0
+ 761 0492 3060     		str	r0, [r6]
+ 762 0494 7160     		str	r1, [r6, #4]
+ 114:srcc/timeStamp.c ****     *dateArry[6] = milliSecond;
+ 763              		.loc 1 114 0
+ 764 0496 4B46     		mov	r3, r9
+ 765 0498 9E69     		ldr	r6, [r3, #24]
+ 106:srcc/timeStamp.c **** 
+ 766              		.loc 1 106 0
+ 767 049a FA22     		movs	r2, #250
+ 768 049c 9200     		lsls	r2, r2, #2
+ 769 049e 0023     		movs	r3, #0
+ 770 04a0 2000     		movs	r0, r4
+ 771 04a2 2900     		movs	r1, r5
+ 772 04a4 FFF7FEFF 		bl	__aeabi_uldivmod
+ 773              	.LVL63:
+ 774              		.loc 1 114 0
+ 775 04a8 3260     		str	r2, [r6]
+ 776 04aa 7360     		str	r3, [r6, #4]
+ 115:srcc/timeStamp.c **** }
+ 777              		.loc 1 115 0
+ 778 04ac 33B0     		add	sp, sp, #204
+ 779              	.LVL64:
+ 780              		@ sp needed
+ 781              	.LVL65:
+ 782              	.LVL66:
+ 783 04ae 3CBC     		pop	{r2, r3, r4, r5}
+ 784 04b0 9046     		mov	r8, r2
+ 785 04b2 9946     		mov	r9, r3
+ 786 04b4 A246     		mov	r10, r4
+ 787 04b6 AB46     		mov	fp, r5
+ 788 04b8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 789              	.L51:
+ 790 04ba C046     		.align	2
+ 791              	.L50:
+ 792 04bc 005C2605 		.word	86400000
+ 793 04c0 80EE3600 		.word	3600000
+ 794 04c4 60EA0000 		.word	60000
+ 795              		.cfi_endproc
+ 796              	.LFE37:
+ 798              		.section	.text.intToString,"ax",%progbits
+ 799              		.align	1
+ 800              		.global	intToString
+ 801              		.syntax unified
+ 802              		.code	16
+ 803              		.thumb_func
+ 804              		.fpu softvfp
+ 806              	intToString:
+ 807              	.LFB38:
+ 116:srcc/timeStamp.c **** 
+ 117:srcc/timeStamp.c **** 
+ 118:srcc/timeStamp.c **** void intToString(uint_64 num,uint_8* str,uint_8 len)
+ 119:srcc/timeStamp.c **** {
+ 808              		.loc 1 119 0
+ 809              		.cfi_startproc
+ 810              		@ args = 0, pretend = 0, frame = 8
+ 811              		@ frame_needed = 0, uses_anonymous_args = 0
+ 812              	.LVL67:
+ 813 0000 70B5     		push	{r4, r5, r6, lr}
+ 814              		.cfi_def_cfa_offset 16
+ 815              		.cfi_offset 4, -16
+ 816              		.cfi_offset 5, -12
+ 817              		.cfi_offset 6, -8
+ 818              		.cfi_offset 14, -4
+ 819 0002 82B0     		sub	sp, sp, #8
+ 820              		.cfi_def_cfa_offset 24
+ 821 0004 0090     		str	r0, [sp]
+ 822 0006 0191     		str	r1, [sp, #4]
+ 823              	.LVL68:
+ 120:srcc/timeStamp.c **** 	uint_8 i;
+ 121:srcc/timeStamp.c **** 	uint_8 remainder; //余数
+ 122:srcc/timeStamp.c **** 	uint_64 divisor;  //除数
+ 123:srcc/timeStamp.c **** 
+ 124:srcc/timeStamp.c **** 	divisor = num;
+ 125:srcc/timeStamp.c **** 	for(i = 0;i < len;i++)
+ 824              		.loc 1 125 0
+ 825 0008 002B     		cmp	r3, #0
+ 826 000a 19D0     		beq	.L52
+ 827 000c 591E     		subs	r1, r3, #1
+ 828 000e 5518     		adds	r5, r2, r1
+ 829 0010 023A     		subs	r2, r2, #2
+ 830              	.LVL69:
+ 831 0012 D218     		adds	r2, r2, r3
+ 832              	.LVL70:
+ 833 0014 C9B2     		uxtb	r1, r1
+ 834 0016 561A     		subs	r6, r2, r1
+ 835              	.LVL71:
+ 836              	.L54:
+ 126:srcc/timeStamp.c **** 	{
+ 127:srcc/timeStamp.c **** 		remainder = divisor % 10;
+ 837              		.loc 1 127 0 discriminator 3
+ 838 0018 0A22     		movs	r2, #10
+ 839 001a 0023     		movs	r3, #0
+ 840 001c 0098     		ldr	r0, [sp]
+ 841 001e 0199     		ldr	r1, [sp, #4]
+ 842 0020 FFF7FEFF 		bl	__aeabi_uldivmod
+ 843              	.LVL72:
+ 844 0024 D4B2     		uxtb	r4, r2
+ 845              	.LVL73:
+ 128:srcc/timeStamp.c **** 		divisor = divisor / 10;
+ 846              		.loc 1 128 0 discriminator 3
+ 847 0026 0A22     		movs	r2, #10
+ 848 0028 0023     		movs	r3, #0
+ 849 002a 0098     		ldr	r0, [sp]
+ 850 002c 0199     		ldr	r1, [sp, #4]
+ 851 002e FFF7FEFF 		bl	__aeabi_uldivmod
+ 852              	.LVL74:
+ 853 0032 0090     		str	r0, [sp]
+ 854 0034 0191     		str	r1, [sp, #4]
+ 855              	.LVL75:
+ 129:srcc/timeStamp.c **** 		str[len-i-1] = remainder + '0';
+ 856              		.loc 1 129 0 discriminator 3
+ 857 0036 3034     		adds	r4, r4, #48
+ 858              	.LVL76:
+ 859 0038 2C70     		strb	r4, [r5]
+ 860 003a 013D     		subs	r5, r5, #1
+ 125:srcc/timeStamp.c **** 	{
+ 861              		.loc 1 125 0 discriminator 3
+ 862 003c B542     		cmp	r5, r6
+ 863 003e EBD1     		bne	.L54
+ 864              	.LVL77:
+ 865              	.L52:
+ 130:srcc/timeStamp.c **** 	}
+ 131:srcc/timeStamp.c **** }
+ 866              		.loc 1 131 0
+ 867 0040 02B0     		add	sp, sp, #8
+ 868              		@ sp needed
+ 869 0042 70BD     		pop	{r4, r5, r6, pc}
+ 870              		.cfi_endproc
+ 871              	.LFE38:
+ 873              		.section	.text.transformToDateString,"ax",%progbits
+ 874              		.align	1
+ 875              		.global	transformToDateString
+ 876              		.syntax unified
+ 877              		.code	16
+ 878              		.thumb_func
+ 879              		.fpu softvfp
+ 881              	transformToDateString:
+ 882              	.LFB36:
+  23:srcc/timeStamp.c ****     uint_64 year ,month ,day ,hour ,minute ,second ,milliSecond;
+ 883              		.loc 1 23 0
+ 884              		.cfi_startproc
+ 885              		@ args = 0, pretend = 0, frame = 88
+ 886              		@ frame_needed = 0, uses_anonymous_args = 0
+ 887              	.LVL78:
+ 888 0000 70B5     		push	{r4, r5, r6, lr}
+ 889              		.cfi_def_cfa_offset 16
+ 890              		.cfi_offset 4, -16
+ 891              		.cfi_offset 5, -12
+ 892              		.cfi_offset 6, -8
+ 893              		.cfi_offset 14, -4
+ 894 0002 96B0     		sub	sp, sp, #88
+ 895              		.cfi_def_cfa_offset 104
+ 896 0004 1400     		movs	r4, r2
+  25:srcc/timeStamp.c **** 
+ 897              		.loc 1 25 0
+ 898 0006 14AB     		add	r3, sp, #80
+ 899 0008 0193     		str	r3, [sp, #4]
+ 900 000a 12AB     		add	r3, sp, #72
+ 901 000c 0293     		str	r3, [sp, #8]
+ 902 000e 10AB     		add	r3, sp, #64
+ 903 0010 0393     		str	r3, [sp, #12]
+ 904 0012 0EAB     		add	r3, sp, #56
+ 905 0014 0493     		str	r3, [sp, #16]
+ 906 0016 0CAB     		add	r3, sp, #48
+ 907 0018 0593     		str	r3, [sp, #20]
+ 908 001a 0AAB     		add	r3, sp, #40
+ 909 001c 0693     		str	r3, [sp, #24]
+ 910 001e 08AB     		add	r3, sp, #32
+ 911 0020 0793     		str	r3, [sp, #28]
+  27:srcc/timeStamp.c **** 
+ 912              		.loc 1 27 0
+ 913 0022 01AA     		add	r2, sp, #4
+ 914              	.LVL79:
+ 915 0024 FFF7FEFF 		bl	transformToDate
+ 916              	.LVL80:
+  29:srcc/timeStamp.c **** 	dateString[4] = '-';
+ 917              		.loc 1 29 0
+ 918 0028 0423     		movs	r3, #4
+ 919 002a 2200     		movs	r2, r4
+ 920 002c 1498     		ldr	r0, [sp, #80]
+ 921 002e 1599     		ldr	r1, [sp, #84]
+ 922 0030 FFF7FEFF 		bl	intToString
+ 923              	.LVL81:
+  30:srcc/timeStamp.c **** 	intToString(month,dateString+5,2);
+ 924              		.loc 1 30 0
+ 925 0034 2D25     		movs	r5, #45
+ 926 0036 2571     		strb	r5, [r4, #4]
+  31:srcc/timeStamp.c **** 	dateString[7] = '-';
+ 927              		.loc 1 31 0
+ 928 0038 621D     		adds	r2, r4, #5
+ 929 003a 0223     		movs	r3, #2
+ 930 003c 1298     		ldr	r0, [sp, #72]
+ 931 003e 1399     		ldr	r1, [sp, #76]
+ 932 0040 FFF7FEFF 		bl	intToString
+ 933              	.LVL82:
+  32:srcc/timeStamp.c **** 	intToString(day+1,dateString+8,2);
+ 934              		.loc 1 32 0
+ 935 0044 E571     		strb	r5, [r4, #7]
+  33:srcc/timeStamp.c **** 	dateString[10] = ' ';
+ 936              		.loc 1 33 0
+ 937 0046 2200     		movs	r2, r4
+ 938 0048 0832     		adds	r2, r2, #8
+ 939 004a 0120     		movs	r0, #1
+ 940 004c 0021     		movs	r1, #0
+ 941 004e 109D     		ldr	r5, [sp, #64]
+ 942 0050 119E     		ldr	r6, [sp, #68]
+ 943 0052 4019     		adds	r0, r0, r5
+ 944 0054 7141     		adcs	r1, r1, r6
+ 945 0056 0223     		movs	r3, #2
+ 946 0058 FFF7FEFF 		bl	intToString
+ 947              	.LVL83:
+  34:srcc/timeStamp.c **** 	intToString(hour,dateString+11,2);
+ 948              		.loc 1 34 0
+ 949 005c 2023     		movs	r3, #32
+ 950 005e A372     		strb	r3, [r4, #10]
+  35:srcc/timeStamp.c **** 	dateString[13] = ':';
+ 951              		.loc 1 35 0
+ 952 0060 2200     		movs	r2, r4
+ 953 0062 0B32     		adds	r2, r2, #11
+ 954 0064 1E3B     		subs	r3, r3, #30
+ 955 0066 0E98     		ldr	r0, [sp, #56]
+ 956 0068 0F99     		ldr	r1, [sp, #60]
+ 957 006a FFF7FEFF 		bl	intToString
+ 958              	.LVL84:
+  36:srcc/timeStamp.c **** 	intToString(minute,dateString+14,2);
+ 959              		.loc 1 36 0
+ 960 006e 3A25     		movs	r5, #58
+ 961 0070 6573     		strb	r5, [r4, #13]
+  37:srcc/timeStamp.c **** 	dateString[16] = ':';
+ 962              		.loc 1 37 0
+ 963 0072 2200     		movs	r2, r4
+ 964 0074 0E32     		adds	r2, r2, #14
+ 965 0076 0223     		movs	r3, #2
+ 966 0078 0C98     		ldr	r0, [sp, #48]
+ 967 007a 0D99     		ldr	r1, [sp, #52]
+ 968 007c FFF7FEFF 		bl	intToString
+ 969              	.LVL85:
+  38:srcc/timeStamp.c **** 	intToString(second,dateString+17,2);
+ 970              		.loc 1 38 0
+ 971 0080 2574     		strb	r5, [r4, #16]
+  39:srcc/timeStamp.c **** 	dateString[19] = 0;
+ 972              		.loc 1 39 0
+ 973 0082 2200     		movs	r2, r4
+ 974 0084 1132     		adds	r2, r2, #17
+ 975 0086 0223     		movs	r3, #2
+ 976 0088 0A98     		ldr	r0, [sp, #40]
+ 977 008a 0B99     		ldr	r1, [sp, #44]
+ 978 008c FFF7FEFF 		bl	intToString
+ 979              	.LVL86:
+  40:srcc/timeStamp.c **** }
+ 980              		.loc 1 40 0
+ 981 0090 0023     		movs	r3, #0
+ 982 0092 E374     		strb	r3, [r4, #19]
+  41:srcc/timeStamp.c **** 
+ 983              		.loc 1 41 0
+ 984 0094 16B0     		add	sp, sp, #88
+ 985              		@ sp needed
+ 986              	.LVL87:
+ 987 0096 70BD     		pop	{r4, r5, r6, pc}
+ 988              		.cfi_endproc
+ 989              	.LFE36:
+ 991              		.section	.text.timeChange,"ax",%progbits
+ 992              		.align	1
+ 993              		.global	timeChange
+ 994              		.syntax unified
+ 995              		.code	16
+ 996              		.thumb_func
+ 997              		.fpu softvfp
+ 999              	timeChange:
+ 1000              	.LFB35:
+  16:srcc/timeStamp.c **** 	//62135625600000                 1970年之前的毫秒数      东八区，减8小时
+ 1001              		.loc 1 16 0
+ 1002              		.cfi_startproc
+ 1003              		@ args = 0, pretend = 0, frame = 0
+ 1004              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1005              	.LVL88:
+ 1006 0000 10B5     		push	{r4, lr}
+ 1007              		.cfi_def_cfa_offset 8
+ 1008              		.cfi_offset 4, -8
+ 1009              		.cfi_offset 14, -4
+ 1010 0002 1400     		movs	r4, r2
+  18:srcc/timeStamp.c **** }
+ 1011              		.loc 1 18 0
+ 1012 0004 FA22     		movs	r2, #250
+ 1013              	.LVL89:
+ 1014 0006 9200     		lsls	r2, r2, #2
+ 1015 0008 0023     		movs	r3, #0
+ 1016 000a FFF7FEFF 		bl	__aeabi_lmul
+ 1017              	.LVL90:
+ 1018 000e 044A     		ldr	r2, .L58
+ 1019 0010 044B     		ldr	r3, .L58+4
+ 1020 0012 8018     		adds	r0, r0, r2
+ 1021 0014 5941     		adcs	r1, r1, r3
+ 1022 0016 2200     		movs	r2, r4
+ 1023 0018 FFF7FEFF 		bl	transformToDateString
+ 1024              	.LVL91:
+  19:srcc/timeStamp.c **** 
+ 1025              		.loc 1 19 0
+ 1026              		@ sp needed
+ 1027              	.LVL92:
+ 1028 001c 10BD     		pop	{r4, pc}
+ 1029              	.L59:
+ 1030 001e C046     		.align	2
+ 1031              	.L58:
+ 1032 0020 00D82C12 		.word	304928768
+ 1033 0024 83380000 		.word	14467
+ 1034              		.cfi_endproc
+ 1035              	.LFE35:
+ 1037              		.comm	bios_fun_point,4,4
+ 1038              		.section	.rodata
+ 1039              		.align	3
+ 1040              		.set	.LANCHOR0,. + 0
+ 1041              	.LC0:
+ 1042 0000 00000000 		.word	0
+ 1043 0004 00000000 		.word	0
+ 1044 0008 1F000000 		.word	31
+ 1045 000c 00000000 		.word	0
+ 1046 0010 3B000000 		.word	59
+ 1047 0014 00000000 		.word	0
+ 1048 0018 5A000000 		.word	90
+ 1049 001c 00000000 		.word	0
+ 1050 0020 78000000 		.word	120
+ 1051 0024 00000000 		.word	0
+ 1052 0028 97000000 		.word	151
+ 1053 002c 00000000 		.word	0
+ 1054 0030 B5000000 		.word	181
+ 1055 0034 00000000 		.word	0
+ 1056 0038 D4000000 		.word	212
+ 1057 003c 00000000 		.word	0
+ 1058 0040 F3000000 		.word	243
+ 1059 0044 00000000 		.word	0
+ 1060 0048 11010000 		.word	273
+ 1061 004c 00000000 		.word	0
+ 1062 0050 30010000 		.word	304
+ 1063 0054 00000000 		.word	0
+ 1064 0058 4E010000 		.word	334
+ 1065 005c 00000000 		.word	0
+ 1066 0060 6D010000 		.word	365
+ 1067 0064 00000000 		.word	0
+ 1068              		.text
+ 1069              	.Letext0:
+ 1070              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 1071              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 1072              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 1073              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 1074              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 1075              		.file 7 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 1076              		.file 8 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 1077              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 1078              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+ 1079              		.file 11 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:00000000 timeStamp.c
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:18     .text.transformToDate:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:25     .text.transformToDate:00000000 transformToDate
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:566    .text.transformToDate:00000354 $d
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:574    .text.transformToDate:0000036c $t
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:792    .text.transformToDate:000004bc $d
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:799    .text.intToString:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:806    .text.intToString:00000000 intToString
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:874    .text.transformToDateString:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:881    .text.transformToDateString:00000000 transformToDateString
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:992    .text.timeChange:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:999    .text.timeChange:00000000 timeChange
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:1032   .text.timeChange:00000020 $d
+                            *COM*:00000004 bios_fun_point
+C:\Users\WYH\AppData\Local\Temp\cckkbw9B.s:1039   .rodata:00000000 $d
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.time.h.14.849270cc7997ccc4e05edd146e568a9f
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.time.h.2.4581ce0ffb6627cfc02162c94bf846c9
+                           .group:00000000 wm4.time.h.25.0e6a0fdbc9955f5707ed54246ed2e089
+                           .group:00000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:00000000 wm4.types.h.114.fb65732f4f5f288a036a25898de2c91f
+                           .group:00000000 wm4.time.h.243.a9f48603a5d5dd23632068f19327a890
+
+UNDEFINED SYMBOLS
+__aeabi_uldivmod
+__aeabi_lmul
+memcpy

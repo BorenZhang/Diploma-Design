@@ -351,7 +351,7 @@
                 state: 'CAN_CHANGE_SWITCH',
             },
             select: null,
-            items: ["460113003233156", "460113003233157"],
+            items: ["460113003233156"],
             isGreen: false,
             isRed: false,
             isOrange: false,
@@ -399,7 +399,7 @@
                     xAxis: {
                         type: 'category',
                             boundaryGap: false,
-                            data: ['30s前', '1分前', '90s前', '2分前', '150s前', '3分前', '210s前']
+                            data: ['210s前', '3分前', '150s前', '2分前', '90s前', '1分前', '30s前']
                     },
                     yAxis: {
                         type: 'value',
@@ -544,8 +544,8 @@
                         )
                         .catch(
                             () => {
-                                this.dialog_message = "数据获取失败";
-                                this.dialog = true;  //数据获取失败时提示
+                                //this.dialog_message = "数据获取失败";
+                                //this.dialog = true;  //数据获取失败时提示
                             }
                         )
                 }

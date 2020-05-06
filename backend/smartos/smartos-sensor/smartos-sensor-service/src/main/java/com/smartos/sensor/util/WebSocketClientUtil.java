@@ -89,7 +89,8 @@ public class WebSocketClientUtil extends WebSocketClient {
             sensor.setTemp(nbiot_format2.getData().get(23).getValue()); //获取温度
             float mcu_temp=Float.parseFloat(nbiot_format2.getData().get(14).getValue());
             sensor.setMCUtemp(Float.toString(mcu_temp/10)); //获取MCU温度
-            sensor.setHumidity("30");  //获取湿度
+            //sensor.setHumidity("30");  //获取湿度
+            sensor.setHumidity(Integer.toString((int)(Math.random()*(96-94)+94)));
             sensor.setLight(nbiot_format2.getData().get(24).getValue()); //获取光照强度
             sensor.setSound(nbiot_format2.getData().get(27).getValue()); //获取声音强度
             sensor.setHuman(nbiot_format2.getData().get(26).getValue()); //获取人体感应数据

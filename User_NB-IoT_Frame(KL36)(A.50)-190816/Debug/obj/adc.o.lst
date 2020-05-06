@@ -1,0 +1,706 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"adc.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.adc_read_inner,"ax",%progbits
+  16              		.align	1
+  17              		.global	adc_read_inner
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	adc_read_inner:
+  24              	.LFB38:
+  25              		.file 1 "srcc/adc.c"
+   1:srcc/adc.c    **** //=====================================================================
+   2:srcc/adc.c    **** //文件名称：adc.c
+   3:srcc/adc.c    **** //功能概要：adc底层驱动构件源文件
+   4:srcc/adc.c    **** //制作单位：苏州大学嵌入式系统与物联网研究所(sumcu.suda.edu.cn)
+   5:srcc/adc.c    **** //版    本：  2019-05-09  V2.0
+   6:srcc/adc.c    **** //适用芯片：KL25、KL26、KL36
+   7:srcc/adc.c    **** //=====================================================================
+   8:srcc/adc.c    **** 
+   9:srcc/adc.c    **** #include "adc.h"
+  10:srcc/adc.c    **** 
+  11:srcc/adc.c    **** //内部函数声明
+  12:srcc/adc.c    **** void adc_cal(void);
+  13:srcc/adc.c    **** void adc_init_inner( uint_8 chnGroup,uint_8 diff,uint_8 accurary,uint_8 HDAve);
+  14:srcc/adc.c    **** uint_16 adc_read_inner(uint_8 channel);
+  15:srcc/adc.c    **** 
+  16:srcc/adc.c    **** 
+  17:srcc/adc.c    **** //*********************************外部调用函数***********************************
+  18:srcc/adc.c    **** //============================================================================
+  19:srcc/adc.c    **** //函数名称：adc_init
+  20:srcc/adc.c    **** //功能概要：初始化一个AD通道组
+  21:srcc/adc.c    **** //参数说明：A_SENSOR_No：可用模拟量传感器通道，可用参数可参见gec.h文件
+  22:srcc/adc.c    **** //       accurary：采样精度，差分可选9-13-11-16；单端可选8-12-10-16，越高精度越高
+  23:srcc/adc.c    **** //============================================================================
+  24:srcc/adc.c    **** void adc_init(uint_16 A_SENSOR_No,uint_8 accurary)
+  25:srcc/adc.c    **** {
+  26:srcc/adc.c    **** 	uint_8 chnGroup,diff,acc;
+  27:srcc/adc.c    **** 	chnGroup = (uint_8)(A_SENSOR_No>>8);
+  28:srcc/adc.c    **** 	diff = 0;
+  29:srcc/adc.c    **** 	acc = accurary;
+  30:srcc/adc.c    **** 	if(A_SENSOR_No ==  (0|0<<8))  //MUXSEL_A（A通道）
+  31:srcc/adc.c    **** 		diff = 1;  //差分选择：=1，差分
+  32:srcc/adc.c    **** 	    //MUXSEL_B（B通道）
+  33:srcc/adc.c    **** 	else if(A_SENSOR_No == (1|1<<8))
+  34:srcc/adc.c    **** 		diff = 1;//差分选择：=1，差分
+  35:srcc/adc.c    **** 	adc_init_inner(chnGroup,diff,acc,SAMPLE32);
+  36:srcc/adc.c    **** }
+  37:srcc/adc.c    **** 
+  38:srcc/adc.c    **** //============================================================================
+  39:srcc/adc.c    **** //函数名称：adc_read
+  40:srcc/adc.c    **** //功能概要：进行一个通道的一次A/D转换
+  41:srcc/adc.c    **** //参数说明：A_SENSOR_No：可用模拟量传感器通道，可用参数可参见gec.h文件
+  42:srcc/adc.c    **** //============================================================================
+  43:srcc/adc.c    **** uint_16 adc_read(uint_16 A_SENSOR_No)
+  44:srcc/adc.c    **** {
+  45:srcc/adc.c    **** 	uint_8 channel;
+  46:srcc/adc.c    **** 	channel = (uint_8)A_SENSOR_No;
+  47:srcc/adc.c    **** 	return adc_read_inner(channel);
+  48:srcc/adc.c    **** }
+  49:srcc/adc.c    **** 
+  50:srcc/adc.c    **** //*********************************内部调用函数***********************************
+  51:srcc/adc.c    **** //============================================================================
+  52:srcc/adc.c    **** //函数名称：adc_init_inner
+  53:srcc/adc.c    **** //功能概要：初始化一个AD通道组
+  54:srcc/adc.c    **** //参数说明：chnGroup：通道组；有宏常数：MUXSEL_A（A通道）；MUXSEL_B（B通道）
+  55:srcc/adc.c    **** //       diff：差分选择。=1，差分；=0，单端；也可使用宏常数AD_DIFF/AD_SINGLE
+  56:srcc/adc.c    **** //       accurary：采样精度，差分可选9-13-11-16；单端可选8-12-10-16
+  57:srcc/adc.c    **** //       HDAve：硬件滤波次数，从宏定义中选择SAMPLE4/SAMPLE8/SAMPLE16/SAMPLE32
+  58:srcc/adc.c    **** //============================================================================
+  59:srcc/adc.c    **** void adc_init_inner( uint_8 chnGroup,uint_8 diff,uint_8 accurary,uint_8 HDAve)
+  60:srcc/adc.c    **** {
+  61:srcc/adc.c    ****     uint_8 ADCCfg1;
+  62:srcc/adc.c    ****     //    uint_8 ADCCfg2=0;
+  63:srcc/adc.c    ****     //1.打开ADC0模块时钟
+  64:srcc/adc.c    ****     SIM_SCGC6 |= SIM_SCGC6_ADC0_MASK;
+  65:srcc/adc.c    ****     //2.配置CFG1寄存器:正常功耗，总线时钟4分频，总线时钟/2，常采样时间
+  66:srcc/adc.c    ****     //2.1 根据采样精度确定ADC_CFG1_MODE位
+  67:srcc/adc.c    ****     switch(accurary)
+  68:srcc/adc.c    ****     {
+  69:srcc/adc.c    ****     case 8:case 9:
+  70:srcc/adc.c    ****         ADCCfg1 = ADC_CFG1_MODE(0);
+  71:srcc/adc.c    ****         break;
+  72:srcc/adc.c    ****     case 12:case 13:
+  73:srcc/adc.c    ****         ADCCfg1 = ADC_CFG1_MODE(1);
+  74:srcc/adc.c    ****         break;
+  75:srcc/adc.c    ****     case 10:case 11:
+  76:srcc/adc.c    ****         ADCCfg1 = ADC_CFG1_MODE(2);
+  77:srcc/adc.c    ****         break;
+  78:srcc/adc.c    ****     default:
+  79:srcc/adc.c    ****         ADCCfg1 = ADC_CFG1_MODE(3);
+  80:srcc/adc.c    ****         break;
+  81:srcc/adc.c    ****     }
+  82:srcc/adc.c    ****     //2.2 继续计算配置值（正常功耗，总线时钟4分频，总线时钟/2，常采样时间）
+  83:srcc/adc.c    ****     ADCCfg1 |=  (ADC_CFG1_ADIV(2) | ADC_CFG1_ADICLK(1) | ADC_CFG1_ADLSMP_MASK);
+  84:srcc/adc.c    ****     //2.3 进行配置
+  85:srcc/adc.c    ****     ADC0_CFG1 = ADCCfg1;
+  86:srcc/adc.c    ****     //3.根据通道组，配置CFG2寄存器
+  87:srcc/adc.c    ****     //3.1配置CFG2寄存器
+  88:srcc/adc.c    ****     ADC0_CFG2&=~(ADC_CFG2_ADACKEN_MASK     //异步时钟输出禁止
+  89:srcc/adc.c    ****             + ADC_CFG2_ADHSC_MASK       //普通转换
+  90:srcc/adc.c    ****             + ADC_CFG2_ADLSTS_MASK);    //默认最长采样时间
+  91:srcc/adc.c    ****     //3.2 选择b通道或是a通道
+  92:srcc/adc.c    ****     (chnGroup==1)?(ADC0_CFG2 |=(ADC_CFG2_MUXSEL(1))):(ADC0_CFG2 &=~(ADC_CFG2_MUXSEL(1)));
+  93:srcc/adc.c    ****     //4.配置ADC0_SC2：软件触发，比较功能禁用；DMA禁用；默认外部参考电压 VREFH/VREFL
+  94:srcc/adc.c    ****     ADC0_SC2 = 0;
+  95:srcc/adc.c    ****     //5.ADC0_SC3寄存器硬件均值使能，配置硬件滤波次数
+  96:srcc/adc.c    ****     ADC0_SC3 |= (ADC_SC3_ADCO_MASK | ADC_SC3_AVGE_MASK | ADC_SC3_AVGS((uint_8)HDAve));
+  97:srcc/adc.c    **** 
+  98:srcc/adc.c    ****     //选择差分输入或是单端输入
+  99:srcc/adc.c    ****     if (1 == diff)     //选择差分输入
+ 100:srcc/adc.c    ****     {
+ 101:srcc/adc.c    ****         ADC0_SC1A |= (ADC_SC1_DIFF_MASK);
+ 102:srcc/adc.c    ****         adc_cal();    //差分情况，需校验
+ 103:srcc/adc.c    ****     }
+ 104:srcc/adc.c    ****     else                          //选择单端输入
+ 105:srcc/adc.c    ****     {
+ 106:srcc/adc.c    ****         ADC0_SC1A &= ~(ADC_SC1_DIFF_MASK );
+ 107:srcc/adc.c    ****     }
+ 108:srcc/adc.c    ****     //禁用ADC模块中断
+ 109:srcc/adc.c    ****     ADC0_SC1A &= ~(ADC_SC1_AIEN_MASK);
+ 110:srcc/adc.c    **** }
+ 111:srcc/adc.c    **** 
+ 112:srcc/adc.c    **** //============================================================================
+ 113:srcc/adc.c    **** //函数名称：adc_read
+ 114:srcc/adc.c    **** //功能概要：进行一个通道的一次A/D转换
+ 115:srcc/adc.c    **** //参数说明：channel：见MKL25Z128VLK4芯片ADC通道输入表
+ 116:srcc/adc.c    **** //============================================================================
+ 117:srcc/adc.c    **** uint_16 adc_read_inner(uint_8 channel)
+ 118:srcc/adc.c    **** {
+  26              		.loc 1 118 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31              	.LVL0:
+ 119:srcc/adc.c    ****     uint_16 ADCResult = 0;
+ 120:srcc/adc.c    ****     //设置SC1A寄存器通道号
+ 121:srcc/adc.c    ****     ADC0_SC1A = ADC_SC1_ADCH(channel);        
+  32              		.loc 1 121 0
+  33 0000 1F23     		movs	r3, #31
+  34 0002 1840     		ands	r0, r3
+  35              	.LVL1:
+  36 0004 074B     		ldr	r3, .L4
+  37 0006 1860     		str	r0, [r3]
+ 122:srcc/adc.c    ****     //等待转换完成
+ 123:srcc/adc.c    ****     while(!(ADC0_SC1A & ADC_SC1_COCO_MASK));
+  38              		.loc 1 123 0
+  39 0008 1900     		movs	r1, r3
+  40 000a 8022     		movs	r2, #128
+  41              	.L2:
+  42              		.loc 1 123 0 is_stmt 0 discriminator 1
+  43 000c 0B68     		ldr	r3, [r1]
+  44 000e 1A42     		tst	r2, r3
+  45 0010 FCD0     		beq	.L2
+ 124:srcc/adc.c    ****     //读取转换结果
+ 125:srcc/adc.c    ****     ADCResult = (uint_16)ADC0_RA;
+  46              		.loc 1 125 0 is_stmt 1
+  47 0012 044B     		ldr	r3, .L4
+  48 0014 1869     		ldr	r0, [r3, #16]
+  49              	.LVL2:
+ 126:srcc/adc.c    ****     //清ADC转换完成标志
+ 127:srcc/adc.c    ****     ADC0_SC1A &= ~ADC_SC1_COCO_MASK;
+  50              		.loc 1 127 0
+  51 0016 1A68     		ldr	r2, [r3]
+  52 0018 8021     		movs	r1, #128
+  53 001a 8A43     		bics	r2, r1
+  54 001c 1A60     		str	r2, [r3]
+ 128:srcc/adc.c    ****     //返回读取结果
+ 129:srcc/adc.c    ****     return ADCResult;
+  55              		.loc 1 129 0
+  56 001e 80B2     		uxth	r0, r0
+ 130:srcc/adc.c    **** }
+  57              		.loc 1 130 0
+  58              		@ sp needed
+  59 0020 7047     		bx	lr
+  60              	.L5:
+  61 0022 C046     		.align	2
+  62              	.L4:
+  63 0024 00B00340 		.word	1073983488
+  64              		.cfi_endproc
+  65              	.LFE38:
+  67              		.section	.text.adc_read,"ax",%progbits
+  68              		.align	1
+  69              		.global	adc_read
+  70              		.syntax unified
+  71              		.code	16
+  72              		.thumb_func
+  73              		.fpu softvfp
+  75              	adc_read:
+  76              	.LFB36:
+  44:srcc/adc.c    **** 	uint_8 channel;
+  77              		.loc 1 44 0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 0
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81              	.LVL3:
+  82 0000 10B5     		push	{r4, lr}
+  83              		.cfi_def_cfa_offset 8
+  84              		.cfi_offset 4, -8
+  85              		.cfi_offset 14, -4
+  86              	.LVL4:
+  47:srcc/adc.c    **** }
+  87              		.loc 1 47 0
+  88 0002 C0B2     		uxtb	r0, r0
+  89              	.LVL5:
+  90 0004 FFF7FEFF 		bl	adc_read_inner
+  91              	.LVL6:
+  48:srcc/adc.c    **** 
+  92              		.loc 1 48 0
+  93              		@ sp needed
+  94 0008 10BD     		pop	{r4, pc}
+  95              		.cfi_endproc
+  96              	.LFE36:
+  98              		.section	.text.adc_cal,"ax",%progbits
+  99              		.align	1
+ 100              		.global	adc_cal
+ 101              		.syntax unified
+ 102              		.code	16
+ 103              		.thumb_func
+ 104              		.fpu softvfp
+ 106              	adc_cal:
+ 107              	.LFB39:
+ 131:srcc/adc.c    **** 
+ 132:srcc/adc.c    **** //-------内部函数-------------------------------------------------------------
+ 133:srcc/adc.c    **** //============================================================================
+ 134:srcc/adc.c    **** //函数名称：adc_cal
+ 135:srcc/adc.c    **** //功能概要：adc模块校正功能函数       
+ 136:srcc/adc.c    **** //说明：在校正之前，须正确配置ADC时钟、采样时间、模式、硬件滤波32次，
+ 137:srcc/adc.c    **** //    详见KL25芯片手册28.4.6
+ 138:srcc/adc.c    **** //============================================================================
+ 139:srcc/adc.c    **** void adc_cal(void)
+ 140:srcc/adc.c    **** {
+ 108              		.loc 1 140 0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 0, uses_anonymous_args = 0
+ 112              		@ link register save eliminated.
+ 141:srcc/adc.c    ****     uint_8 cal_var;
+ 142:srcc/adc.c    **** 
+ 143:srcc/adc.c    ****     ADC0_SC2 &=  ~ADC_SC2_ADTRG_MASK ; // 使能软件触发
+ 113              		.loc 1 143 0
+ 114 0000 1E4B     		ldr	r3, .L11
+ 115 0002 1A6A     		ldr	r2, [r3, #32]
+ 116 0004 4021     		movs	r1, #64
+ 117 0006 8A43     		bics	r2, r1
+ 118 0008 1A62     		str	r2, [r3, #32]
+ 144:srcc/adc.c    ****     ADC0_SC3 &= ( ~ADC_SC3_ADCO_MASK & ~ADC_SC3_AVGS_MASK ); //单次转换
+ 119              		.loc 1 144 0
+ 120 000a 5A6A     		ldr	r2, [r3, #36]
+ 121 000c 3539     		subs	r1, r1, #53
+ 122 000e 8A43     		bics	r2, r1
+ 123 0010 5A62     		str	r2, [r3, #36]
+ 145:srcc/adc.c    ****     ADC0_SC3 |= ( ADC_SC3_AVGE_MASK | ADC_SC3_AVGS(3) );  //硬件平均滤波32次
+ 124              		.loc 1 145 0
+ 125 0012 5A6A     		ldr	r2, [r3, #36]
+ 126 0014 0439     		subs	r1, r1, #4
+ 127 0016 0A43     		orrs	r2, r1
+ 128 0018 5A62     		str	r2, [r3, #36]
+ 146:srcc/adc.c    ****     ADC0_SC3 |= ADC_SC3_CAL_MASK ;      //开始校验
+ 129              		.loc 1 146 0
+ 130 001a 5A6A     		ldr	r2, [r3, #36]
+ 131 001c 7931     		adds	r1, r1, #121
+ 132 001e 0A43     		orrs	r2, r1
+ 133 0020 5A62     		str	r2, [r3, #36]
+ 147:srcc/adc.c    ****     while (!(ADC0_SC1A & ADC_SC1_COCO_MASK)); // 等待转换完成
+ 134              		.loc 1 147 0
+ 135 0022 1900     		movs	r1, r3
+ 136 0024 8022     		movs	r2, #128
+ 137              	.L8:
+ 138              		.loc 1 147 0 is_stmt 0 discriminator 1
+ 139 0026 0B68     		ldr	r3, [r1]
+ 140 0028 1A42     		tst	r2, r3
+ 141 002a FCD0     		beq	.L8
+ 148:srcc/adc.c    **** 
+ 149:srcc/adc.c    ****     if (ADC0_SC3& ADC_SC3_CALF_MASK) goto adc_cal_exit; // 校正失败
+ 142              		.loc 1 149 0 is_stmt 1
+ 143 002c 134B     		ldr	r3, .L11
+ 144 002e 5B6A     		ldr	r3, [r3, #36]
+ 145 0030 5B06     		lsls	r3, r3, #25
+ 146 0032 20D4     		bmi	.L9
+ 147              	.LVL7:
+ 150:srcc/adc.c    ****     // 校正正确，继续执行
+ 151:srcc/adc.c    ****     // 计算正向输入校正
+ 152:srcc/adc.c    ****     cal_var = 0x00;
+ 153:srcc/adc.c    ****     cal_var =  ADC0_CLP0;
+ 148              		.loc 1 153 0
+ 149 0034 114B     		ldr	r3, .L11
+ 150 0036 DA6C     		ldr	r2, [r3, #76]
+ 151              	.LVL8:
+ 154:srcc/adc.c    ****     cal_var += ADC0_CLP1;
+ 152              		.loc 1 154 0
+ 153 0038 996C     		ldr	r1, [r3, #72]
+ 154 003a 5218     		adds	r2, r2, r1
+ 155              	.LVL9:
+ 155:srcc/adc.c    ****     cal_var += ADC0_CLP2;
+ 156              		.loc 1 155 0
+ 157 003c 596C     		ldr	r1, [r3, #68]
+ 158 003e 5218     		adds	r2, r2, r1
+ 159              	.LVL10:
+ 156:srcc/adc.c    ****     cal_var += ADC0_CLP3;
+ 160              		.loc 1 156 0
+ 161 0040 196C     		ldr	r1, [r3, #64]
+ 162 0042 5218     		adds	r2, r2, r1
+ 163              	.LVL11:
+ 157:srcc/adc.c    ****     cal_var += ADC0_CLP4;
+ 164              		.loc 1 157 0
+ 165 0044 D96B     		ldr	r1, [r3, #60]
+ 166 0046 5218     		adds	r2, r2, r1
+ 167              	.LVL12:
+ 158:srcc/adc.c    ****     cal_var += ADC0_CLPS;
+ 168              		.loc 1 158 0
+ 169 0048 996B     		ldr	r1, [r3, #56]
+ 170 004a 5218     		adds	r2, r2, r1
+ 171              	.LVL13:
+ 172 004c D2B2     		uxtb	r2, r2
+ 173              	.LVL14:
+ 159:srcc/adc.c    **** 
+ 160:srcc/adc.c    ****     cal_var = cal_var/2;
+ 161:srcc/adc.c    ****     cal_var |= 0x8000;   //Set MSB
+ 162:srcc/adc.c    ****     ADC0_PG = ADC_PG_PG(cal_var);
+ 174              		.loc 1 162 0
+ 175 004e 5208     		lsrs	r2, r2, #1
+ 176              	.LVL15:
+ 177 0050 DA62     		str	r2, [r3, #44]
+ 178              	.LVL16:
+ 163:srcc/adc.c    **** 
+ 164:srcc/adc.c    ****     // 计算负向输入校正
+ 165:srcc/adc.c    ****     cal_var = 0x00;
+ 166:srcc/adc.c    ****     cal_var =  ADC0_CLM0;
+ 179              		.loc 1 166 0
+ 180 0052 DA6E     		ldr	r2, [r3, #108]
+ 181              	.LVL17:
+ 167:srcc/adc.c    ****     cal_var += ADC0_CLM1;
+ 182              		.loc 1 167 0
+ 183 0054 996E     		ldr	r1, [r3, #104]
+ 184 0056 5218     		adds	r2, r2, r1
+ 185              	.LVL18:
+ 168:srcc/adc.c    ****     cal_var += ADC0_CLM2;
+ 186              		.loc 1 168 0
+ 187 0058 596E     		ldr	r1, [r3, #100]
+ 188 005a 5218     		adds	r2, r2, r1
+ 189              	.LVL19:
+ 169:srcc/adc.c    ****     cal_var += ADC0_CLM3;
+ 190              		.loc 1 169 0
+ 191 005c 196E     		ldr	r1, [r3, #96]
+ 192 005e 5218     		adds	r2, r2, r1
+ 193              	.LVL20:
+ 170:srcc/adc.c    ****     cal_var += ADC0_CLM4;
+ 194              		.loc 1 170 0
+ 195 0060 D96D     		ldr	r1, [r3, #92]
+ 196 0062 5218     		adds	r2, r2, r1
+ 197              	.LVL21:
+ 171:srcc/adc.c    ****     cal_var += ADC0_CLMS;
+ 198              		.loc 1 171 0
+ 199 0064 996D     		ldr	r1, [r3, #88]
+ 200 0066 5218     		adds	r2, r2, r1
+ 201              	.LVL22:
+ 202 0068 D2B2     		uxtb	r2, r2
+ 203              	.LVL23:
+ 172:srcc/adc.c    **** 
+ 173:srcc/adc.c    ****     cal_var = cal_var/2;
+ 174:srcc/adc.c    ****     cal_var |= 0x8000; // Set MSB
+ 175:srcc/adc.c    ****     ADC0_MG = ADC_MG_MG(cal_var);
+ 204              		.loc 1 175 0
+ 205 006a 5208     		lsrs	r2, r2, #1
+ 206              	.LVL24:
+ 207 006c 1A63     		str	r2, [r3, #48]
+ 176:srcc/adc.c    ****     ADC0_SC3 &= ~ADC_SC3_CAL_MASK ; //清CAL
+ 208              		.loc 1 176 0
+ 209 006e 5A6A     		ldr	r2, [r3, #36]
+ 210 0070 8021     		movs	r1, #128
+ 211 0072 8A43     		bics	r2, r1
+ 212 0074 5A62     		str	r2, [r3, #36]
+ 213              	.L9:
+ 177:srcc/adc.c    **** adc_cal_exit:
+ 178:srcc/adc.c    ****     __asm("NOP");
+ 214              		.loc 1 178 0
+ 215              		.syntax divided
+ 216              	@ 178 "srcc/adc.c" 1
+ 217 0076 C046     		NOP
+ 218              	@ 0 "" 2
+ 179:srcc/adc.c    **** }
+ 219              		.loc 1 179 0
+ 220              		.thumb
+ 221              		.syntax unified
+ 222              		@ sp needed
+ 223 0078 7047     		bx	lr
+ 224              	.L12:
+ 225 007a C046     		.align	2
+ 226              	.L11:
+ 227 007c 00B00340 		.word	1073983488
+ 228              		.cfi_endproc
+ 229              	.LFE39:
+ 231              		.section	.text.adc_init_inner,"ax",%progbits
+ 232              		.align	1
+ 233              		.global	adc_init_inner
+ 234              		.syntax unified
+ 235              		.code	16
+ 236              		.thumb_func
+ 237              		.fpu softvfp
+ 239              	adc_init_inner:
+ 240              	.LFB37:
+  60:srcc/adc.c    ****     uint_8 ADCCfg1;
+ 241              		.loc 1 60 0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245              	.LVL25:
+ 246 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 247              		.cfi_def_cfa_offset 24
+ 248              		.cfi_offset 3, -24
+ 249              		.cfi_offset 4, -20
+ 250              		.cfi_offset 5, -16
+ 251              		.cfi_offset 6, -12
+ 252              		.cfi_offset 7, -8
+ 253              		.cfi_offset 14, -4
+  64:srcc/adc.c    ****     //2.配置CFG1寄存器:正常功耗，总线时钟4分频，总线时钟/2，常采样时间
+ 254              		.loc 1 64 0
+ 255 0002 244E     		ldr	r6, .L26
+ 256 0004 244D     		ldr	r5, .L26+4
+ 257 0006 7759     		ldr	r7, [r6, r5]
+ 258 0008 8024     		movs	r4, #128
+ 259 000a 2405     		lsls	r4, r4, #20
+ 260 000c 3C43     		orrs	r4, r7
+ 261 000e 7451     		str	r4, [r6, r5]
+  67:srcc/adc.c    ****     {
+ 262              		.loc 1 67 0
+ 263 0010 083A     		subs	r2, r2, #8
+ 264              	.LVL26:
+ 265 0012 D4B2     		uxtb	r4, r2
+ 266 0014 052C     		cmp	r4, #5
+ 267 0016 07D8     		bhi	.L14
+ 268 0018 A200     		lsls	r2, r4, #2
+ 269 001a 204C     		ldr	r4, .L26+8
+ 270 001c A258     		ldr	r2, [r4, r2]
+ 271 001e 9746     		mov	pc, r2
+ 272              		.section	.rodata.adc_init_inner,"a",%progbits
+ 273              		.align	2
+ 274              	.L16:
+ 275 0000 2C000000 		.word	.L23
+ 276 0004 2C000000 		.word	.L23
+ 277 0008 24000000 		.word	.L17
+ 278 000c 24000000 		.word	.L17
+ 279 0010 20000000 		.word	.L18
+ 280 0014 20000000 		.word	.L18
+ 281              		.section	.text.adc_init_inner
+ 282              	.L18:
+  73:srcc/adc.c    ****         break;
+ 283              		.loc 1 73 0
+ 284 0020 0422     		movs	r2, #4
+ 285 0022 04E0     		b	.L15
+ 286              	.L17:
+ 287              	.LVL27:
+  76:srcc/adc.c    ****         break;
+ 288              		.loc 1 76 0
+ 289 0024 0822     		movs	r2, #8
+  77:srcc/adc.c    ****     default:
+ 290              		.loc 1 77 0
+ 291 0026 02E0     		b	.L15
+ 292              	.LVL28:
+ 293              	.L14:
+  79:srcc/adc.c    ****         break;
+ 294              		.loc 1 79 0
+ 295 0028 0C22     		movs	r2, #12
+  80:srcc/adc.c    ****     }
+ 296              		.loc 1 80 0
+ 297 002a 00E0     		b	.L15
+ 298              	.LVL29:
+ 299              	.L23:
+  70:srcc/adc.c    ****         break;
+ 300              		.loc 1 70 0
+ 301 002c 0022     		movs	r2, #0
+ 302              	.L15:
+ 303              	.LVL30:
+  85:srcc/adc.c    ****     //3.根据通道组，配置CFG2寄存器
+ 304              		.loc 1 85 0
+ 305 002e 5124     		movs	r4, #81
+ 306 0030 2243     		orrs	r2, r4
+ 307              	.LVL31:
+ 308 0032 1B4C     		ldr	r4, .L26+12
+ 309 0034 A260     		str	r2, [r4, #8]
+  88:srcc/adc.c    ****             + ADC_CFG2_ADHSC_MASK       //普通转换
+ 310              		.loc 1 88 0
+ 311 0036 E268     		ldr	r2, [r4, #12]
+ 312 0038 0F25     		movs	r5, #15
+ 313 003a AA43     		bics	r2, r5
+ 314 003c E260     		str	r2, [r4, #12]
+  92:srcc/adc.c    ****     //4.配置ADC0_SC2：软件触发，比较功能禁用；DMA禁用；默认外部参考电压 VREFH/VREFL
+ 315              		.loc 1 92 0
+ 316 003e 0128     		cmp	r0, #1
+ 317 0040 1BD0     		beq	.L24
+  92:srcc/adc.c    ****     //4.配置ADC0_SC2：软件触发，比较功能禁用；DMA禁用；默认外部参考电压 VREFH/VREFL
+ 318              		.loc 1 92 0 is_stmt 0 discriminator 2
+ 319 0042 1748     		ldr	r0, .L26+12
+ 320              	.LVL32:
+ 321 0044 C268     		ldr	r2, [r0, #12]
+ 322 0046 1024     		movs	r4, #16
+ 323 0048 A243     		bics	r2, r4
+ 324 004a C260     		str	r2, [r0, #12]
+ 325              	.L20:
+  94:srcc/adc.c    ****     //5.ADC0_SC3寄存器硬件均值使能，配置硬件滤波次数
+ 326              		.loc 1 94 0 is_stmt 1
+ 327 004c 1448     		ldr	r0, .L26+12
+ 328 004e 0022     		movs	r2, #0
+ 329 0050 0262     		str	r2, [r0, #32]
+  96:srcc/adc.c    **** 
+ 330              		.loc 1 96 0
+ 331 0052 446A     		ldr	r4, [r0, #36]
+ 332 0054 0332     		adds	r2, r2, #3
+ 333 0056 1340     		ands	r3, r2
+ 334              	.LVL33:
+ 335 0058 0932     		adds	r2, r2, #9
+ 336 005a 2243     		orrs	r2, r4
+ 337 005c 1343     		orrs	r3, r2
+ 338 005e 4362     		str	r3, [r0, #36]
+  99:srcc/adc.c    ****     {
+ 339              		.loc 1 99 0
+ 340 0060 0129     		cmp	r1, #1
+ 341 0062 10D0     		beq	.L25
+ 106:srcc/adc.c    ****     }
+ 342              		.loc 1 106 0
+ 343 0064 0E4A     		ldr	r2, .L26+12
+ 344 0066 1368     		ldr	r3, [r2]
+ 345 0068 2021     		movs	r1, #32
+ 346              	.LVL34:
+ 347 006a 8B43     		bics	r3, r1
+ 348 006c 1360     		str	r3, [r2]
+ 349              	.L22:
+ 109:srcc/adc.c    **** }
+ 350              		.loc 1 109 0
+ 351 006e 0C4A     		ldr	r2, .L26+12
+ 352 0070 1368     		ldr	r3, [r2]
+ 353 0072 4021     		movs	r1, #64
+ 354 0074 8B43     		bics	r3, r1
+ 355 0076 1360     		str	r3, [r2]
+ 110:srcc/adc.c    **** 
+ 356              		.loc 1 110 0
+ 357              		@ sp needed
+ 358 0078 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 359              	.LVL35:
+ 360              	.L24:
+  92:srcc/adc.c    ****     //4.配置ADC0_SC2：软件触发，比较功能禁用；DMA禁用；默认外部参考电压 VREFH/VREFL
+ 361              		.loc 1 92 0 discriminator 1
+ 362 007a 2000     		movs	r0, r4
+ 363              	.LVL36:
+ 364 007c E268     		ldr	r2, [r4, #12]
+ 365 007e 1024     		movs	r4, #16
+ 366 0080 2243     		orrs	r2, r4
+ 367 0082 C260     		str	r2, [r0, #12]
+ 368 0084 E2E7     		b	.L20
+ 369              	.LVL37:
+ 370              	.L25:
+ 101:srcc/adc.c    ****         adc_cal();    //差分情况，需校验
+ 371              		.loc 1 101 0
+ 372 0086 0368     		ldr	r3, [r0]
+ 373 0088 1F31     		adds	r1, r1, #31
+ 374              	.LVL38:
+ 375 008a 0B43     		orrs	r3, r1
+ 376 008c 0360     		str	r3, [r0]
+ 102:srcc/adc.c    ****     }
+ 377              		.loc 1 102 0
+ 378 008e FFF7FEFF 		bl	adc_cal
+ 379              	.LVL39:
+ 380 0092 ECE7     		b	.L22
+ 381              	.L27:
+ 382              		.align	2
+ 383              	.L26:
+ 384 0094 00700440 		.word	1074032640
+ 385 0098 3C100000 		.word	4156
+ 386 009c 00000000 		.word	.L16
+ 387 00a0 00B00340 		.word	1073983488
+ 388              		.cfi_endproc
+ 389              	.LFE37:
+ 391              		.section	.text.adc_init,"ax",%progbits
+ 392              		.align	1
+ 393              		.global	adc_init
+ 394              		.syntax unified
+ 395              		.code	16
+ 396              		.thumb_func
+ 397              		.fpu softvfp
+ 399              	adc_init:
+ 400              	.LFB35:
+  25:srcc/adc.c    **** 	uint_8 chnGroup,diff,acc;
+ 401              		.loc 1 25 0
+ 402              		.cfi_startproc
+ 403              		@ args = 0, pretend = 0, frame = 0
+ 404              		@ frame_needed = 0, uses_anonymous_args = 0
+ 405              	.LVL40:
+ 406 0000 10B5     		push	{r4, lr}
+ 407              		.cfi_def_cfa_offset 8
+ 408              		.cfi_offset 4, -8
+ 409              		.cfi_offset 14, -4
+ 410 0002 0A00     		movs	r2, r1
+  27:srcc/adc.c    **** 	diff = 0;
+ 411              		.loc 1 27 0
+ 412 0004 040A     		lsrs	r4, r0, #8
+ 413              	.LVL41:
+  31:srcc/adc.c    **** 	    //MUXSEL_B（B通道）
+ 414              		.loc 1 31 0
+ 415 0006 0121     		movs	r1, #1
+ 416              	.LVL42:
+  30:srcc/adc.c    **** 		diff = 1;  //差分选择：=1，差分
+ 417              		.loc 1 30 0
+ 418 0008 0028     		cmp	r0, #0
+ 419 000a 04D0     		beq	.L29
+  33:srcc/adc.c    **** 		diff = 1;//差分选择：=1，差分
+ 420              		.loc 1 33 0
+ 421 000c 0238     		subs	r0, r0, #2
+ 422              	.LVL43:
+ 423 000e FF38     		subs	r0, r0, #255
+ 424 0010 4342     		rsbs	r3, r0, #0
+ 425 0012 4341     		adcs	r3, r3, r0
+  31:srcc/adc.c    **** 	    //MUXSEL_B（B通道）
+ 426              		.loc 1 31 0
+ 427 0014 D9B2     		uxtb	r1, r3
+ 428              	.L29:
+ 429              	.LVL44:
+  35:srcc/adc.c    **** }
+ 430              		.loc 1 35 0
+ 431 0016 0323     		movs	r3, #3
+ 432 0018 2000     		movs	r0, r4
+ 433 001a FFF7FEFF 		bl	adc_init_inner
+ 434              	.LVL45:
+  36:srcc/adc.c    **** 
+ 435              		.loc 1 36 0
+ 436              		@ sp needed
+ 437              	.LVL46:
+ 438 001e 10BD     		pop	{r4, pc}
+ 439              		.cfi_endproc
+ 440              	.LFE35:
+ 442              		.comm	bios_fun_point,4,4
+ 443              		.text
+ 444              	.Letext0:
+ 445              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 446              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 447              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 448              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 449              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 450              		.file 7 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 451              		.file 8 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 452              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 453              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 454              		.file 11 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 adc.c
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:16     .text.adc_read_inner:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:23     .text.adc_read_inner:00000000 adc_read_inner
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:63     .text.adc_read_inner:00000024 $d
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:68     .text.adc_read:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:75     .text.adc_read:00000000 adc_read
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:99     .text.adc_cal:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:106    .text.adc_cal:00000000 adc_cal
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:227    .text.adc_cal:0000007c $d
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:232    .text.adc_init_inner:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:239    .text.adc_init_inner:00000000 adc_init_inner
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:273    .rodata.adc_init_inner:00000000 $d
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:384    .text.adc_init_inner:00000094 $d
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:392    .text.adc_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccPmZlYe.s:399    .text.adc_init:00000000 adc_init
+                            *COM*:00000004 bios_fun_point
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.adc.h.16.46085ea51e91d3cad1570882ff063879
+
+NO UNDEFINED SYMBOLS

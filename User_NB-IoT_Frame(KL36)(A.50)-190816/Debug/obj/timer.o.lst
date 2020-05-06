@@ -1,0 +1,1905 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"timer.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.lptmr_init,"ax",%progbits
+  16              		.align	1
+  17              		.global	lptmr_init
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	lptmr_init:
+  24              	.LFB40:
+  25              		.file 1 "srcc/timer.c"
+   1:srcc/timer.c  **** //=====================================================================
+   2:srcc/timer.c  **** //文件名称：timer.c
+   3:srcc/timer.c  **** //功能概要：timer底层驱动构件源文件
+   4:srcc/timer.c  **** //制作单位：苏州大学嵌入式系统与物联网研究所(sumcu.suda.edu.cn)
+   5:srcc/timer.c  **** //版    本：  2019-05-09  V2.0
+   6:srcc/timer.c  **** //适用芯片：KL25、KL26、KL36
+   7:srcc/timer.c  **** //=====================================================================
+   8:srcc/timer.c  **** #include "timer.h"
+   9:srcc/timer.c  **** 
+  10:srcc/timer.c  **** void lptmr_init(uint_32 time_ms);
+  11:srcc/timer.c  **** void lptmr_reset(void);
+  12:srcc/timer.c  **** void lptmr_enable_int(void);
+  13:srcc/timer.c  **** void lptmr_disable_int(void);
+  14:srcc/timer.c  **** void tpm_timer_init(uint_16 TPM_i,uint32_t f,float MOD_Value);
+  15:srcc/timer.c  **** void tpm_enable_int(uint_8 TPM_i);
+  16:srcc/timer.c  **** void tpm_disable_int(uint_8 TPM_i);
+  17:srcc/timer.c  **** uint_8 tpm_get_int(uint_8 TPM_i);
+  18:srcc/timer.c  **** void tpm_clear_int(uint_8 TPM_i);
+  19:srcc/timer.c  **** 
+  20:srcc/timer.c  **** //各端口基地址放入常数数据组PORT_ARR[0]~PORT_ARR[4]中
+  21:srcc/timer.c  **** static const PORT_MemMapPtr PORT_ARR[]={PORTA_BASE_PTR,PORTB_BASE_PTR,
+  22:srcc/timer.c  ****                          PORTC_BASE_PTR,PORTD_BASE_PTR,PORTE_BASE_PTR};
+  23:srcc/timer.c  **** //定时器模块0,1,2地址映射
+  24:srcc/timer.c  **** TPM_MemMapPtr TPM_ARR[]={TPM0_BASE_PTR,TPM1_BASE_PTR,TPM2_BASE_PTR};
+  25:srcc/timer.c  **** IRQn_Type TPM_IRQ[]={TPM0_IRQn,TPM1_IRQn,TPM2_IRQn};
+  26:srcc/timer.c  **** 
+  27:srcc/timer.c  **** //============================================================================
+  28:srcc/timer.c  **** //函数名称：timer_init
+  29:srcc/timer.c  **** //函数返回：无
+  30:srcc/timer.c  **** //参数说明： timer_No:时钟模块号  具体时钟模块号见gec.h文件定义
+  31:srcc/timer.c  **** //        time_ms 定时器中断的时间间隔，单位为毫秒，其中timer0设置范围 0~65535ms，timer1与
+  32:srcc/timer.c  **** //                timer2定时时长范围为0~65535/3ms
+  33:srcc/timer.c  **** //功能概要：时钟模块初始化，其中timer0为低功耗时钟 timer1与timer2为非低功耗时钟
+  34:srcc/timer.c  **** //============================================================================
+  35:srcc/timer.c  **** void timer_init(uint_8 timer_No,uint_32 time_ms)
+  36:srcc/timer.c  **** {
+  37:srcc/timer.c  ****     if(timer_No==0)
+  38:srcc/timer.c  ****     {
+  39:srcc/timer.c  ****         lptmr_init(time_ms);
+  40:srcc/timer.c  ****     }
+  41:srcc/timer.c  ****     else if(timer_No==1||timer_No==2)
+  42:srcc/timer.c  ****     {
+  43:srcc/timer.c  ****         tpm_timer_init(timer_No,3000,time_ms);
+  44:srcc/timer.c  ****     }
+  45:srcc/timer.c  ****     else
+  46:srcc/timer.c  ****         return;
+  47:srcc/timer.c  **** }
+  48:srcc/timer.c  **** 
+  49:srcc/timer.c  **** 
+  50:srcc/timer.c  **** //============================================================================
+  51:srcc/timer.c  **** //函数名称：timer_enable_int
+  52:srcc/timer.c  **** //函数返回：无
+  53:srcc/timer.c  **** //参数说明： timer_No:时钟模块号  具体时钟模块号见gec.h文件定义
+  54:srcc/timer.c  **** //功能概要：时钟模块使能，开启时钟模块中断及定时器中断
+  55:srcc/timer.c  **** //============================================================================
+  56:srcc/timer.c  **** void timer_enable_int(uint_8 timer_No)
+  57:srcc/timer.c  **** {
+  58:srcc/timer.c  **** 
+  59:srcc/timer.c  ****     if(timer_No==0)
+  60:srcc/timer.c  ****     {
+  61:srcc/timer.c  ****         lptmr_enable_int();
+  62:srcc/timer.c  ****     }
+  63:srcc/timer.c  ****     else if(timer_No==1||timer_No==2)
+  64:srcc/timer.c  ****     {
+  65:srcc/timer.c  ****         tpm_enable_int(timer_No);
+  66:srcc/timer.c  ****     }
+  67:srcc/timer.c  ****     else
+  68:srcc/timer.c  ****         return;
+  69:srcc/timer.c  **** }
+  70:srcc/timer.c  **** 
+  71:srcc/timer.c  **** //============================================================================
+  72:srcc/timer.c  **** //函数名称：timer_disable_int
+  73:srcc/timer.c  **** //函数返回：无
+  74:srcc/timer.c  **** //参数说明： timer_No:时钟模块号  具体时钟模块号见gec.h文件定义
+  75:srcc/timer.c  **** //功能概要：定时器中断除能
+  76:srcc/timer.c  **** //============================================================================
+  77:srcc/timer.c  **** void timer_disable_int(uint_8 timer_No)
+  78:srcc/timer.c  **** {
+  79:srcc/timer.c  **** 
+  80:srcc/timer.c  ****     if(timer_No==0)
+  81:srcc/timer.c  ****     {
+  82:srcc/timer.c  ****         lptmr_disable_int();
+  83:srcc/timer.c  ****     }
+  84:srcc/timer.c  ****     else if(timer_No==1||timer_No==2)
+  85:srcc/timer.c  ****     {
+  86:srcc/timer.c  ****         tpm_disable_int(timer_No);
+  87:srcc/timer.c  ****     }
+  88:srcc/timer.c  ****     else
+  89:srcc/timer.c  ****         return;
+  90:srcc/timer.c  **** }
+  91:srcc/timer.c  **** 
+  92:srcc/timer.c  **** //===================================================================
+  93:srcc/timer.c  **** //函数名称：timer_get_int
+  94:srcc/timer.c  **** //参数说明： timer_No:时钟模块号  具体时钟模块号见gec.h文件定义
+  95:srcc/timer.c  **** //功能概要：获取timer模块中断标志
+  96:srcc/timer.c  **** //函数返回：中断标志 1=有对应模块中断产生;0=无对应模块中断产生
+  97:srcc/timer.c  **** //===================================================================
+  98:srcc/timer.c  **** uint_8 timer_get_int(uint_8 timer_No)
+  99:srcc/timer.c  **** {
+ 100:srcc/timer.c  **** 
+ 101:srcc/timer.c  ****     if(timer_No==0)
+ 102:srcc/timer.c  ****     {
+ 103:srcc/timer.c  ****       //获取TPM_i模块中断标志位
+ 104:srcc/timer.c  ****       if((LPTMR0_CSR & LPTMR_CSR_TCF_MASK)==LPTMR_CSR_TCF_MASK)
+ 105:srcc/timer.c  ****           return 1;
+ 106:srcc/timer.c  ****       else
+ 107:srcc/timer.c  ****           return 0;
+ 108:srcc/timer.c  ****     }
+ 109:srcc/timer.c  ****     else if(timer_No==1||timer_No==2)
+ 110:srcc/timer.c  ****     {
+ 111:srcc/timer.c  ****         return tpm_get_int(timer_No);
+ 112:srcc/timer.c  ****     }
+ 113:srcc/timer.c  ****     else
+ 114:srcc/timer.c  ****         return 0;
+ 115:srcc/timer.c  **** }
+ 116:srcc/timer.c  **** 
+ 117:srcc/timer.c  **** //============================================================================
+ 118:srcc/timer.c  **** //函数名称：timer_clear_int
+ 119:srcc/timer.c  **** //函数返回：无
+ 120:srcc/timer.c  **** //参数说明： timer_No:时钟模块号  具体时钟模块号见gec.h文件定义
+ 121:srcc/timer.c  **** //功能概要：定时器清除中断标志
+ 122:srcc/timer.c  **** //============================================================================
+ 123:srcc/timer.c  **** void timer_clear_int(uint_8 timer_No)
+ 124:srcc/timer.c  **** {
+ 125:srcc/timer.c  ****     if(timer_No==0)
+ 126:srcc/timer.c  ****     {
+ 127:srcc/timer.c  ****         CLEAR_LPTMR_FLAG;
+ 128:srcc/timer.c  ****     }
+ 129:srcc/timer.c  ****     else if(timer_No==1||timer_No==2)
+ 130:srcc/timer.c  ****     {
+ 131:srcc/timer.c  ****         tpm_clear_int(timer_No);
+ 132:srcc/timer.c  ****     }
+ 133:srcc/timer.c  ****     else
+ 134:srcc/timer.c  ****         return;
+ 135:srcc/timer.c  **** }
+ 136:srcc/timer.c  **** 
+ 137:srcc/timer.c  **** //内部函数
+ 138:srcc/timer.c  **** //============================================================================
+ 139:srcc/timer.c  **** //函数名称：lptmr_init
+ 140:srcc/timer.c  **** //函数返回：无
+ 141:srcc/timer.c  **** //参数说明：time_ms 定时器中断的时间间隔，单位为毫秒，时间设置范围 0~65535ms
+ 142:srcc/timer.c  **** //功能概要：LPTMR模块初始化，时钟源已配置为1KHz的LPO时钟
+ 143:srcc/timer.c  **** //其他以此类推
+ 144:srcc/timer.c  **** //============================================================================
+ 145:srcc/timer.c  **** void lptmr_init(uint_32 time_ms)
+ 146:srcc/timer.c  **** {
+  26              		.loc 1 146 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 10B5     		push	{r4, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+ 147:srcc/timer.c  ****     uint_16 compare_value;
+ 148:srcc/timer.c  ****     SIM_SCGC5 |= SIM_SCGC5_LPTMR_MASK;//使能LPTMR模块时钟
+  35              		.loc 1 148 0
+  36 0002 0B4B     		ldr	r3, .L2
+  37 0004 0B4A     		ldr	r2, .L2+4
+  38 0006 9958     		ldr	r1, [r3, r2]
+  39 0008 0124     		movs	r4, #1
+  40 000a 2143     		orrs	r1, r4
+  41 000c 9950     		str	r1, [r3, r2]
+ 149:srcc/timer.c  ****     SIM_SOPT1 |= SIM_SOPT1_OSC32KSEL(0x11);//选择LPO时钟
+  42              		.loc 1 149 0
+  43 000e 1A68     		ldr	r2, [r3]
+  44 0010 8021     		movs	r1, #128
+  45 0012 C902     		lsls	r1, r1, #11
+  46 0014 1143     		orrs	r1, r2
+  47 0016 1960     		str	r1, [r3]
+ 150:srcc/timer.c  ****     LPTMR0_PSR |= LPTMR_PSR_PCS(1)|LPTMR_PSR_PBYP_MASK;
+  48              		.loc 1 150 0
+  49 0018 074B     		ldr	r3, .L2+8
+  50 001a 5968     		ldr	r1, [r3, #4]
+  51 001c 0522     		movs	r2, #5
+  52 001e 1143     		orrs	r1, r2
+  53 0020 5960     		str	r1, [r3, #4]
+  54              	.LVL1:
+  55 0022 0004     		lsls	r0, r0, #16
+  56              	.LVL2:
+  57 0024 000C     		lsrs	r0, r0, #16
+ 151:srcc/timer.c  ****     compare_value=time_ms;
+ 152:srcc/timer.c  ****     LPTMR0_CMR = LPTMR_CMR_COMPARE(compare_value);      //设置比较寄存器值
+  58              		.loc 1 152 0
+  59 0026 9860     		str	r0, [r3, #8]
+ 153:srcc/timer.c  ****     LPTMR0_CSR |= LPTMR_CSR_TEN_MASK; //开启LPTMR模块设置
+  60              		.loc 1 153 0
+  61 0028 1A68     		ldr	r2, [r3]
+  62 002a 2243     		orrs	r2, r4
+  63 002c 1A60     		str	r2, [r3]
+ 154:srcc/timer.c  **** }
+  64              		.loc 1 154 0
+  65              		@ sp needed
+  66 002e 10BD     		pop	{r4, pc}
+  67              	.L3:
+  68              		.align	2
+  69              	.L2:
+  70 0030 00700440 		.word	1074032640
+  71 0034 38100000 		.word	4152
+  72 0038 00000440 		.word	1074003968
+  73              		.cfi_endproc
+  74              	.LFE40:
+  76              		.section	.text.lptmr_reset,"ax",%progbits
+  77              		.align	1
+  78              		.global	lptmr_reset
+  79              		.syntax unified
+  80              		.code	16
+  81              		.thumb_func
+  82              		.fpu softvfp
+  84              	lptmr_reset:
+  85              	.LFB41:
+ 155:srcc/timer.c  **** 
+ 156:srcc/timer.c  **** 
+ 157:srcc/timer.c  **** //====================内部函数==========================================
+ 158:srcc/timer.c  **** //============================================================================
+ 159:srcc/timer.c  **** //函数名称：lptmr_reset
+ 160:srcc/timer.c  **** //函数返回：无
+ 161:srcc/timer.c  **** //参数说明：无
+ 162:srcc/timer.c  **** //功能概要：LPTMR计时器清零
+ 163:srcc/timer.c  **** //============================================================================
+ 164:srcc/timer.c  **** void lptmr_reset(void)
+ 165:srcc/timer.c  **** {
+  86              		.loc 1 165 0
+  87              		.cfi_startproc
+  88              		@ args = 0, pretend = 0, frame = 0
+  89              		@ frame_needed = 0, uses_anonymous_args = 0
+  90              		@ link register save eliminated.
+ 166:srcc/timer.c  ****     LPTMR0_CSR|=LPTMR_CSR_TCF_MASK;
+  91              		.loc 1 166 0
+  92 0000 024A     		ldr	r2, .L5
+  93 0002 1368     		ldr	r3, [r2]
+  94 0004 8021     		movs	r1, #128
+  95 0006 0B43     		orrs	r3, r1
+  96 0008 1360     		str	r3, [r2]
+ 167:srcc/timer.c  **** }
+  97              		.loc 1 167 0
+  98              		@ sp needed
+  99 000a 7047     		bx	lr
+ 100              	.L6:
+ 101              		.align	2
+ 102              	.L5:
+ 103 000c 00000440 		.word	1074003968
+ 104              		.cfi_endproc
+ 105              	.LFE41:
+ 107              		.section	.text.lptmr_enable_int,"ax",%progbits
+ 108              		.align	1
+ 109              		.global	lptmr_enable_int
+ 110              		.syntax unified
+ 111              		.code	16
+ 112              		.thumb_func
+ 113              		.fpu softvfp
+ 115              	lptmr_enable_int:
+ 116              	.LFB42:
+ 168:srcc/timer.c  **** 
+ 169:srcc/timer.c  **** //============================================================================
+ 170:srcc/timer.c  **** //函数名称：lptmr_enable_int
+ 171:srcc/timer.c  **** //函数返回：无
+ 172:srcc/timer.c  **** //参数说明：无
+ 173:srcc/timer.c  **** //功能概要：LPTMR模块使能，开启LPTMR模块中断及定时器中断
+ 174:srcc/timer.c  **** //============================================================================
+ 175:srcc/timer.c  **** void lptmr_enable_int(void)
+ 176:srcc/timer.c  **** {
+ 117              		.loc 1 176 0
+ 118              		.cfi_startproc
+ 119              		@ args = 0, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121              		@ link register save eliminated.
+ 177:srcc/timer.c  ****     LPTMR0_CSR|=LPTMR_CSR_TIE_MASK;        //开启LPTMR定时器中断
+ 122              		.loc 1 177 0
+ 123 0000 044A     		ldr	r2, .L8
+ 124 0002 1368     		ldr	r3, [r2]
+ 125 0004 4021     		movs	r1, #64
+ 126 0006 0B43     		orrs	r3, r1
+ 127 0008 1360     		str	r3, [r2]
+ 128              	.LVL3:
+ 129              	.LBB10:
+ 130              	.LBB11:
+ 131              		.file 2 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+   1:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /**************************************************************************//**
+   2:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  * @file     core_cm0plus.h
+   3:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  * @brief    CMSIS Cortex-M0+ Core Peripheral Access Layer Header File
+   4:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  * @version  V4.10
+   5:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  * @date     18. March 2015
+   6:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  *
+   7:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  * @note
+   8:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  *
+   9:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  ******************************************************************************/
+  10:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* Copyright (c) 2009 - 2015 ARM LIMITED
+  11:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  12:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    All rights reserved.
+  13:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    Redistribution and use in source and binary forms, with or without
+  14:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    modification, are permitted provided that the following conditions are met:
+  15:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    - Redistributions of source code must retain the above copyright
+  16:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      notice, this list of conditions and the following disclaimer.
+  17:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    - Redistributions in binary form must reproduce the above copyright
+  18:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      notice, this list of conditions and the following disclaimer in the
+  19:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      documentation and/or other materials provided with the distribution.
+  20:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    - Neither the name of ARM nor the names of its contributors may be used
+  21:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      to endorse or promote products derived from this software without
+  22:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      specific prior written permission.
+  23:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    *
+  24:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+  28:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    POSSIBILITY OF SUCH DAMAGE.
+  35:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    ---------------------------------------------------------------------------*/
+  36:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  37:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  38:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if defined ( __ICCARM__ )
+  39:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  #pragma system_include  /* treat file as system include file for MISRA check */
+  40:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+  41:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  42:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifndef __CORE_CM0PLUS_H_GENERIC
+  43:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CORE_CM0PLUS_H_GENERIC
+  44:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  45:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifdef __cplusplus
+  46:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  extern "C" {
+  47:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+  48:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  49:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \page CMSIS_MISRA_Exceptions  MISRA-C:2004 Compliance Exceptions
+  50:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   CMSIS violates the following MISRA-C:2004 rules:
+  51:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  52:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    \li Required Rule 8.5, object/function definition in header file.<br>
+  53:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      Function definitions in header files are used to allow 'inlining'.
+  54:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  55:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    \li Required Rule 18.4, declaration of union type or object of union type: '{...}'.<br>
+  56:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      Unions are used for effective representation of core registers.
+  57:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  58:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****    \li Advisory Rule 19.7, Function-like macro defined.<br>
+  59:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****      Function-like macros are used to allow more efficient code.
+  60:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+  61:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  62:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  63:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*******************************************************************************
+  64:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  *                 CMSIS definitions
+  65:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  ******************************************************************************/
+  66:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup Cortex-M0+
+  67:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+  68:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+  69:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  70:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*  CMSIS CM0P definitions */
+  71:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CM0PLUS_CMSIS_VERSION_MAIN (0x04)                                /*!< [31:16] CMSIS HAL m
+  72:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CM0PLUS_CMSIS_VERSION_SUB  (0x00)                                /*!< [15:0]  CMSIS HAL s
+  73:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CM0PLUS_CMSIS_VERSION      ((__CM0PLUS_CMSIS_VERSION_MAIN << 16) | \
+  74:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****                                        __CM0PLUS_CMSIS_VERSION_SUB)        /*!< CMSIS HAL version n
+  75:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  76:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CORTEX_M                (0x00)                                   /*!< Cortex-M Core      
+  77:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  78:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  79:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if   defined ( __CC_ARM )
+  80:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            __asm                                      /*!< asm keyword for ARM Comp
+  81:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __INLINE         __inline                                   /*!< inline keyword for ARM C
+  82:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static __inline
+  83:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  84:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __GNUC__ )
+  85:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            __asm                                      /*!< asm keyword for GNU Comp
+  86:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __INLINE         inline                                     /*!< inline keyword for GNU C
+  87:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static inline
+  88:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  89:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __ICCARM__ )
+  90:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            __asm                                      /*!< asm keyword for IAR Comp
+  91:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __INLINE         inline                                     /*!< inline keyword for IAR C
+  92:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static inline
+  93:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  94:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __TMS470__ )
+  95:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            __asm                                      /*!< asm keyword for TI CCS C
+  96:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static inline
+  97:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+  98:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __TASKING__ )
+  99:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            __asm                                      /*!< asm keyword for TASKING 
+ 100:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __INLINE         inline                                     /*!< inline keyword for TASKI
+ 101:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static inline
+ 102:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 103:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __CSMC__ )
+ 104:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __packed
+ 105:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __ASM            _asm                                      /*!< asm keyword for COSMIC Co
+ 106:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __INLINE         inline                                    /*use -pc99 on compile line !<
+ 107:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define __STATIC_INLINE  static inline
+ 108:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 109:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 110:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 111:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** __FPU_USED indicates whether an FPU is used or not.
+ 112:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     This core does not support an FPU at all
+ 113:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** */
+ 114:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __FPU_USED       0
+ 115:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 116:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if defined ( __CC_ARM )
+ 117:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if defined __TARGET_FPU_VFP
+ 118:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
+ 119:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 120:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 121:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __GNUC__ )
+ 122:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if defined (__VFP_FP__) && !defined(__SOFTFP__)
+ 123:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
+ 124:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 125:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 126:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __ICCARM__ )
+ 127:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if defined __ARMVFP__
+ 128:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
+ 129:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 130:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 131:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __TMS470__ )
+ 132:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if defined __TI__VFP_SUPPORT____
+ 133:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
+ 134:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 135:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 136:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __TASKING__ )
+ 137:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if defined __FPU_VFP__
+ 138:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
+ 139:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 140:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 141:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #elif defined ( __CSMC__ )        /* Cosmic */
+ 142:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #if ( __CSMC__ & 0x400)        // FPU present for parser
+ 143:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
+ 144:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 145:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 146:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 147:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #include <stdint.h>                      /* standard types definitions                      */
+ 148:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #include <core_cmInstr.h>                /* Core Instruction Access                         */
+ 149:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #include <core_cmFunc.h>                 /* Core Function Access                            */
+ 150:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 151:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifdef __cplusplus
+ 152:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** }
+ 153:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 154:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 155:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif /* __CORE_CM0PLUS_H_GENERIC */
+ 156:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 157:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifndef __CMSIS_GENERIC
+ 158:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 159:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifndef __CORE_CM0PLUS_H_DEPENDANT
+ 160:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define __CORE_CM0PLUS_H_DEPENDANT
+ 161:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 162:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifdef __cplusplus
+ 163:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  extern "C" {
+ 164:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 165:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 166:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* check device defines and use defaults */
+ 167:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if defined __CHECK_DEVICE_DEFINES
+ 168:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #ifndef __CM0PLUS_REV
+ 169:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #define __CM0PLUS_REV             0x0000
+ 170:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "__CM0PLUS_REV not defined in device header file; using default!"
+ 171:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 172:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 173:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #ifndef __MPU_PRESENT
+ 174:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #define __MPU_PRESENT             0
+ 175:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "__MPU_PRESENT not defined in device header file; using default!"
+ 176:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 177:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 178:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #ifndef __VTOR_PRESENT
+ 179:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #define __VTOR_PRESENT            0
+ 180:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "__VTOR_PRESENT not defined in device header file; using default!"
+ 181:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 182:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 183:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #ifndef __NVIC_PRIO_BITS
+ 184:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #define __NVIC_PRIO_BITS          2
+ 185:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "__NVIC_PRIO_BITS not defined in device header file; using default!"
+ 186:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 187:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 188:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #ifndef __Vendor_SysTickConfig
+ 189:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #define __Vendor_SysTickConfig    0
+ 190:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     #warning "__Vendor_SysTickConfig not defined in device header file; using default!"
+ 191:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #endif
+ 192:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 193:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 194:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* IO definitions (access restrictions to peripheral registers) */
+ 195:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /**
+ 196:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_glob_defs CMSIS Global Defines
+ 197:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 198:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     <strong>IO Type Qualifiers</strong> are used
+ 199:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \li to specify the access to peripheral variables.
+ 200:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \li for automatic generation of peripheral register debug information.
+ 201:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** */
+ 202:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #ifdef __cplusplus
+ 203:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define   __I     volatile             /*!< Defines 'read only' permissions                 */
+ 204:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #else
+ 205:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define   __I     volatile const       /*!< Defines 'read only' permissions                 */
+ 206:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 207:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define     __O     volatile             /*!< Defines 'write only' permissions                */
+ 208:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define     __IO    volatile             /*!< Defines 'read / write' permissions              */
+ 209:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 210:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group Cortex-M0+ */
+ 211:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 212:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 213:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 214:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*******************************************************************************
+ 215:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  *                 Register Abstraction
+ 216:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   Core Register contain:
+ 217:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core Register
+ 218:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core NVIC Register
+ 219:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core SCB Register
+ 220:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core SysTick Register
+ 221:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core MPU Register
+ 222:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  ******************************************************************************/
+ 223:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \defgroup CMSIS_core_register Defines and Type Definitions
+ 224:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief Type definitions and defines for Cortex-M processor based devices.
+ 225:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** */
+ 226:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 227:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup    CMSIS_core_register
+ 228:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup   CMSIS_CORE  Status and Control Registers
+ 229:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief  Core Register type definitions.
+ 230:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 231:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 232:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 233:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Union type to access the Application Program Status Register (APSR).
+ 234:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 235:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef union
+ 236:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 237:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   struct
+ 238:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   {
+ 239:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t _reserved0:28;              /*!< bit:  0..27  Reserved                           */
+ 240:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t V:1;                        /*!< bit:     28  Overflow condition code flag       */
+ 241:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t C:1;                        /*!< bit:     29  Carry condition code flag          */
+ 242:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+ 243:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+ 244:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   } b;                                   /*!< Structure used for bit  access                  */
+ 245:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   uint32_t w;                            /*!< Type      used for word access                  */
+ 246:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } APSR_Type;
+ 247:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 248:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* APSR Register Definitions */
+ 249:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_N_Pos                         31                                             /*!< APSR
+ 250:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_N_Msk                         (1UL << APSR_N_Pos)                            /*!< APSR
+ 251:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 252:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_Z_Pos                         30                                             /*!< APSR
+ 253:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_Z_Msk                         (1UL << APSR_Z_Pos)                            /*!< APSR
+ 254:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 255:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_C_Pos                         29                                             /*!< APSR
+ 256:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_C_Msk                         (1UL << APSR_C_Pos)                            /*!< APSR
+ 257:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 258:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_V_Pos                         28                                             /*!< APSR
+ 259:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define APSR_V_Msk                         (1UL << APSR_V_Pos)                            /*!< APSR
+ 260:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 261:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 262:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Union type to access the Interrupt Program Status Register (IPSR).
+ 263:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 264:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef union
+ 265:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 266:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   struct
+ 267:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   {
+ 268:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+ 269:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t _reserved0:23;              /*!< bit:  9..31  Reserved                           */
+ 270:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   } b;                                   /*!< Structure used for bit  access                  */
+ 271:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   uint32_t w;                            /*!< Type      used for word access                  */
+ 272:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } IPSR_Type;
+ 273:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 274:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* IPSR Register Definitions */
+ 275:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define IPSR_ISR_Pos                        0                                             /*!< IPSR
+ 276:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define IPSR_ISR_Msk                       (0x1FFUL /*<< IPSR_ISR_Pos*/)                  /*!< IPSR
+ 277:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 278:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 279:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Union type to access the Special-Purpose Program Status Registers (xPSR).
+ 280:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 281:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef union
+ 282:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 283:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   struct
+ 284:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   {
+ 285:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+ 286:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t _reserved0:15;              /*!< bit:  9..23  Reserved                           */
+ 287:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t T:1;                        /*!< bit:     24  Thumb bit        (read 0)          */
+ 288:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t _reserved1:3;               /*!< bit: 25..27  Reserved                           */
+ 289:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t V:1;                        /*!< bit:     28  Overflow condition code flag       */
+ 290:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t C:1;                        /*!< bit:     29  Carry condition code flag          */
+ 291:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+ 292:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+ 293:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   } b;                                   /*!< Structure used for bit  access                  */
+ 294:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   uint32_t w;                            /*!< Type      used for word access                  */
+ 295:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } xPSR_Type;
+ 296:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 297:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* xPSR Register Definitions */
+ 298:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_N_Pos                         31                                             /*!< xPSR
+ 299:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_N_Msk                         (1UL << xPSR_N_Pos)                            /*!< xPSR
+ 300:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 301:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_Z_Pos                         30                                             /*!< xPSR
+ 302:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_Z_Msk                         (1UL << xPSR_Z_Pos)                            /*!< xPSR
+ 303:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 304:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_C_Pos                         29                                             /*!< xPSR
+ 305:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_C_Msk                         (1UL << xPSR_C_Pos)                            /*!< xPSR
+ 306:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 307:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_V_Pos                         28                                             /*!< xPSR
+ 308:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_V_Msk                         (1UL << xPSR_V_Pos)                            /*!< xPSR
+ 309:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 310:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_T_Pos                         24                                             /*!< xPSR
+ 311:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_T_Msk                         (1UL << xPSR_T_Pos)                            /*!< xPSR
+ 312:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 313:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_ISR_Pos                        0                                             /*!< xPSR
+ 314:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define xPSR_ISR_Msk                       (0x1FFUL /*<< xPSR_ISR_Pos*/)                  /*!< xPSR
+ 315:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 316:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 317:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Union type to access the Control Registers (CONTROL).
+ 318:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 319:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef union
+ 320:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 321:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   struct
+ 322:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   {
+ 323:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t nPRIV:1;                    /*!< bit:      0  Execution privilege in Thread mode */
+ 324:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t SPSEL:1;                    /*!< bit:      1  Stack to be used                   */
+ 325:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     uint32_t _reserved1:30;              /*!< bit:  2..31  Reserved                           */
+ 326:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   } b;                                   /*!< Structure used for bit  access                  */
+ 327:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   uint32_t w;                            /*!< Type      used for word access                  */
+ 328:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } CONTROL_Type;
+ 329:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 330:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* CONTROL Register Definitions */
+ 331:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define CONTROL_SPSEL_Pos                   1                                             /*!< CONT
+ 332:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define CONTROL_SPSEL_Msk                  (1UL << CONTROL_SPSEL_Pos)                     /*!< CONT
+ 333:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 334:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define CONTROL_nPRIV_Pos                   0                                             /*!< CONT
+ 335:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define CONTROL_nPRIV_Msk                  (1UL /*<< CONTROL_nPRIV_Pos*/)                 /*!< CONT
+ 336:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 337:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_CORE */
+ 338:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 339:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 340:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup    CMSIS_core_register
+ 341:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup   CMSIS_NVIC  Nested Vectored Interrupt Controller (NVIC)
+ 342:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Type definitions for the NVIC Registers
+ 343:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 344:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 345:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 346:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Structure type to access the Nested Vectored Interrupt Controller (NVIC).
+ 347:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 348:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef struct
+ 349:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 350:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t ISER[1];                 /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register   
+ 351:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED0[31];
+ 352:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t ICER[1];                 /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register 
+ 353:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RSERVED1[31];
+ 354:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t ISPR[1];                 /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register  
+ 355:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED2[31];
+ 356:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t ICPR[1];                 /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register
+ 357:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED3[31];
+ 358:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED4[64];
+ 359:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t IP[8];                   /*!< Offset: 0x300 (R/W)  Interrupt Priority Register     
+ 360:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** }  NVIC_Type;
+ 361:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 362:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_NVIC */
+ 363:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 364:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 365:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup  CMSIS_core_register
+ 366:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_SCB     System Control Block (SCB)
+ 367:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Type definitions for the System Control Block Registers
+ 368:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 369:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 370:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 371:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Structure type to access the System Control Block (SCB).
+ 372:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 373:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef struct
+ 374:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 375:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __I  uint32_t CPUID;                   /*!< Offset: 0x000 (R/ )  CPUID Base Register             
+ 376:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t ICSR;                    /*!< Offset: 0x004 (R/W)  Interrupt Control and State Regi
+ 377:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if (__VTOR_PRESENT == 1)
+ 378:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t VTOR;                    /*!< Offset: 0x008 (R/W)  Vector Table Offset Register    
+ 379:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #else
+ 380:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED0;
+ 381:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 382:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t AIRCR;                   /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset 
+ 383:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t SCR;                     /*!< Offset: 0x010 (R/W)  System Control Register         
+ 384:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t CCR;                     /*!< Offset: 0x014 (R/W)  Configuration Control Register  
+ 385:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****        uint32_t RESERVED1;
+ 386:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t SHP[2];                  /*!< Offset: 0x01C (R/W)  System Handlers Priority Registe
+ 387:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t SHCSR;                   /*!< Offset: 0x024 (R/W)  System Handler Control and State
+ 388:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } SCB_Type;
+ 389:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 390:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB CPUID Register Definitions */
+ 391:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_IMPLEMENTER_Pos          24                                             /*!< SCB 
+ 392:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_IMPLEMENTER_Msk          (0xFFUL << SCB_CPUID_IMPLEMENTER_Pos)          /*!< SCB 
+ 393:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 394:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_VARIANT_Pos              20                                             /*!< SCB 
+ 395:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_VARIANT_Msk              (0xFUL << SCB_CPUID_VARIANT_Pos)               /*!< SCB 
+ 396:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 397:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_ARCHITECTURE_Pos         16                                             /*!< SCB 
+ 398:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_ARCHITECTURE_Msk         (0xFUL << SCB_CPUID_ARCHITECTURE_Pos)          /*!< SCB 
+ 399:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 400:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_PARTNO_Pos                4                                             /*!< SCB 
+ 401:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_PARTNO_Msk               (0xFFFUL << SCB_CPUID_PARTNO_Pos)              /*!< SCB 
+ 402:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 403:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_REVISION_Pos              0                                             /*!< SCB 
+ 404:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CPUID_REVISION_Msk             (0xFUL /*<< SCB_CPUID_REVISION_Pos*/)          /*!< SCB 
+ 405:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 406:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB Interrupt Control State Register Definitions */
+ 407:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_NMIPENDSET_Pos            31                                             /*!< SCB 
+ 408:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_NMIPENDSET_Msk            (1UL << SCB_ICSR_NMIPENDSET_Pos)               /*!< SCB 
+ 409:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 410:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSVSET_Pos             28                                             /*!< SCB 
+ 411:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSVSET_Msk             (1UL << SCB_ICSR_PENDSVSET_Pos)                /*!< SCB 
+ 412:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 413:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSVCLR_Pos             27                                             /*!< SCB 
+ 414:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSVCLR_Msk             (1UL << SCB_ICSR_PENDSVCLR_Pos)                /*!< SCB 
+ 415:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 416:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSTSET_Pos             26                                             /*!< SCB 
+ 417:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSTSET_Msk             (1UL << SCB_ICSR_PENDSTSET_Pos)                /*!< SCB 
+ 418:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 419:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSTCLR_Pos             25                                             /*!< SCB 
+ 420:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_PENDSTCLR_Msk             (1UL << SCB_ICSR_PENDSTCLR_Pos)                /*!< SCB 
+ 421:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 422:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_ISRPREEMPT_Pos            23                                             /*!< SCB 
+ 423:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_ISRPREEMPT_Msk            (1UL << SCB_ICSR_ISRPREEMPT_Pos)               /*!< SCB 
+ 424:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 425:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_ISRPENDING_Pos            22                                             /*!< SCB 
+ 426:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_ISRPENDING_Msk            (1UL << SCB_ICSR_ISRPENDING_Pos)               /*!< SCB 
+ 427:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 428:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_VECTPENDING_Pos           12                                             /*!< SCB 
+ 429:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_VECTPENDING_Msk           (0x1FFUL << SCB_ICSR_VECTPENDING_Pos)          /*!< SCB 
+ 430:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 431:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_VECTACTIVE_Pos             0                                             /*!< SCB 
+ 432:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_ICSR_VECTACTIVE_Msk            (0x1FFUL /*<< SCB_ICSR_VECTACTIVE_Pos*/)       /*!< SCB 
+ 433:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 434:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if (__VTOR_PRESENT == 1)
+ 435:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB Interrupt Control State Register Definitions */
+ 436:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_VTOR_TBLOFF_Pos                 8                                             /*!< SCB 
+ 437:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_VTOR_TBLOFF_Msk                (0xFFFFFFUL << SCB_VTOR_TBLOFF_Pos)            /*!< SCB 
+ 438:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 439:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 440:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB Application Interrupt and Reset Control Register Definitions */
+ 441:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTKEY_Pos              16                                             /*!< SCB 
+ 442:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTKEY_Msk              (0xFFFFUL << SCB_AIRCR_VECTKEY_Pos)            /*!< SCB 
+ 443:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 444:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTKEYSTAT_Pos          16                                             /*!< SCB 
+ 445:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTKEYSTAT_Msk          (0xFFFFUL << SCB_AIRCR_VECTKEYSTAT_Pos)        /*!< SCB 
+ 446:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 447:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_ENDIANESS_Pos            15                                             /*!< SCB 
+ 448:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_ENDIANESS_Msk            (1UL << SCB_AIRCR_ENDIANESS_Pos)               /*!< SCB 
+ 449:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 450:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_SYSRESETREQ_Pos           2                                             /*!< SCB 
+ 451:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_SYSRESETREQ_Msk          (1UL << SCB_AIRCR_SYSRESETREQ_Pos)             /*!< SCB 
+ 452:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 453:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTCLRACTIVE_Pos         1                                             /*!< SCB 
+ 454:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_AIRCR_VECTCLRACTIVE_Msk        (1UL << SCB_AIRCR_VECTCLRACTIVE_Pos)           /*!< SCB 
+ 455:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 456:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB System Control Register Definitions */
+ 457:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SEVONPEND_Pos               4                                             /*!< SCB 
+ 458:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SEVONPEND_Msk              (1UL << SCB_SCR_SEVONPEND_Pos)                 /*!< SCB 
+ 459:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 460:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SLEEPDEEP_Pos               2                                             /*!< SCB 
+ 461:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SLEEPDEEP_Msk              (1UL << SCB_SCR_SLEEPDEEP_Pos)                 /*!< SCB 
+ 462:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 463:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SLEEPONEXIT_Pos             1                                             /*!< SCB 
+ 464:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SCR_SLEEPONEXIT_Msk            (1UL << SCB_SCR_SLEEPONEXIT_Pos)               /*!< SCB 
+ 465:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 466:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB Configuration Control Register Definitions */
+ 467:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CCR_STKALIGN_Pos                9                                             /*!< SCB 
+ 468:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CCR_STKALIGN_Msk               (1UL << SCB_CCR_STKALIGN_Pos)                  /*!< SCB 
+ 469:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 470:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CCR_UNALIGN_TRP_Pos             3                                             /*!< SCB 
+ 471:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_CCR_UNALIGN_TRP_Msk            (1UL << SCB_CCR_UNALIGN_TRP_Pos)               /*!< SCB 
+ 472:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 473:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SCB System Handler Control and State Register Definitions */
+ 474:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SHCSR_SVCALLPENDED_Pos         15                                             /*!< SCB 
+ 475:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_SHCSR_SVCALLPENDED_Msk         (1UL << SCB_SHCSR_SVCALLPENDED_Pos)            /*!< SCB 
+ 476:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 477:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_SCB */
+ 478:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 479:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 480:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup  CMSIS_core_register
+ 481:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_SysTick     System Tick Timer (SysTick)
+ 482:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Type definitions for the System Timer Registers.
+ 483:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 484:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 485:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 486:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Structure type to access the System Timer (SysTick).
+ 487:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 488:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef struct
+ 489:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 490:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t CTRL;                    /*!< Offset: 0x000 (R/W)  SysTick Control and Status Regis
+ 491:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t LOAD;                    /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register   
+ 492:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t VAL;                     /*!< Offset: 0x008 (R/W)  SysTick Current Value Register  
+ 493:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __I  uint32_t CALIB;                   /*!< Offset: 0x00C (R/ )  SysTick Calibration Register    
+ 494:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } SysTick_Type;
+ 495:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 496:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SysTick Control / Status Register Definitions */
+ 497:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_COUNTFLAG_Pos         16                                             /*!< SysT
+ 498:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_COUNTFLAG_Msk         (1UL << SysTick_CTRL_COUNTFLAG_Pos)            /*!< SysT
+ 499:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 500:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_CLKSOURCE_Pos          2                                             /*!< SysT
+ 501:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_CLKSOURCE_Msk         (1UL << SysTick_CTRL_CLKSOURCE_Pos)            /*!< SysT
+ 502:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 503:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_TICKINT_Pos            1                                             /*!< SysT
+ 504:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_TICKINT_Msk           (1UL << SysTick_CTRL_TICKINT_Pos)              /*!< SysT
+ 505:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 506:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_ENABLE_Pos             0                                             /*!< SysT
+ 507:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CTRL_ENABLE_Msk            (1UL /*<< SysTick_CTRL_ENABLE_Pos*/)           /*!< SysT
+ 508:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 509:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SysTick Reload Register Definitions */
+ 510:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_LOAD_RELOAD_Pos             0                                             /*!< SysT
+ 511:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFUL /*<< SysTick_LOAD_RELOAD_Pos*/)    /*!< SysT
+ 512:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 513:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SysTick Current Register Definitions */
+ 514:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_VAL_CURRENT_Pos             0                                             /*!< SysT
+ 515:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_VAL_CURRENT_Msk            (0xFFFFFFUL /*<< SysTick_VAL_CURRENT_Pos*/)    /*!< SysT
+ 516:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 517:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* SysTick Calibration Register Definitions */
+ 518:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_NOREF_Pos            31                                             /*!< SysT
+ 519:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_NOREF_Msk            (1UL << SysTick_CALIB_NOREF_Pos)               /*!< SysT
+ 520:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 521:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_SKEW_Pos             30                                             /*!< SysT
+ 522:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysT
+ 523:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 524:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_TENMS_Pos             0                                             /*!< SysT
+ 525:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_CALIB_TENMS_Msk            (0xFFFFFFUL /*<< SysTick_CALIB_TENMS_Pos*/)    /*!< SysT
+ 526:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 527:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_SysTick */
+ 528:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 529:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if (__MPU_PRESENT == 1)
+ 530:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup  CMSIS_core_register
+ 531:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_MPU     Memory Protection Unit (MPU)
+ 532:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Type definitions for the Memory Protection Unit (MPU)
+ 533:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 534:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 535:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 536:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Structure type to access the Memory Protection Unit (MPU).
+ 537:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 538:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** typedef struct
+ 539:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 540:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __I  uint32_t TYPE;                    /*!< Offset: 0x000 (R/ )  MPU Type Register               
+ 541:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t CTRL;                    /*!< Offset: 0x004 (R/W)  MPU Control Register            
+ 542:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t RNR;                     /*!< Offset: 0x008 (R/W)  MPU Region RNRber Register      
+ 543:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t RBAR;                    /*!< Offset: 0x00C (R/W)  MPU Region Base Address Register
+ 544:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   __IO uint32_t RASR;                    /*!< Offset: 0x010 (R/W)  MPU Region Attribute and Size Re
+ 545:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** } MPU_Type;
+ 546:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 547:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* MPU Type Register */
+ 548:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_IREGION_Pos               16                                             /*!< MPU 
+ 549:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_IREGION_Msk               (0xFFUL << MPU_TYPE_IREGION_Pos)               /*!< MPU 
+ 550:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 551:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_DREGION_Pos                8                                             /*!< MPU 
+ 552:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_DREGION_Msk               (0xFFUL << MPU_TYPE_DREGION_Pos)               /*!< MPU 
+ 553:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 554:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_SEPARATE_Pos               0                                             /*!< MPU 
+ 555:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_TYPE_SEPARATE_Msk              (1UL /*<< MPU_TYPE_SEPARATE_Pos*/)             /*!< MPU 
+ 556:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 557:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* MPU Control Register */
+ 558:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_PRIVDEFENA_Pos             2                                             /*!< MPU 
+ 559:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_PRIVDEFENA_Msk            (1UL << MPU_CTRL_PRIVDEFENA_Pos)               /*!< MPU 
+ 560:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 561:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_HFNMIENA_Pos               1                                             /*!< MPU 
+ 562:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_HFNMIENA_Msk              (1UL << MPU_CTRL_HFNMIENA_Pos)                 /*!< MPU 
+ 563:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 564:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_ENABLE_Pos                 0                                             /*!< MPU 
+ 565:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_CTRL_ENABLE_Msk                (1UL /*<< MPU_CTRL_ENABLE_Pos*/)               /*!< MPU 
+ 566:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 567:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* MPU Region Number Register */
+ 568:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RNR_REGION_Pos                  0                                             /*!< MPU 
+ 569:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RNR_REGION_Msk                 (0xFFUL /*<< MPU_RNR_REGION_Pos*/)             /*!< MPU 
+ 570:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 571:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* MPU Region Base Address Register */
+ 572:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_ADDR_Pos                   8                                             /*!< MPU 
+ 573:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_ADDR_Msk                  (0xFFFFFFUL << MPU_RBAR_ADDR_Pos)              /*!< MPU 
+ 574:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 575:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_VALID_Pos                  4                                             /*!< MPU 
+ 576:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_VALID_Msk                 (1UL << MPU_RBAR_VALID_Pos)                    /*!< MPU 
+ 577:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 578:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_REGION_Pos                 0                                             /*!< MPU 
+ 579:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RBAR_REGION_Msk                (0xFUL /*<< MPU_RBAR_REGION_Pos*/)             /*!< MPU 
+ 580:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 581:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* MPU Region Attribute and Size Register */
+ 582:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_ATTRS_Pos                 16                                             /*!< MPU 
+ 583:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_ATTRS_Msk                 (0xFFFFUL << MPU_RASR_ATTRS_Pos)               /*!< MPU 
+ 584:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 585:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_XN_Pos                    28                                             /*!< MPU 
+ 586:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_XN_Msk                    (1UL << MPU_RASR_XN_Pos)                       /*!< MPU 
+ 587:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 588:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_AP_Pos                    24                                             /*!< MPU 
+ 589:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_AP_Msk                    (0x7UL << MPU_RASR_AP_Pos)                     /*!< MPU 
+ 590:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 591:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_TEX_Pos                   19                                             /*!< MPU 
+ 592:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_TEX_Msk                   (0x7UL << MPU_RASR_TEX_Pos)                    /*!< MPU 
+ 593:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 594:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_S_Pos                     18                                             /*!< MPU 
+ 595:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_S_Msk                     (1UL << MPU_RASR_S_Pos)                        /*!< MPU 
+ 596:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 597:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_C_Pos                     17                                             /*!< MPU 
+ 598:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_C_Msk                     (1UL << MPU_RASR_C_Pos)                        /*!< MPU 
+ 599:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 600:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_B_Pos                     16                                             /*!< MPU 
+ 601:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_B_Msk                     (1UL << MPU_RASR_B_Pos)                        /*!< MPU 
+ 602:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 603:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_SRD_Pos                    8                                             /*!< MPU 
+ 604:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_SRD_Msk                   (0xFFUL << MPU_RASR_SRD_Pos)                   /*!< MPU 
+ 605:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 606:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_SIZE_Pos                   1                                             /*!< MPU 
+ 607:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_SIZE_Msk                  (0x1FUL << MPU_RASR_SIZE_Pos)                  /*!< MPU 
+ 608:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 609:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_ENABLE_Pos                 0                                             /*!< MPU 
+ 610:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define MPU_RASR_ENABLE_Msk                (1UL /*<< MPU_RASR_ENABLE_Pos*/)               /*!< MPU 
+ 611:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 612:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_MPU */
+ 613:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 614:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 615:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 616:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup  CMSIS_core_register
+ 617:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_CoreDebug       Core Debug Registers (CoreDebug)
+ 618:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Cortex-M0+ Core Debug Registers (DCB registers, SHCSR, and DFSR)
+ 619:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****                 are only accessible over DAP and not via processor. Therefore
+ 620:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****                 they are not covered by the Cortex-M0 header file.
+ 621:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 622:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 623:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} end of group CMSIS_CoreDebug */
+ 624:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 625:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 626:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup    CMSIS_core_register
+ 627:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup   CMSIS_core_base     Core Definitions
+ 628:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Definitions for base addresses, unions, and structures.
+ 629:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   @{
+ 630:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 631:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 632:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* Memory mapping of Cortex-M0+ Hardware */
+ 633:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCS_BASE            (0xE000E000UL)                            /*!< System Control Space Bas
+ 634:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick_BASE        (SCS_BASE +  0x0010UL)                    /*!< SysTick Base Address    
+ 635:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define NVIC_BASE           (SCS_BASE +  0x0100UL)                    /*!< NVIC Base Address       
+ 636:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB_BASE            (SCS_BASE +  0x0D00UL)                    /*!< System Control Block Bas
+ 637:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 638:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SCB                 ((SCB_Type       *)     SCB_BASE      )   /*!< SCB configuration struct
+ 639:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration st
+ 640:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define NVIC                ((NVIC_Type      *)     NVIC_BASE     )   /*!< NVIC configuration struc
+ 641:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 642:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #if (__MPU_PRESENT == 1)
+ 643:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define MPU_BASE          (SCS_BASE +  0x0D90UL)                    /*!< Memory Protection Unit  
+ 644:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   #define MPU               ((MPU_Type       *)     MPU_BASE      )   /*!< Memory Protection Unit  
+ 645:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #endif
+ 646:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 647:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*@} */
+ 648:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 649:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 650:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 651:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /*******************************************************************************
+ 652:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  *                Hardware Abstraction Layer
+ 653:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   Core Function Interface contains:
+ 654:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core NVIC Functions
+ 655:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core SysTick Functions
+ 656:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   - Core Register Access Functions
+ 657:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  ******************************************************************************/
+ 658:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \defgroup CMSIS_Core_FunctionInterface Functions and Instructions Reference
+ 659:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** */
+ 660:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 661:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 662:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 663:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* ##########################   NVIC functions  #################################### */
+ 664:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 665:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \defgroup CMSIS_Core_NVICFunctions NVIC Functions
+ 666:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \brief      Functions that manage interrupts and exceptions via the NVIC.
+ 667:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     @{
+ 668:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 669:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 670:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* Interrupt Priorities are WORD accessible only under ARMv6M                   */
+ 671:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /* The following MACROS handle generation of the register offset and byte masks */
+ 672:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define _BIT_SHIFT(IRQn)         (  ((((uint32_t)(int32_t)(IRQn))         )      &  0x03UL) * 8UL)
+ 673:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define _SHP_IDX(IRQn)           ( (((((uint32_t)(int32_t)(IRQn)) & 0x0FUL)-8UL) >>    2UL)      )
+ 674:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** #define _IP_IDX(IRQn)            (   (((uint32_t)(int32_t)(IRQn))                >>    2UL)      )
+ 675:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 676:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 677:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Enable External Interrupt
+ 678:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 679:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     The function enables a device-specific interrupt in the NVIC interrupt controller.
+ 680:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 681:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ 682:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 683:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+ 684:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 685:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   NVIC->ISER[0] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+ 132              		.loc 2 685 0
+ 133 000a 034B     		ldr	r3, .L8+4
+ 134 000c 8022     		movs	r2, #128
+ 135 000e 5205     		lsls	r2, r2, #21
+ 136 0010 1A60     		str	r2, [r3]
+ 137              	.LVL4:
+ 138              	.LBE11:
+ 139              	.LBE10:
+ 178:srcc/timer.c  ****     NVIC_EnableIRQ(LPTMR0_IRQn);           //开引脚的IRQ中断
+ 179:srcc/timer.c  **** }
+ 140              		.loc 1 179 0
+ 141              		@ sp needed
+ 142 0012 7047     		bx	lr
+ 143              	.L9:
+ 144              		.align	2
+ 145              	.L8:
+ 146 0014 00000440 		.word	1074003968
+ 147 0018 00E100E0 		.word	-536813312
+ 148              		.cfi_endproc
+ 149              	.LFE42:
+ 151              		.section	.text.lptmr_disable_int,"ax",%progbits
+ 152              		.align	1
+ 153              		.global	lptmr_disable_int
+ 154              		.syntax unified
+ 155              		.code	16
+ 156              		.thumb_func
+ 157              		.fpu softvfp
+ 159              	lptmr_disable_int:
+ 160              	.LFB43:
+ 180:srcc/timer.c  **** 
+ 181:srcc/timer.c  **** //============================================================================
+ 182:srcc/timer.c  **** //函数名称：disable_lptmr_int
+ 183:srcc/timer.c  **** //函数返回：无
+ 184:srcc/timer.c  **** //参数说明：无
+ 185:srcc/timer.c  **** //功能概要：LPT定时器中断除能
+ 186:srcc/timer.c  **** //============================================================================
+ 187:srcc/timer.c  **** void lptmr_disable_int(void)
+ 188:srcc/timer.c  **** {
+ 161              		.loc 1 188 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 189:srcc/timer.c  ****     LPTMR0_CSR &=~LPTMR_CSR_TIE_MASK;      //禁止LPTMR定时器中断
+ 166              		.loc 1 189 0
+ 167 0000 054A     		ldr	r2, .L11
+ 168 0002 1368     		ldr	r3, [r2]
+ 169 0004 4021     		movs	r1, #64
+ 170 0006 8B43     		bics	r3, r1
+ 171 0008 1360     		str	r3, [r2]
+ 172              	.LVL5:
+ 173              	.LBB12:
+ 174              	.LBB13:
+ 686:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** }
+ 687:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 688:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 689:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** /** \brief  Disable External Interrupt
+ 690:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 691:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     The function disables a device-specific interrupt in the NVIC interrupt controller.
+ 692:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** 
+ 693:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****     \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ 694:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****  */
+ 695:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** __STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+ 696:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** {
+ 697:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h ****   NVIC->ICER[0] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) & 0x1FUL));
+ 175              		.loc 2 697 0
+ 176 000a 044A     		ldr	r2, .L11+4
+ 177 000c 8023     		movs	r3, #128
+ 178 000e 8021     		movs	r1, #128
+ 179 0010 4905     		lsls	r1, r1, #21
+ 180 0012 D150     		str	r1, [r2, r3]
+ 181              	.LVL6:
+ 182              	.LBE13:
+ 183              	.LBE12:
+ 190:srcc/timer.c  ****     NVIC_DisableIRQ(LPTMR0_IRQn);          //关引脚的IRQ中断
+ 191:srcc/timer.c  **** }
+ 184              		.loc 1 191 0
+ 185              		@ sp needed
+ 186 0014 7047     		bx	lr
+ 187              	.L12:
+ 188 0016 C046     		.align	2
+ 189              	.L11:
+ 190 0018 00000440 		.word	1074003968
+ 191 001c 00E100E0 		.word	-536813312
+ 192              		.cfi_endproc
+ 193              	.LFE43:
+ 195              		.global	__aeabi_uidiv
+ 196              		.global	__aeabi_ui2f
+ 197              		.global	__aeabi_fmul
+ 198              		.global	__aeabi_fcmpgt
+ 199              		.global	__aeabi_fcmple
+ 200              		.global	__aeabi_fsub
+ 201              		.global	__aeabi_f2uiz
+ 202              		.section	.text.tpm_timer_init,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	tpm_timer_init
+ 205              		.syntax unified
+ 206              		.code	16
+ 207              		.thumb_func
+ 208              		.fpu softvfp
+ 210              	tpm_timer_init:
+ 211              	.LFB44:
+ 192:srcc/timer.c  **** 
+ 193:srcc/timer.c  **** //===================================================================
+ 194:srcc/timer.c  **** //函数名称： tpm_timer_init
+ 195:srcc/timer.c  **** //功能概要： tpm模块初始化，设置计数器频率f及计数器计数间隔时间MOD_Value。
+ 196:srcc/timer.c  **** //参数说明： TPM_i：模块号，可用参数可参见gec.h文件
+ 197:srcc/timer.c  **** //        f：计数器频率，单位：Khz，取值：375、750、1500、3000、6000、12000、24000、48000
+ 198:srcc/timer.c  **** //        MOD_Value：计数器计数间隔时间，单位：ms，(f*MOD_Value-1)的范围为0~65535
+ 199:srcc/timer.c  **** //函数返回： 无
+ 200:srcc/timer.c  **** //===================================================================
+ 201:srcc/timer.c  **** void tpm_timer_init(uint_16 TPM_i,uint32_t f,float MOD_Value)
+ 202:srcc/timer.c  **** {
+ 212              		.loc 1 202 0
+ 213              		.cfi_startproc
+ 214              		@ args = 0, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              	.LVL7:
+ 217 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 218              		.cfi_def_cfa_offset 24
+ 219              		.cfi_offset 3, -24
+ 220              		.cfi_offset 4, -20
+ 221              		.cfi_offset 5, -16
+ 222              		.cfi_offset 6, -12
+ 223              		.cfi_offset 7, -8
+ 224              		.cfi_offset 14, -4
+ 225 0002 0700     		movs	r7, r0
+ 226 0004 0D00     		movs	r5, r1
+ 227 0006 161C     		adds	r6, r2, #0
+ 203:srcc/timer.c  ****     //局部变量声明
+ 204:srcc/timer.c  ****     uint_32 clk_f,clk_div;
+ 205:srcc/timer.c  ****     uint_16 mod;
+ 206:srcc/timer.c  ****     //1. 开启SIM时钟门
+ 207:srcc/timer.c  ****     BSET(SIM_SCGC6_TPM0_SHIFT+TPM_i,SIM_SCGC6);
+ 228              		.loc 1 207 0
+ 229 0008 2A4B     		ldr	r3, .L21
+ 230 000a 2B49     		ldr	r1, .L21+4
+ 231              	.LVL8:
+ 232 000c 5858     		ldr	r0, [r3, r1]
+ 233              	.LVL9:
+ 234 000e 3C00     		movs	r4, r7
+ 235 0010 1834     		adds	r4, r4, #24
+ 236 0012 0122     		movs	r2, #1
+ 237              	.LVL10:
+ 238 0014 A240     		lsls	r2, r2, r4
+ 239 0016 0243     		orrs	r2, r0
+ 240 0018 5A50     		str	r2, [r3, r1]
+ 208:srcc/timer.c  ****     TPM_ARR[TPM_i]->SC = 0;   //关闭该模块的计数器功能，确保未重复开启
+ 241              		.loc 1 208 0
+ 242 001a B900     		lsls	r1, r7, #2
+ 243 001c 274A     		ldr	r2, .L21+8
+ 244 001e 8A58     		ldr	r2, [r1, r2]
+ 245 0020 0021     		movs	r1, #0
+ 246 0022 1160     		str	r1, [r2]
+ 209:srcc/timer.c  ****     //2.开启时钟，默认选择用PLL/2时钟源，即48MHz
+ 210:srcc/timer.c  ****     SIM_SOPT2 |= SIM_SOPT2_TPMSRC(1);
+ 247              		.loc 1 210 0
+ 248 0024 264A     		ldr	r2, .L21+12
+ 249 0026 9858     		ldr	r0, [r3, r2]
+ 250 0028 8021     		movs	r1, #128
+ 251 002a 4904     		lsls	r1, r1, #17
+ 252 002c 0143     		orrs	r1, r0
+ 253 002e 9950     		str	r1, [r3, r2]
+ 211:srcc/timer.c  ****     SIM_SOPT2 &= ~SIM_SOPT2_PLLFLLSEL_MASK;
+ 254              		.loc 1 211 0
+ 255 0030 9958     		ldr	r1, [r3, r2]
+ 256 0032 2448     		ldr	r0, .L21+16
+ 257 0034 0140     		ands	r1, r0
+ 258 0036 9950     		str	r1, [r3, r2]
+ 212:srcc/timer.c  ****     //3. 由期望的时钟频率f，计算分频因子clk_div。因分频系数clk_f=48000/f,
+ 213:srcc/timer.c  ****     //则分频因子clk_div=sqrt(clk_f)。例如：f=3000Khz,则clk_f=16，clk_div=4
+ 214:srcc/timer.c  ****     clk_f=48000/f;
+ 259              		.loc 1 214 0
+ 260 0038 2900     		movs	r1, r5
+ 261 003a 2348     		ldr	r0, .L21+20
+ 262 003c FFF7FEFF 		bl	__aeabi_uidiv
+ 263              	.LVL11:
+ 215:srcc/timer.c  ****     clk_div = 0;
+ 216:srcc/timer.c  ****     while(clk_f>1)
+ 264              		.loc 1 216 0
+ 265 0040 0128     		cmp	r0, #1
+ 266 0042 24D9     		bls	.L17
+ 215:srcc/timer.c  ****     clk_div = 0;
+ 267              		.loc 1 215 0
+ 268 0044 0024     		movs	r4, #0
+ 269              	.LVL12:
+ 270              	.L15:
+ 217:srcc/timer.c  ****     {
+ 218:srcc/timer.c  ****         clk_div++;
+ 271              		.loc 1 218 0
+ 272 0046 0134     		adds	r4, r4, #1
+ 273              	.LVL13:
+ 219:srcc/timer.c  ****         clk_f=clk_f/2;
+ 274              		.loc 1 219 0
+ 275 0048 4008     		lsrs	r0, r0, #1
+ 276              	.LVL14:
+ 216:srcc/timer.c  ****     {
+ 277              		.loc 1 216 0
+ 278 004a 0128     		cmp	r0, #1
+ 279 004c FBD8     		bhi	.L15
+ 280              	.LVL15:
+ 281              	.L14:
+ 220:srcc/timer.c  ****     }
+ 221:srcc/timer.c  ****     //4. 计数器清零
+ 222:srcc/timer.c  ****     TPM_ARR[TPM_i]->CNT = 0;
+ 282              		.loc 1 222 0
+ 283 004e BB00     		lsls	r3, r7, #2
+ 284 0050 1A4A     		ldr	r2, .L21+8
+ 285 0052 9B58     		ldr	r3, [r3, r2]
+ 286 0054 0022     		movs	r2, #0
+ 287 0056 5A60     		str	r2, [r3, #4]
+ 223:srcc/timer.c  ****     //5. 设置模数寄存器
+ 224:srcc/timer.c  ****     if(f * MOD_Value > 65535)
+ 288              		.loc 1 224 0
+ 289 0058 2800     		movs	r0, r5
+ 290              	.LVL16:
+ 291 005a FFF7FEFF 		bl	__aeabi_ui2f
+ 292              	.LVL17:
+ 293 005e 311C     		adds	r1, r6, #0
+ 294 0060 FFF7FEFF 		bl	__aeabi_fmul
+ 295              	.LVL18:
+ 296 0064 051C     		adds	r5, r0, #0
+ 297              	.LVL19:
+ 298 0066 1949     		ldr	r1, .L21+24
+ 299 0068 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 300              	.LVL20:
+ 301 006c 0028     		cmp	r0, #0
+ 302 006e 10D1     		bne	.L18
+ 225:srcc/timer.c  ****     {
+ 226:srcc/timer.c  ****         mod = 65535;
+ 227:srcc/timer.c  ****     }
+ 228:srcc/timer.c  ****     else if(f * MOD_Value <= 0)
+ 303              		.loc 1 228 0
+ 304 0070 0021     		movs	r1, #0
+ 305 0072 281C     		adds	r0, r5, #0
+ 306 0074 FFF7FEFF 		bl	__aeabi_fcmple
+ 307              	.LVL21:
+ 308 0078 0028     		cmp	r0, #0
+ 309 007a 18D1     		bne	.L19
+ 229:srcc/timer.c  ****     {
+ 230:srcc/timer.c  ****         mod = 0 ;
+ 231:srcc/timer.c  ****     }
+ 232:srcc/timer.c  ****     else{
+ 233:srcc/timer.c  ****         mod = f * MOD_Value - 1;
+ 310              		.loc 1 233 0
+ 311 007c FE21     		movs	r1, #254
+ 312 007e 8905     		lsls	r1, r1, #22
+ 313 0080 281C     		adds	r0, r5, #0
+ 314 0082 FFF7FEFF 		bl	__aeabi_fsub
+ 315              	.LVL22:
+ 316 0086 FFF7FEFF 		bl	__aeabi_f2uiz
+ 317              	.LVL23:
+ 318 008a 80B2     		uxth	r0, r0
+ 319              	.LVL24:
+ 320 008c 02E0     		b	.L16
+ 321              	.LVL25:
+ 322              	.L17:
+ 215:srcc/timer.c  ****     while(clk_f>1)
+ 323              		.loc 1 215 0
+ 324 008e 0024     		movs	r4, #0
+ 325 0090 DDE7     		b	.L14
+ 326              	.LVL26:
+ 327              	.L18:
+ 226:srcc/timer.c  ****     }
+ 328              		.loc 1 226 0
+ 329 0092 0F48     		ldr	r0, .L21+28
+ 330              	.L16:
+ 331              	.LVL27:
+ 234:srcc/timer.c  ****     }
+ 235:srcc/timer.c  ****     TPM_ARR[TPM_i]->MOD = mod;  //给模数寄存器赋值
+ 332              		.loc 1 235 0
+ 333 0094 094B     		ldr	r3, .L21+8
+ 334 0096 BF00     		lsls	r7, r7, #2
+ 335 0098 FA58     		ldr	r2, [r7, r3]
+ 336 009a 9060     		str	r0, [r2, #8]
+ 236:srcc/timer.c  ****     //6. 写TPM_i的状态和控制寄存器
+ 237:srcc/timer.c  ****     TPM_ARR[TPM_i]->SC |= TPM_SC_CMOD(1) | TPM_SC_PS(clk_div) | TPM_SC_TOIE_MASK;
+ 337              		.loc 1 237 0
+ 338 009c F958     		ldr	r1, [r7, r3]
+ 339 009e 0A68     		ldr	r2, [r1]
+ 340 00a0 0723     		movs	r3, #7
+ 341 00a2 1C40     		ands	r4, r3
+ 342 00a4 4133     		adds	r3, r3, #65
+ 343 00a6 1343     		orrs	r3, r2
+ 344 00a8 1C43     		orrs	r4, r3
+ 345 00aa 0C60     		str	r4, [r1]
+ 238:srcc/timer.c  **** }
+ 346              		.loc 1 238 0
+ 347              		@ sp needed
+ 348              	.LVL28:
+ 349 00ac F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 350              	.LVL29:
+ 351              	.L19:
+ 230:srcc/timer.c  ****     }
+ 352              		.loc 1 230 0
+ 353 00ae 0020     		movs	r0, #0
+ 354 00b0 F0E7     		b	.L16
+ 355              	.L22:
+ 356 00b2 C046     		.align	2
+ 357              	.L21:
+ 358 00b4 00700440 		.word	1074032640
+ 359 00b8 3C100000 		.word	4156
+ 360 00bc 00000000 		.word	.LANCHOR0
+ 361 00c0 04100000 		.word	4100
+ 362 00c4 FFFFFEFF 		.word	-65537
+ 363 00c8 80BB0000 		.word	48000
+ 364 00cc 00FF7F47 		.word	1199570688
+ 365 00d0 FFFF0000 		.word	65535
+ 366              		.cfi_endproc
+ 367              	.LFE44:
+ 369              		.section	.text.timer_init,"ax",%progbits
+ 370              		.align	1
+ 371              		.global	timer_init
+ 372              		.syntax unified
+ 373              		.code	16
+ 374              		.thumb_func
+ 375              		.fpu softvfp
+ 377              	timer_init:
+ 378              	.LFB35:
+  36:srcc/timer.c  ****     if(timer_No==0)
+ 379              		.loc 1 36 0
+ 380              		.cfi_startproc
+ 381              		@ args = 0, pretend = 0, frame = 0
+ 382              		@ frame_needed = 0, uses_anonymous_args = 0
+ 383              	.LVL30:
+ 384 0000 10B5     		push	{r4, lr}
+ 385              		.cfi_def_cfa_offset 8
+ 386              		.cfi_offset 4, -8
+ 387              		.cfi_offset 14, -4
+ 388 0002 041E     		subs	r4, r0, #0
+  37:srcc/timer.c  ****     {
+ 389              		.loc 1 37 0
+ 390 0004 03D0     		beq	.L26
+  41:srcc/timer.c  ****     {
+ 391              		.loc 1 41 0
+ 392 0006 431E     		subs	r3, r0, #1
+ 393 0008 012B     		cmp	r3, #1
+ 394 000a 04D9     		bls	.L27
+ 395              	.LVL31:
+ 396              	.L23:
+  47:srcc/timer.c  **** 
+ 397              		.loc 1 47 0
+ 398              		@ sp needed
+ 399 000c 10BD     		pop	{r4, pc}
+ 400              	.LVL32:
+ 401              	.L26:
+  39:srcc/timer.c  ****     }
+ 402              		.loc 1 39 0
+ 403 000e 0800     		movs	r0, r1
+ 404              	.LVL33:
+ 405 0010 FFF7FEFF 		bl	lptmr_init
+ 406              	.LVL34:
+ 407 0014 FAE7     		b	.L23
+ 408              	.LVL35:
+ 409              	.L27:
+  43:srcc/timer.c  ****     }
+ 410              		.loc 1 43 0
+ 411 0016 0800     		movs	r0, r1
+ 412              	.LVL36:
+ 413 0018 FFF7FEFF 		bl	__aeabi_ui2f
+ 414              	.LVL37:
+ 415 001c 021C     		adds	r2, r0, #0
+ 416 001e A0B2     		uxth	r0, r4
+ 417 0020 0149     		ldr	r1, .L28
+ 418 0022 FFF7FEFF 		bl	tpm_timer_init
+ 419              	.LVL38:
+ 420 0026 F1E7     		b	.L23
+ 421              	.L29:
+ 422              		.align	2
+ 423              	.L28:
+ 424 0028 B80B0000 		.word	3000
+ 425              		.cfi_endproc
+ 426              	.LFE35:
+ 428              		.section	.text.tpm_enable_int,"ax",%progbits
+ 429              		.align	1
+ 430              		.global	tpm_enable_int
+ 431              		.syntax unified
+ 432              		.code	16
+ 433              		.thumb_func
+ 434              		.fpu softvfp
+ 436              	tpm_enable_int:
+ 437              	.LFB45:
+ 239:srcc/timer.c  **** 
+ 240:srcc/timer.c  **** //===================================================================
+ 241:srcc/timer.c  **** //函数名称：tpm_enable_int
+ 242:srcc/timer.c  **** //功能概要：使能tpm模块中断。
+ 243:srcc/timer.c  **** //参数说明：TPM_i：模块号，可用参数可参见gec.h文件
+ 244:srcc/timer.c  **** //函数返回：无
+ 245:srcc/timer.c  **** //===================================================================
+ 246:srcc/timer.c  **** void tpm_enable_int(uint_8 TPM_i)
+ 247:srcc/timer.c  **** {
+ 438              		.loc 1 247 0
+ 439              		.cfi_startproc
+ 440              		@ args = 0, pretend = 0, frame = 0
+ 441              		@ frame_needed = 0, uses_anonymous_args = 0
+ 442              		@ link register save eliminated.
+ 443              	.LVL39:
+ 248:srcc/timer.c  ****     if(TPM_i>2)  TPM_i = 2;
+ 249:srcc/timer.c  ****     //开TPM中断
+ 250:srcc/timer.c  ****     NVIC_EnableIRQ(TPM_IRQ[TPM_i]);
+ 444              		.loc 1 250 0
+ 445 0000 031C     		adds	r3, r0, #0
+ 446 0002 0228     		cmp	r0, #2
+ 447 0004 00D9     		bls	.L31
+ 448 0006 0223     		movs	r3, #2
+ 449              	.L31:
+ 450 0008 DBB2     		uxtb	r3, r3
+ 451              	.LBB14:
+ 452              	.LBB15:
+ 685:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cm0plus.h **** }
+ 453              		.loc 2 685 0
+ 454 000a 044A     		ldr	r2, .L32
+ 455 000c D35C     		ldrb	r3, [r2, r3]
+ 456 000e 1F22     		movs	r2, #31
+ 457 0010 1A40     		ands	r2, r3
+ 458 0012 0123     		movs	r3, #1
+ 459 0014 9340     		lsls	r3, r3, r2
+ 460 0016 024A     		ldr	r2, .L32+4
+ 461 0018 1360     		str	r3, [r2]
+ 462              	.LVL40:
+ 463              	.LBE15:
+ 464              	.LBE14:
+ 251:srcc/timer.c  **** }
+ 465              		.loc 1 251 0
+ 466              		@ sp needed
+ 467 001a 7047     		bx	lr
+ 468              	.L33:
+ 469              		.align	2
+ 470              	.L32:
+ 471 001c 00000000 		.word	.LANCHOR1
+ 472 0020 00E100E0 		.word	-536813312
+ 473              		.cfi_endproc
+ 474              	.LFE45:
+ 476              		.section	.text.timer_enable_int,"ax",%progbits
+ 477              		.align	1
+ 478              		.global	timer_enable_int
+ 479              		.syntax unified
+ 480              		.code	16
+ 481              		.thumb_func
+ 482              		.fpu softvfp
+ 484              	timer_enable_int:
+ 485              	.LFB36:
+  57:srcc/timer.c  **** 
+ 486              		.loc 1 57 0
+ 487              		.cfi_startproc
+ 488              		@ args = 0, pretend = 0, frame = 0
+ 489              		@ frame_needed = 0, uses_anonymous_args = 0
+ 490              	.LVL41:
+ 491 0000 10B5     		push	{r4, lr}
+ 492              		.cfi_def_cfa_offset 8
+ 493              		.cfi_offset 4, -8
+ 494              		.cfi_offset 14, -4
+  59:srcc/timer.c  ****     {
+ 495              		.loc 1 59 0
+ 496 0002 0028     		cmp	r0, #0
+ 497 0004 03D0     		beq	.L37
+  63:srcc/timer.c  ****     {
+ 498              		.loc 1 63 0
+ 499 0006 431E     		subs	r3, r0, #1
+ 500 0008 012B     		cmp	r3, #1
+ 501 000a 03D9     		bls	.L38
+ 502              	.LVL42:
+ 503              	.L34:
+  69:srcc/timer.c  **** 
+ 504              		.loc 1 69 0
+ 505              		@ sp needed
+ 506 000c 10BD     		pop	{r4, pc}
+ 507              	.LVL43:
+ 508              	.L37:
+  61:srcc/timer.c  ****     }
+ 509              		.loc 1 61 0
+ 510 000e FFF7FEFF 		bl	lptmr_enable_int
+ 511              	.LVL44:
+ 512 0012 FBE7     		b	.L34
+ 513              	.LVL45:
+ 514              	.L38:
+  65:srcc/timer.c  ****     }
+ 515              		.loc 1 65 0
+ 516 0014 FFF7FEFF 		bl	tpm_enable_int
+ 517              	.LVL46:
+ 518 0018 F8E7     		b	.L34
+ 519              		.cfi_endproc
+ 520              	.LFE36:
+ 522              		.section	.text.tpm_disable_int,"ax",%progbits
+ 523              		.align	1
+ 524              		.global	tpm_disable_int
+ 525              		.syntax unified
+ 526              		.code	16
+ 527              		.thumb_func
+ 528              		.fpu softvfp
+ 530              	tpm_disable_int:
+ 531              	.LFB46:
+ 252:srcc/timer.c  **** 
+ 253:srcc/timer.c  **** //===================================================================
+ 254:srcc/timer.c  **** //函数名称：tpm_disable_int
+ 255:srcc/timer.c  **** //功能概要：禁用tpm模块中断。
+ 256:srcc/timer.c  **** //参数说明：TPM_i：模块号，可用参数可参见gec.h文件
+ 257:srcc/timer.c  **** //函数返回：无
+ 258:srcc/timer.c  **** //===================================================================
+ 259:srcc/timer.c  **** void tpm_disable_int(uint_8 TPM_i)
+ 260:srcc/timer.c  **** {
+ 532              		.loc 1 260 0
+ 533              		.cfi_startproc
+ 534              		@ args = 0, pretend = 0, frame = 0
+ 535              		@ frame_needed = 0, uses_anonymous_args = 0
+ 536              		@ link register save eliminated.
+ 537              	.LVL47:
+ 261:srcc/timer.c  ****     if(TPM_i>2)  TPM_i = 2;
+ 262:srcc/timer.c  ****     //开TPM中断
+ 263:srcc/timer.c  ****     NVIC_DisableIRQ(TPM_IRQ[TPM_i]);
+ 538              		.loc 1 263 0
+ 539 0000 031C     		adds	r3, r0, #0
+ 540 0002 0228     		cmp	r0, #2
+ 541 0004 00D9     		bls	.L40
+ 542 0006 0223     		movs	r3, #2
+ 543              	.L40:
+ 544 0008 DBB2     		uxtb	r3, r3
+ 545              	.LBB16:
+ 546              	.LBB17:
+ 547              		.loc 2 697 0
+ 548 000a 054A     		ldr	r2, .L41
+ 549 000c D35C     		ldrb	r3, [r2, r3]
+ 550 000e 1F22     		movs	r2, #31
+ 551 0010 1A40     		ands	r2, r3
+ 552 0012 0123     		movs	r3, #1
+ 553 0014 9340     		lsls	r3, r3, r2
+ 554 0016 0349     		ldr	r1, .L41+4
+ 555 0018 8022     		movs	r2, #128
+ 556 001a 8B50     		str	r3, [r1, r2]
+ 557              	.LVL48:
+ 558              	.LBE17:
+ 559              	.LBE16:
+ 264:srcc/timer.c  **** }
+ 560              		.loc 1 264 0
+ 561              		@ sp needed
+ 562 001c 7047     		bx	lr
+ 563              	.L42:
+ 564 001e C046     		.align	2
+ 565              	.L41:
+ 566 0020 00000000 		.word	.LANCHOR1
+ 567 0024 00E100E0 		.word	-536813312
+ 568              		.cfi_endproc
+ 569              	.LFE46:
+ 571              		.section	.text.timer_disable_int,"ax",%progbits
+ 572              		.align	1
+ 573              		.global	timer_disable_int
+ 574              		.syntax unified
+ 575              		.code	16
+ 576              		.thumb_func
+ 577              		.fpu softvfp
+ 579              	timer_disable_int:
+ 580              	.LFB37:
+  78:srcc/timer.c  **** 
+ 581              		.loc 1 78 0
+ 582              		.cfi_startproc
+ 583              		@ args = 0, pretend = 0, frame = 0
+ 584              		@ frame_needed = 0, uses_anonymous_args = 0
+ 585              	.LVL49:
+ 586 0000 10B5     		push	{r4, lr}
+ 587              		.cfi_def_cfa_offset 8
+ 588              		.cfi_offset 4, -8
+ 589              		.cfi_offset 14, -4
+  80:srcc/timer.c  ****     {
+ 590              		.loc 1 80 0
+ 591 0002 0028     		cmp	r0, #0
+ 592 0004 03D0     		beq	.L46
+  84:srcc/timer.c  ****     {
+ 593              		.loc 1 84 0
+ 594 0006 431E     		subs	r3, r0, #1
+ 595 0008 012B     		cmp	r3, #1
+ 596 000a 03D9     		bls	.L47
+ 597              	.LVL50:
+ 598              	.L43:
+  90:srcc/timer.c  **** 
+ 599              		.loc 1 90 0
+ 600              		@ sp needed
+ 601 000c 10BD     		pop	{r4, pc}
+ 602              	.LVL51:
+ 603              	.L46:
+  82:srcc/timer.c  ****     }
+ 604              		.loc 1 82 0
+ 605 000e FFF7FEFF 		bl	lptmr_disable_int
+ 606              	.LVL52:
+ 607 0012 FBE7     		b	.L43
+ 608              	.LVL53:
+ 609              	.L47:
+  86:srcc/timer.c  ****     }
+ 610              		.loc 1 86 0
+ 611 0014 FFF7FEFF 		bl	tpm_disable_int
+ 612              	.LVL54:
+ 613 0018 F8E7     		b	.L43
+ 614              		.cfi_endproc
+ 615              	.LFE37:
+ 617              		.section	.text.tpm_get_int,"ax",%progbits
+ 618              		.align	1
+ 619              		.global	tpm_get_int
+ 620              		.syntax unified
+ 621              		.code	16
+ 622              		.thumb_func
+ 623              		.fpu softvfp
+ 625              	tpm_get_int:
+ 626              	.LFB47:
+ 265:srcc/timer.c  **** 
+ 266:srcc/timer.c  **** //===================================================================
+ 267:srcc/timer.c  **** //函数名称：tpm_get_int
+ 268:srcc/timer.c  **** //功能概要：获取TPM模块中断标志
+ 269:srcc/timer.c  **** //参数说明：TPM_i：模块号，可用参数可参见gec.h文件
+ 270:srcc/timer.c  **** //函数返回：中断标志 1=有对应模块中断产生;0=无对应模块中断产生
+ 271:srcc/timer.c  **** //===================================================================
+ 272:srcc/timer.c  **** uint_8 tpm_get_int(uint_8 TPM_i)
+ 273:srcc/timer.c  **** {
+ 627              		.loc 1 273 0
+ 628              		.cfi_startproc
+ 629              		@ args = 0, pretend = 0, frame = 0
+ 630              		@ frame_needed = 0, uses_anonymous_args = 0
+ 631              		@ link register save eliminated.
+ 632              	.LVL55:
+ 274:srcc/timer.c  ****   //获取TPM_i模块中断标志位
+ 275:srcc/timer.c  ****   if(((TPM_SC_REG(TPM_ARR[TPM_i]) & TPM_SC_TOF_MASK)==TPM_SC_TOF_MASK))
+ 633              		.loc 1 275 0
+ 634 0000 8000     		lsls	r0, r0, #2
+ 635              	.LVL56:
+ 636 0002 034B     		ldr	r3, .L49
+ 637 0004 C358     		ldr	r3, [r0, r3]
+ 638 0006 1868     		ldr	r0, [r3]
+ 639 0008 0006     		lsls	r0, r0, #24
+ 640 000a C00F     		lsrs	r0, r0, #31
+ 276:srcc/timer.c  ****     return 1;
+ 277:srcc/timer.c  ****   else
+ 278:srcc/timer.c  ****     return 0;
+ 279:srcc/timer.c  **** }
+ 641              		.loc 1 279 0
+ 642              		@ sp needed
+ 643 000c 7047     		bx	lr
+ 644              	.L50:
+ 645 000e C046     		.align	2
+ 646              	.L49:
+ 647 0010 00000000 		.word	.LANCHOR0
+ 648              		.cfi_endproc
+ 649              	.LFE47:
+ 651              		.section	.text.timer_get_int,"ax",%progbits
+ 652              		.align	1
+ 653              		.global	timer_get_int
+ 654              		.syntax unified
+ 655              		.code	16
+ 656              		.thumb_func
+ 657              		.fpu softvfp
+ 659              	timer_get_int:
+ 660              	.LFB38:
+  99:srcc/timer.c  **** 
+ 661              		.loc 1 99 0
+ 662              		.cfi_startproc
+ 663              		@ args = 0, pretend = 0, frame = 0
+ 664              		@ frame_needed = 0, uses_anonymous_args = 0
+ 665              	.LVL57:
+ 666 0000 10B5     		push	{r4, lr}
+ 667              		.cfi_def_cfa_offset 8
+ 668              		.cfi_offset 4, -8
+ 669              		.cfi_offset 14, -4
+ 101:srcc/timer.c  ****     {
+ 670              		.loc 1 101 0
+ 671 0002 0028     		cmp	r0, #0
+ 672 0004 05D1     		bne	.L52
+ 104:srcc/timer.c  ****           return 1;
+ 673              		.loc 1 104 0
+ 674 0006 074B     		ldr	r3, .L55
+ 675 0008 1B68     		ldr	r3, [r3]
+ 676 000a 1B06     		lsls	r3, r3, #24
+ 105:srcc/timer.c  ****       else
+ 677              		.loc 1 105 0
+ 678 000c DB0F     		lsrs	r3, r3, #31
+ 679              	.LVL58:
+ 680              	.L53:
+ 115:srcc/timer.c  **** 
+ 681              		.loc 1 115 0
+ 682 000e 1800     		movs	r0, r3
+ 683              		@ sp needed
+ 684 0010 10BD     		pop	{r4, pc}
+ 685              	.LVL59:
+ 686              	.L52:
+ 109:srcc/timer.c  ****     {
+ 687              		.loc 1 109 0
+ 688 0012 421E     		subs	r2, r0, #1
+ 114:srcc/timer.c  **** }
+ 689              		.loc 1 114 0
+ 690 0014 0023     		movs	r3, #0
+ 109:srcc/timer.c  ****     {
+ 691              		.loc 1 109 0
+ 692 0016 012A     		cmp	r2, #1
+ 693 0018 F9D8     		bhi	.L53
+ 111:srcc/timer.c  ****     }
+ 694              		.loc 1 111 0
+ 695 001a FFF7FEFF 		bl	tpm_get_int
+ 696              	.LVL60:
+ 697 001e 0300     		movs	r3, r0
+ 698 0020 F5E7     		b	.L53
+ 699              	.L56:
+ 700 0022 C046     		.align	2
+ 701              	.L55:
+ 702 0024 00000440 		.word	1074003968
+ 703              		.cfi_endproc
+ 704              	.LFE38:
+ 706              		.section	.text.tpm_clear_int,"ax",%progbits
+ 707              		.align	1
+ 708              		.global	tpm_clear_int
+ 709              		.syntax unified
+ 710              		.code	16
+ 711              		.thumb_func
+ 712              		.fpu softvfp
+ 714              	tpm_clear_int:
+ 715              	.LFB48:
+ 280:srcc/timer.c  **** 
+ 281:srcc/timer.c  **** //===================================================================
+ 282:srcc/timer.c  **** //函数名称：tpm_clear_int
+ 283:srcc/timer.c  **** //功能概要：清除TPM中断标志
+ 284:srcc/timer.c  **** //参数说明：TPM_i：模块号，可用参数可参见gec.h文件
+ 285:srcc/timer.c  **** //函数返回：清除TPM模块中断标志位
+ 286:srcc/timer.c  **** //===================================================================
+ 287:srcc/timer.c  **** void tpm_clear_int(uint_8 TPM_i)
+ 288:srcc/timer.c  **** {
+ 716              		.loc 1 288 0
+ 717              		.cfi_startproc
+ 718              		@ args = 0, pretend = 0, frame = 0
+ 719              		@ frame_needed = 0, uses_anonymous_args = 0
+ 720              		@ link register save eliminated.
+ 721              	.LVL61:
+ 289:srcc/timer.c  ****     //清除TPM_i模块中断标志位
+ 290:srcc/timer.c  ****     BSET(TPM_SC_TOF_SHIFT,TPM_SC_REG(TPM_ARR[TPM_i]));
+ 722              		.loc 1 290 0
+ 723 0000 8000     		lsls	r0, r0, #2
+ 724              	.LVL62:
+ 725 0002 034B     		ldr	r3, .L58
+ 726 0004 C258     		ldr	r2, [r0, r3]
+ 727 0006 1368     		ldr	r3, [r2]
+ 728 0008 8021     		movs	r1, #128
+ 729 000a 0B43     		orrs	r3, r1
+ 730 000c 1360     		str	r3, [r2]
+ 291:srcc/timer.c  **** }
+ 731              		.loc 1 291 0
+ 732              		@ sp needed
+ 733 000e 7047     		bx	lr
+ 734              	.L59:
+ 735              		.align	2
+ 736              	.L58:
+ 737 0010 00000000 		.word	.LANCHOR0
+ 738              		.cfi_endproc
+ 739              	.LFE48:
+ 741              		.section	.text.timer_clear_int,"ax",%progbits
+ 742              		.align	1
+ 743              		.global	timer_clear_int
+ 744              		.syntax unified
+ 745              		.code	16
+ 746              		.thumb_func
+ 747              		.fpu softvfp
+ 749              	timer_clear_int:
+ 750              	.LFB39:
+ 124:srcc/timer.c  ****     if(timer_No==0)
+ 751              		.loc 1 124 0
+ 752              		.cfi_startproc
+ 753              		@ args = 0, pretend = 0, frame = 0
+ 754              		@ frame_needed = 0, uses_anonymous_args = 0
+ 755              	.LVL63:
+ 756 0000 10B5     		push	{r4, lr}
+ 757              		.cfi_def_cfa_offset 8
+ 758              		.cfi_offset 4, -8
+ 759              		.cfi_offset 14, -4
+ 125:srcc/timer.c  ****     {
+ 760              		.loc 1 125 0
+ 761 0002 0028     		cmp	r0, #0
+ 762 0004 05D0     		beq	.L63
+ 129:srcc/timer.c  ****     {
+ 763              		.loc 1 129 0
+ 764 0006 431E     		subs	r3, r0, #1
+ 765 0008 012B     		cmp	r3, #1
+ 766 000a 07D8     		bhi	.L60
+ 131:srcc/timer.c  ****     }
+ 767              		.loc 1 131 0
+ 768 000c FFF7FEFF 		bl	tpm_clear_int
+ 769              	.LVL64:
+ 770 0010 04E0     		b	.L60
+ 771              	.LVL65:
+ 772              	.L63:
+ 127:srcc/timer.c  ****     }
+ 773              		.loc 1 127 0
+ 774 0012 034A     		ldr	r2, .L64
+ 775 0014 1368     		ldr	r3, [r2]
+ 776 0016 8021     		movs	r1, #128
+ 777 0018 0B43     		orrs	r3, r1
+ 778 001a 1360     		str	r3, [r2]
+ 779              	.LVL66:
+ 780              	.L60:
+ 135:srcc/timer.c  **** 
+ 781              		.loc 1 135 0
+ 782              		@ sp needed
+ 783 001c 10BD     		pop	{r4, pc}
+ 784              	.L65:
+ 785 001e C046     		.align	2
+ 786              	.L64:
+ 787 0020 00000440 		.word	1074003968
+ 788              		.cfi_endproc
+ 789              	.LFE39:
+ 791              		.global	TPM_IRQ
+ 792              		.global	TPM_ARR
+ 793              		.comm	bios_fun_point,4,4
+ 794              		.section	.data.TPM_ARR,"aw",%progbits
+ 795              		.align	2
+ 796              		.set	.LANCHOR0,. + 0
+ 799              	TPM_ARR:
+ 800 0000 00800340 		.word	1073971200
+ 801 0004 00900340 		.word	1073975296
+ 802 0008 00A00340 		.word	1073979392
+ 803              		.section	.data.TPM_IRQ,"aw",%progbits
+ 804              		.align	2
+ 805              		.set	.LANCHOR1,. + 0
+ 808              	TPM_IRQ:
+ 809 0000 11       		.byte	17
+ 810 0001 12       		.byte	18
+ 811 0002 13       		.byte	19
+ 812              		.text
+ 813              	.Letext0:
+ 814              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 815              		.file 4 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 816              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 817              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 818              		.file 7 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 819              		.file 8 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 820              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 821              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 822              		.file 11 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 823              		.file 12 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 timer.c
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:16     .text.lptmr_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:23     .text.lptmr_init:00000000 lptmr_init
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:70     .text.lptmr_init:00000030 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:77     .text.lptmr_reset:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:84     .text.lptmr_reset:00000000 lptmr_reset
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:103    .text.lptmr_reset:0000000c $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:108    .text.lptmr_enable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:115    .text.lptmr_enable_int:00000000 lptmr_enable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:146    .text.lptmr_enable_int:00000014 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:152    .text.lptmr_disable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:159    .text.lptmr_disable_int:00000000 lptmr_disable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:190    .text.lptmr_disable_int:00000018 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:203    .text.tpm_timer_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:210    .text.tpm_timer_init:00000000 tpm_timer_init
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:358    .text.tpm_timer_init:000000b4 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:370    .text.timer_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:377    .text.timer_init:00000000 timer_init
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:424    .text.timer_init:00000028 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:429    .text.tpm_enable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:436    .text.tpm_enable_int:00000000 tpm_enable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:471    .text.tpm_enable_int:0000001c $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:477    .text.timer_enable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:484    .text.timer_enable_int:00000000 timer_enable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:523    .text.tpm_disable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:530    .text.tpm_disable_int:00000000 tpm_disable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:566    .text.tpm_disable_int:00000020 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:572    .text.timer_disable_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:579    .text.timer_disable_int:00000000 timer_disable_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:618    .text.tpm_get_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:625    .text.tpm_get_int:00000000 tpm_get_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:647    .text.tpm_get_int:00000010 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:652    .text.timer_get_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:659    .text.timer_get_int:00000000 timer_get_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:702    .text.timer_get_int:00000024 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:707    .text.tpm_clear_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:714    .text.tpm_clear_int:00000000 tpm_clear_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:737    .text.tpm_clear_int:00000010 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:742    .text.timer_clear_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:749    .text.timer_clear_int:00000000 timer_clear_int
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:787    .text.timer_clear_int:00000020 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:808    .data.TPM_IRQ:00000000 TPM_IRQ
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:799    .data.TPM_ARR:00000000 TPM_ARR
+                            *COM*:00000004 bios_fun_point
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:795    .data.TPM_ARR:00000000 $d
+C:\Users\WYH\AppData\Local\Temp\cc688ciC.s:804    .data.TPM_IRQ:00000000 $d
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.timer.h.14.8dfa4ad1b5a7e63a7628830501061c8f
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv
+__aeabi_ui2f
+__aeabi_fmul
+__aeabi_fcmpgt
+__aeabi_fcmple
+__aeabi_fsub
+__aeabi_f2uiz

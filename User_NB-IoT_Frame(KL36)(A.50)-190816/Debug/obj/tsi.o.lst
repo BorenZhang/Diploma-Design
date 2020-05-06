@@ -1,0 +1,763 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"tsi.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.tsi_init,"ax",%progbits
+  16              		.align	1
+  17              		.global	tsi_init
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	tsi_init:
+  24              	.LFB35:
+  25              		.file 1 "srcc/tsi.c"
+   1:srcc/tsi.c    **** //=====================================================================
+   2:srcc/tsi.c    **** //文件名称：tsi.c
+   3:srcc/tsi.c    **** //功能概要：tsi底层驱动构件源文件
+   4:srcc/tsi.c    **** //制作单位：苏州大学嵌入式系统与物联网研究所(sumcu.suda.edu.cn)
+   5:srcc/tsi.c    **** //版    本：  2019-05-09  V2.0
+   6:srcc/tsi.c    **** //适用芯片：KL25、KL26、KL36
+   7:srcc/tsi.c    **** //=====================================================================
+   8:srcc/tsi.c    **** #include "tsi.h"
+   9:srcc/tsi.c    **** 
+  10:srcc/tsi.c    **** //=====================================================================
+  11:srcc/tsi.c    **** //函数名称：tsi_init                                                  
+  12:srcc/tsi.c    **** //功能概要：初始化TSI模块 ,
+  13:srcc/tsi.c    **** //参数说明：chnlIDs:TSI模块所使用的通道号，，可用参数可参见gec.h文件
+  14:srcc/tsi.c    **** //     threshold:阈值
+  15:srcc/tsi.c    **** //函数返回： 无
+  16:srcc/tsi.c    **** //=====================================================================
+  17:srcc/tsi.c    **** void tsi_init(uint_8 chnlID,uint_32 threshold)
+  18:srcc/tsi.c    **** {
+  26              		.loc 1 18 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 30B5     		push	{r4, r5, lr}
+  32              		.cfi_def_cfa_offset 12
+  33              		.cfi_offset 4, -12
+  34              		.cfi_offset 5, -8
+  35              		.cfi_offset 14, -4
+  19:srcc/tsi.c    ****     //开启TSI时钟
+  20:srcc/tsi.c    ****     BSET(SIM_SCGC5_TSI_SHIFT,SIM_SCGC5);
+  36              		.loc 1 20 0
+  37 0002 264A     		ldr	r2, .L9
+  38 0004 264B     		ldr	r3, .L9+4
+  39 0006 D458     		ldr	r4, [r2, r3]
+  40 0008 2025     		movs	r5, #32
+  41 000a 2C43     		orrs	r4, r5
+  42 000c D450     		str	r4, [r2, r3]
+  21:srcc/tsi.c    ****     BSET(SIM_SCGC5_PORTA_SHIFT,SIM_SCGC5);
+  43              		.loc 1 21 0
+  44 000e D558     		ldr	r5, [r2, r3]
+  45 0010 8024     		movs	r4, #128
+  46 0012 A400     		lsls	r4, r4, #2
+  47 0014 2C43     		orrs	r4, r5
+  48 0016 D450     		str	r4, [r2, r3]
+  22:srcc/tsi.c    **** 
+  23:srcc/tsi.c    ****     //通道号：0=PTB0脚，1=PTA0脚，2=PTA1脚，3=PTA2脚，4=PTA3脚，5=PTA4脚，
+  24:srcc/tsi.c    ****     //      6=PTB1脚，7=PTB2脚，8=PTB3脚，9=PTB16脚，10=PTB17脚，11=PTB18脚，
+  25:srcc/tsi.c    ****     //      12=PTB19脚，13=PTC0脚，14=PTC1脚，15=PTC2脚
+  26:srcc/tsi.c    ****     //除了1、2、3、4、5以外其他引脚的默认功能即为TSI通道
+  27:srcc/tsi.c    ****     switch(chnlID)   //chnlID的取值为0~15
+  49              		.loc 1 27 0
+  50 0018 0528     		cmp	r0, #5
+  51 001a 06D8     		bhi	.L2
+  52 001c 8300     		lsls	r3, r0, #2
+  53 001e 214A     		ldr	r2, .L9+8
+  54 0020 D358     		ldr	r3, [r2, r3]
+  55 0022 9F46     		mov	pc, r3
+  56              		.section	.rodata.tsi_init,"a",%progbits
+  57              		.align	2
+  58              	.L4:
+  59 0000 2A000000 		.word	.L2
+  60 0004 24000000 		.word	.L3
+  61 0008 7C000000 		.word	.L5
+  62 000c 84000000 		.word	.L6
+  63 0010 8C000000 		.word	.L7
+  64 0014 94000000 		.word	.L8
+  65              		.section	.text.tsi_init
+  66              	.L3:
+  28:srcc/tsi.c    ****     {
+  29:srcc/tsi.c    ****     case 1:
+  30:srcc/tsi.c    ****         PORTA_PCR0 = PORT_PCR_MUX(0);     //通道1使能
+  67              		.loc 1 30 0
+  68 0024 204B     		ldr	r3, .L9+12
+  69 0026 0022     		movs	r2, #0
+  70 0028 1A60     		str	r2, [r3]
+  71              	.L2:
+  31:srcc/tsi.c    ****         break;
+  32:srcc/tsi.c    ****     case 2:
+  33:srcc/tsi.c    ****         PORTA_PCR1 = PORT_PCR_MUX(0);     //通道2使能
+  34:srcc/tsi.c    ****         break;
+  35:srcc/tsi.c    ****     case 3:
+  36:srcc/tsi.c    ****         PORTA_PCR2 = PORT_PCR_MUX(0);     //通道3使能
+  37:srcc/tsi.c    ****         break;
+  38:srcc/tsi.c    ****     case 4:
+  39:srcc/tsi.c    ****         PORTA_PCR3 = PORT_PCR_MUX(0);     //通道4使能
+  40:srcc/tsi.c    ****         break;
+  41:srcc/tsi.c    ****     case 5:
+  42:srcc/tsi.c    ****         PORTA_PCR4 = PORT_PCR_MUX(0);     //通道5使能
+  43:srcc/tsi.c    ****         break;
+  44:srcc/tsi.c    ****     }
+  45:srcc/tsi.c    **** 
+  46:srcc/tsi.c    ****     BSET(TSI_GENCS_TSIIEN_SHIFT,TSI0_GENCS);//TSI中断使能
+  72              		.loc 1 46 0
+  73 002a 204B     		ldr	r3, .L9+16
+  74 002c 1A68     		ldr	r2, [r3]
+  75 002e 4024     		movs	r4, #64
+  76 0030 2243     		orrs	r2, r4
+  77 0032 1A60     		str	r2, [r3]
+  47:srcc/tsi.c    ****     BSET(TSI_GENCS_STPE_SHIFT,TSI0_GENCS);//TSI在低功耗模式下运行
+  78              		.loc 1 47 0
+  79 0034 1A68     		ldr	r2, [r3]
+  80 0036 203C     		subs	r4, r4, #32
+  81 0038 2243     		orrs	r2, r4
+  82 003a 1A60     		str	r2, [r3]
+  48:srcc/tsi.c    ****     //寄存器TSI0_GENCS中REFCHRG位置位4，即参考振荡器充放电电流为8uA
+  49:srcc/tsi.c    ****     TSI0_GENCS |= (TSI_GENCS_REFCHRG(4)
+  83              		.loc 1 49 0
+  84 003c 1C68     		ldr	r4, [r3]
+  85 003e 1C4A     		ldr	r2, .L9+20
+  86 0040 2243     		orrs	r2, r4
+  87 0042 1A60     		str	r2, [r3]
+  50:srcc/tsi.c    ****         | TSI_GENCS_DVOLT(0)//寄存器TSI0_GENCS中DVOLT位为00表示峰值电压
+  51:srcc/tsi.c    ****                     //Vp=1.33V，谷值电压Vm=0.30V ，峰值谷值之差Dv=1.03V
+  52:srcc/tsi.c    ****             | TSI_GENCS_EXTCHRG(6)//电极振荡器充放电电流值32uA
+  53:srcc/tsi.c    ****         | TSI_GENCS_PS(2)     //电极振荡器4分频
+  54:srcc/tsi.c    ****         | TSI_GENCS_NSCN(11)  //每个电极扫描4次
+  55:srcc/tsi.c    ****     );
+  56:srcc/tsi.c    **** //    BCLR(TSI_GENCS_ESOR_SHIFT,TSI0_GENCS);//设置超过阈值产生中断
+  57:srcc/tsi.c    ****     BSET(TSI_GENCS_ESOR_SHIFT,TSI0_GENCS);//设
+  88              		.loc 1 57 0
+  89 0044 1C68     		ldr	r4, [r3]
+  90 0046 8022     		movs	r2, #128
+  91 0048 5205     		lsls	r2, r2, #21
+  92 004a 2243     		orrs	r2, r4
+  93 004c 1A60     		str	r2, [r3]
+  58:srcc/tsi.c    ****     //BCLR(TSI_GENCS_STM_SHIFT,TSI0_GENCS); //软件触发扫描
+  59:srcc/tsi.c    ****     BSET(TSI_GENCS_STM_SHIFT,TSI0_GENCS);
+  94              		.loc 1 59 0
+  95 004e 1A68     		ldr	r2, [r3]
+  96 0050 1024     		movs	r4, #16
+  97 0052 2243     		orrs	r2, r4
+  98 0054 1A60     		str	r2, [r3]
+  60:srcc/tsi.c    ****     //清越值标志位和扫描完成位
+  61:srcc/tsi.c    ****     //超出阈值置位，EOSF为1设置成扫描完成状态
+  62:srcc/tsi.c    ****     BSET(TSI_GENCS_OUTRGF_SHIFT,TSI0_GENCS);
+  99              		.loc 1 62 0
+ 100 0056 1C68     		ldr	r4, [r3]
+ 101 0058 8022     		movs	r2, #128
+ 102 005a 1206     		lsls	r2, r2, #24
+ 103 005c 2243     		orrs	r2, r4
+ 104 005e 1A60     		str	r2, [r3]
+  63:srcc/tsi.c    ****     BSET(TSI_GENCS_EOSF_SHIFT,TSI0_GENCS);
+ 105              		.loc 1 63 0
+ 106 0060 1A68     		ldr	r2, [r3]
+ 107 0062 0424     		movs	r4, #4
+ 108 0064 2243     		orrs	r2, r4
+ 109 0066 1A60     		str	r2, [r3]
+  64:srcc/tsi.c    ****     //选择通道
+  65:srcc/tsi.c    ****     TSI0_DATA |= (TSI_DATA_TSICH(chnlID)); 
+ 110              		.loc 1 65 0
+ 111 0068 5A68     		ldr	r2, [r3, #4]
+ 112 006a 0007     		lsls	r0, r0, #28
+ 113              	.LVL1:
+ 114 006c 1043     		orrs	r0, r2
+ 115 006e 5860     		str	r0, [r3, #4]
+  66:srcc/tsi.c    ****     //TSI模块使能
+  67:srcc/tsi.c    ****     BSET(TSI_GENCS_TSIEN_SHIFT,TSI0_GENCS);
+ 116              		.loc 1 67 0
+ 117 0070 1A68     		ldr	r2, [r3]
+ 118 0072 8020     		movs	r0, #128
+ 119 0074 0243     		orrs	r2, r0
+ 120 0076 1A60     		str	r2, [r3]
+  68:srcc/tsi.c    **** 
+  69:srcc/tsi.c    ****     TSI0_TSHD = threshold;
+ 121              		.loc 1 69 0
+ 122 0078 9960     		str	r1, [r3, #8]
+  70:srcc/tsi.c    **** }
+ 123              		.loc 1 70 0
+ 124              		@ sp needed
+ 125 007a 30BD     		pop	{r4, r5, pc}
+ 126              	.LVL2:
+ 127              	.L5:
+  33:srcc/tsi.c    ****         break;
+ 128              		.loc 1 33 0
+ 129 007c 0A4B     		ldr	r3, .L9+12
+ 130 007e 0022     		movs	r2, #0
+ 131 0080 5A60     		str	r2, [r3, #4]
+  34:srcc/tsi.c    ****     case 3:
+ 132              		.loc 1 34 0
+ 133 0082 D2E7     		b	.L2
+ 134              	.L6:
+  36:srcc/tsi.c    ****         break;
+ 135              		.loc 1 36 0
+ 136 0084 084B     		ldr	r3, .L9+12
+ 137 0086 0022     		movs	r2, #0
+ 138 0088 9A60     		str	r2, [r3, #8]
+  37:srcc/tsi.c    ****     case 4:
+ 139              		.loc 1 37 0
+ 140 008a CEE7     		b	.L2
+ 141              	.L7:
+  39:srcc/tsi.c    ****         break;
+ 142              		.loc 1 39 0
+ 143 008c 064B     		ldr	r3, .L9+12
+ 144 008e 0022     		movs	r2, #0
+ 145 0090 DA60     		str	r2, [r3, #12]
+  40:srcc/tsi.c    ****     case 5:
+ 146              		.loc 1 40 0
+ 147 0092 CAE7     		b	.L2
+ 148              	.L8:
+  42:srcc/tsi.c    ****         break;
+ 149              		.loc 1 42 0
+ 150 0094 044B     		ldr	r3, .L9+12
+ 151 0096 0022     		movs	r2, #0
+ 152 0098 1A61     		str	r2, [r3, #16]
+  43:srcc/tsi.c    ****     }
+ 153              		.loc 1 43 0
+ 154 009a C6E7     		b	.L2
+ 155              	.L10:
+ 156              		.align	2
+ 157              	.L9:
+ 158 009c 00700440 		.word	1074032640
+ 159 00a0 38100000 		.word	4152
+ 160 00a4 00000000 		.word	.L4
+ 161 00a8 00900440 		.word	1074040832
+ 162 00ac 00500440 		.word	1074024448
+ 163 00b0 004B8600 		.word	8801024
+ 164              		.cfi_endproc
+ 165              	.LFE35:
+ 167              		.section	.text.tsi_get_value,"ax",%progbits
+ 168              		.align	1
+ 169              		.global	tsi_get_value
+ 170              		.syntax unified
+ 171              		.code	16
+ 172              		.thumb_func
+ 173              		.fpu softvfp
+ 175              	tsi_get_value:
+ 176              	.LFB36:
+  71:srcc/tsi.c    **** 
+  72:srcc/tsi.c    **** 
+  73:srcc/tsi.c    **** //=====================================================================
+  74:srcc/tsi.c    **** //函数名称：tsi_get_value
+  75:srcc/tsi.c    **** //功能概要：获取TSI通道的计数值                                                  
+  76:srcc/tsi.c    **** //参数说明：无                               
+  77:srcc/tsi.c    **** //函数返回：获取TSI通道的计数值                                                                
+  78:srcc/tsi.c    **** //=====================================================================
+  79:srcc/tsi.c    **** uint_16 tsi_get_value(uint_8 chnlID)
+  80:srcc/tsi.c    **** {
+ 177              		.loc 1 80 0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 0
+ 180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181              	.LVL3:
+ 182 0000 10B5     		push	{r4, lr}
+ 183              		.cfi_def_cfa_offset 8
+ 184              		.cfi_offset 4, -8
+ 185              		.cfi_offset 14, -4
+  81:srcc/tsi.c    **** 
+  82:srcc/tsi.c    ****     uint_16 value;      
+  83:srcc/tsi.c    ****     BCLR(TSI_GENCS_TSIIEN_SHIFT,TSI0_GENCS);          //关TSI中断  
+ 186              		.loc 1 83 0
+ 187 0002 114B     		ldr	r3, .L14
+ 188 0004 1A68     		ldr	r2, [r3]
+ 189 0006 4021     		movs	r1, #64
+ 190 0008 8A43     		bics	r2, r1
+ 191 000a 1A60     		str	r2, [r3]
+  84:srcc/tsi.c    ****     BSET(TSI_DATA_SWTS_SHIFT,TSI0_DATA);
+ 192              		.loc 1 84 0
+ 193 000c 5968     		ldr	r1, [r3, #4]
+ 194 000e 8022     		movs	r2, #128
+ 195 0010 D203     		lsls	r2, r2, #15
+ 196 0012 0A43     		orrs	r2, r1
+ 197 0014 5A60     		str	r2, [r3, #4]
+  85:srcc/tsi.c    ****     while(!(TSI0_GENCS & TSI_GENCS_EOSF_MASK));       //等待扫描完成   
+ 198              		.loc 1 85 0
+ 199 0016 1900     		movs	r1, r3
+ 200 0018 0422     		movs	r2, #4
+ 201              	.L12:
+ 202              		.loc 1 85 0 is_stmt 0 discriminator 1
+ 203 001a 0B68     		ldr	r3, [r1]
+ 204 001c 1A42     		tst	r2, r3
+ 205 001e FCD0     		beq	.L12
+  86:srcc/tsi.c    ****     BSET(TSI_GENCS_EOSF_SHIFT,TSI0_GENCS);            //写1清0扫描结束标志位
+ 206              		.loc 1 86 0 is_stmt 1
+ 207 0020 094B     		ldr	r3, .L14
+ 208 0022 1968     		ldr	r1, [r3]
+ 209 0024 0424     		movs	r4, #4
+ 210 0026 2143     		orrs	r1, r4
+ 211 0028 1960     		str	r1, [r3]
+  87:srcc/tsi.c    ****     value =  (TSI0_DATA & TSI_DATA_TSICNT_MASK);      //读取计数寄存器中的值
+ 212              		.loc 1 87 0
+ 213 002a 5868     		ldr	r0, [r3, #4]
+ 214              	.LVL4:
+  88:srcc/tsi.c    ****     BSET(TSI_GENCS_OUTRGF_SHIFT,TSI0_GENCS);          //写1清0超值标志位
+ 215              		.loc 1 88 0
+ 216 002c 1A68     		ldr	r2, [r3]
+ 217 002e 8021     		movs	r1, #128
+ 218 0030 0906     		lsls	r1, r1, #24
+ 219 0032 1143     		orrs	r1, r2
+ 220 0034 1960     		str	r1, [r3]
+  89:srcc/tsi.c    ****     BSET(TSI_GENCS_EOSF_SHIFT,TSI0_GENCS);               //清扫描结束标志位
+ 221              		.loc 1 89 0
+ 222 0036 1A68     		ldr	r2, [r3]
+ 223 0038 2243     		orrs	r2, r4
+ 224 003a 1A60     		str	r2, [r3]
+  90:srcc/tsi.c    ****     BSET(TSI_GENCS_TSIIEN_SHIFT,TSI0_GENCS);          //开TSI中断   
+ 225              		.loc 1 90 0
+ 226 003c 1A68     		ldr	r2, [r3]
+ 227 003e 4021     		movs	r1, #64
+ 228 0040 0A43     		orrs	r2, r1
+ 229 0042 1A60     		str	r2, [r3]
+  91:srcc/tsi.c    ****     return value; 
+ 230              		.loc 1 91 0
+ 231 0044 80B2     		uxth	r0, r0
+  92:srcc/tsi.c    **** }
+ 232              		.loc 1 92 0
+ 233              		@ sp needed
+ 234 0046 10BD     		pop	{r4, pc}
+ 235              	.L15:
+ 236              		.align	2
+ 237              	.L14:
+ 238 0048 00500440 		.word	1074024448
+ 239              		.cfi_endproc
+ 240              	.LFE36:
+ 242              		.section	.text.tsi_set_threshold,"ax",%progbits
+ 243              		.align	1
+ 244              		.global	tsi_set_threshold
+ 245              		.syntax unified
+ 246              		.code	16
+ 247              		.thumb_func
+ 248              		.fpu softvfp
+ 250              	tsi_set_threshold:
+ 251              	.LFB37:
+  93:srcc/tsi.c    **** 
+  94:srcc/tsi.c    **** 
+  95:srcc/tsi.c    **** //=====================================================================
+  96:srcc/tsi.c    **** //函数名称：tsi_set_threshold1                                                  
+  97:srcc/tsi.c    **** //功能概要：设定指定通道的阈值                                                  
+  98:srcc/tsi.c    **** //参数说明：     low:   设定阈值下限   ，     取值范围为0~65535                                 
+  99:srcc/tsi.c    **** //         high:  设定阈值上限   ，    取值范围为0~65535
+ 100:srcc/tsi.c    **** //函数返回： 无                                                             
+ 101:srcc/tsi.c    **** //=====================================================================
+ 102:srcc/tsi.c    **** void tsi_set_threshold(uint_16 low, uint_16 high)
+ 103:srcc/tsi.c    **** {
+ 252              		.loc 1 103 0
+ 253              		.cfi_startproc
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 257              	.LVL5:
+ 104:srcc/tsi.c    ****     uint_32 thresholdValue;
+ 105:srcc/tsi.c    ****     //高16位为上限，低16位为下限
+ 106:srcc/tsi.c    ****     thresholdValue = high;
+ 107:srcc/tsi.c    ****     thresholdValue = (thresholdValue<<16)|low;
+ 258              		.loc 1 107 0
+ 259 0000 0904     		lsls	r1, r1, #16
+ 260              	.LVL6:
+ 261 0002 0843     		orrs	r0, r1
+ 262              	.LVL7:
+ 108:srcc/tsi.c    ****     TSI0_TSHD = thresholdValue;
+ 263              		.loc 1 108 0
+ 264 0004 014B     		ldr	r3, .L17
+ 265 0006 9860     		str	r0, [r3, #8]
+ 109:srcc/tsi.c    **** }
+ 266              		.loc 1 109 0
+ 267              		@ sp needed
+ 268 0008 7047     		bx	lr
+ 269              	.L18:
+ 270 000a C046     		.align	2
+ 271              	.L17:
+ 272 000c 00500440 		.word	1074024448
+ 273              		.cfi_endproc
+ 274              	.LFE37:
+ 276              		.section	.text.tsi_enable_re_int,"ax",%progbits
+ 277              		.align	1
+ 278              		.global	tsi_enable_re_int
+ 279              		.syntax unified
+ 280              		.code	16
+ 281              		.thumb_func
+ 282              		.fpu softvfp
+ 284              	tsi_enable_re_int:
+ 285              	.LFB38:
+ 110:srcc/tsi.c    **** 
+ 111:srcc/tsi.c    **** 
+ 112:srcc/tsi.c    **** //=====================================================================
+ 113:srcc/tsi.c    **** //函数名称：tsi_enable_re_int
+ 114:srcc/tsi.c    **** //功能概要：开TSI中断,关闭软件触发扫描,开中断控制器IRQ中断
+ 115:srcc/tsi.c    **** //参数说明：无
+ 116:srcc/tsi.c    **** //函数返回：无
+ 117:srcc/tsi.c    **** //=====================================================================
+ 118:srcc/tsi.c    **** void tsi_enable_re_int(uint_8 chnlID)
+ 119:srcc/tsi.c    **** {
+ 286              		.loc 1 119 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290              	.LVL8:
+ 291 0000 10B5     		push	{r4, lr}
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 4, -8
+ 294              		.cfi_offset 14, -4
+ 120:srcc/tsi.c    ****     //开TSI中断,关闭软件触发扫描
+ 121:srcc/tsi.c    ****     BSET(TSI_GENCS_TSIIEN_SHIFT,TSI0_GENCS);
+ 295              		.loc 1 121 0
+ 296 0002 064B     		ldr	r3, .L20
+ 297 0004 1A68     		ldr	r2, [r3]
+ 298 0006 4021     		movs	r1, #64
+ 299 0008 0A43     		orrs	r2, r1
+ 300 000a 1A60     		str	r2, [r3]
+ 122:srcc/tsi.c    ****     BSET(TSI_GENCS_STM_SHIFT,TSI0_GENCS);
+ 301              		.loc 1 122 0
+ 302 000c 1A68     		ldr	r2, [r3]
+ 303 000e 3039     		subs	r1, r1, #48
+ 304 0010 0A43     		orrs	r2, r1
+ 305 0012 1A60     		str	r2, [r3]
+ 123:srcc/tsi.c    ****     enable_irq((IRQn_Type)26); //开中断控制器IRQ中断  
+ 306              		.loc 1 123 0
+ 307 0014 1A20     		movs	r0, #26
+ 308              	.LVL9:
+ 309 0016 FFF7FEFF 		bl	enable_irq
+ 310              	.LVL10:
+ 124:srcc/tsi.c    **** }
+ 311              		.loc 1 124 0
+ 312              		@ sp needed
+ 313 001a 10BD     		pop	{r4, pc}
+ 314              	.L21:
+ 315              		.align	2
+ 316              	.L20:
+ 317 001c 00500440 		.word	1074024448
+ 318              		.cfi_endproc
+ 319              	.LFE38:
+ 321              		.section	.text.tsi_disable_re_int,"ax",%progbits
+ 322              		.align	1
+ 323              		.global	tsi_disable_re_int
+ 324              		.syntax unified
+ 325              		.code	16
+ 326              		.thumb_func
+ 327              		.fpu softvfp
+ 329              	tsi_disable_re_int:
+ 330              	.LFB39:
+ 125:srcc/tsi.c    **** 
+ 126:srcc/tsi.c    **** //=====================================================================
+ 127:srcc/tsi.c    **** //函数名称：tsi_disable_re_int
+ 128:srcc/tsi.c    **** //参数说明：无
+ 129:srcc/tsi.c    **** //函数返回：无
+ 130:srcc/tsi.c    **** //功能概要：关TSI中断,开软件触发扫描,关中断控制器IRQ中断
+ 131:srcc/tsi.c    **** //=====================================================================
+ 132:srcc/tsi.c    **** void tsi_disable_re_int(uint_8 chnlID)
+ 133:srcc/tsi.c    **** {
+ 331              		.loc 1 133 0
+ 332              		.cfi_startproc
+ 333              		@ args = 0, pretend = 0, frame = 0
+ 334              		@ frame_needed = 0, uses_anonymous_args = 0
+ 335              	.LVL11:
+ 336 0000 10B5     		push	{r4, lr}
+ 337              		.cfi_def_cfa_offset 8
+ 338              		.cfi_offset 4, -8
+ 339              		.cfi_offset 14, -4
+ 134:srcc/tsi.c    ****     //关TSI中断,开软件触发扫描
+ 135:srcc/tsi.c    ****     BCLR(TSI_GENCS_TSIIEN_SHIFT,TSI0_GENCS);
+ 340              		.loc 1 135 0
+ 341 0002 064B     		ldr	r3, .L23
+ 342 0004 1A68     		ldr	r2, [r3]
+ 343 0006 4021     		movs	r1, #64
+ 344 0008 8A43     		bics	r2, r1
+ 345 000a 1A60     		str	r2, [r3]
+ 136:srcc/tsi.c    ****     BCLR(TSI_GENCS_STM_SHIFT,TSI0_GENCS);
+ 346              		.loc 1 136 0
+ 347 000c 1A68     		ldr	r2, [r3]
+ 348 000e 3039     		subs	r1, r1, #48
+ 349 0010 8A43     		bics	r2, r1
+ 350 0012 1A60     		str	r2, [r3]
+ 137:srcc/tsi.c    ****     //禁止中断控制器IRQ中断
+ 138:srcc/tsi.c    ****     disable_irq((IRQn_Type)26);          
+ 351              		.loc 1 138 0
+ 352 0014 1A20     		movs	r0, #26
+ 353              	.LVL12:
+ 354 0016 FFF7FEFF 		bl	disable_irq
+ 355              	.LVL13:
+ 139:srcc/tsi.c    **** }
+ 356              		.loc 1 139 0
+ 357              		@ sp needed
+ 358 001a 10BD     		pop	{r4, pc}
+ 359              	.L24:
+ 360              		.align	2
+ 361              	.L23:
+ 362 001c 00500440 		.word	1074024448
+ 363              		.cfi_endproc
+ 364              	.LFE39:
+ 366              		.section	.text.tsi_softsearch,"ax",%progbits
+ 367              		.align	1
+ 368              		.global	tsi_softsearch
+ 369              		.syntax unified
+ 370              		.code	16
+ 371              		.thumb_func
+ 372              		.fpu softvfp
+ 374              	tsi_softsearch:
+ 375              	.LFB40:
+ 140:srcc/tsi.c    **** 
+ 141:srcc/tsi.c    **** //=====================================================================
+ 142:srcc/tsi.c    **** //函数名称：tsi_softsearch
+ 143:srcc/tsi.c    **** //功能概要：开启一次软件扫描
+ 144:srcc/tsi.c    **** //参数说明：无
+ 145:srcc/tsi.c    **** //函数返回：无
+ 146:srcc/tsi.c    **** //=====================================================================
+ 147:srcc/tsi.c    **** void tsi_softsearch(uint_8 chnlID)
+ 148:srcc/tsi.c    **** {
+ 376              		.loc 1 148 0
+ 377              		.cfi_startproc
+ 378              		@ args = 0, pretend = 0, frame = 0
+ 379              		@ frame_needed = 0, uses_anonymous_args = 0
+ 380              		@ link register save eliminated.
+ 381              	.LVL14:
+ 149:srcc/tsi.c    ****     BCLR(TSI_GENCS_STM_SHIFT,TSI0_GENCS);
+ 382              		.loc 1 149 0
+ 383 0000 054B     		ldr	r3, .L26
+ 384 0002 1A68     		ldr	r2, [r3]
+ 385 0004 1021     		movs	r1, #16
+ 386 0006 8A43     		bics	r2, r1
+ 387 0008 1A60     		str	r2, [r3]
+ 150:srcc/tsi.c    ****     //TSI0_GENCS &= ~TSI_GENCS_STM_MASK;    //开启软件触发
+ 151:srcc/tsi.c    ****     BSET(TSI_DATA_SWTS_SHIFT,TSI0_DATA);
+ 388              		.loc 1 151 0
+ 389 000a 5968     		ldr	r1, [r3, #4]
+ 390 000c 8022     		movs	r2, #128
+ 391 000e D203     		lsls	r2, r2, #15
+ 392 0010 0A43     		orrs	r2, r1
+ 393 0012 5A60     		str	r2, [r3, #4]
+ 152:srcc/tsi.c    ****     //TSI0_DATA |= TSI_DATA_SWTS_MASK;     //开始一次软件扫描
+ 153:srcc/tsi.c    **** }
+ 394              		.loc 1 153 0
+ 395              		@ sp needed
+ 396 0014 7047     		bx	lr
+ 397              	.L27:
+ 398 0016 C046     		.align	2
+ 399              	.L26:
+ 400 0018 00500440 		.word	1074024448
+ 401              		.cfi_endproc
+ 402              	.LFE40:
+ 404              		.section	.text.tsi_search,"ax",%progbits
+ 405              		.align	1
+ 406              		.global	tsi_search
+ 407              		.syntax unified
+ 408              		.code	16
+ 409              		.thumb_func
+ 410              		.fpu softvfp
+ 412              	tsi_search:
+ 413              	.LFB41:
+ 154:srcc/tsi.c    **** 
+ 155:srcc/tsi.c    **** 
+ 156:srcc/tsi.c    **** //=====================================================================
+ 157:srcc/tsi.c    **** //函数名称：tsi_search
+ 158:srcc/tsi.c    **** //功能概要：触发一次tsi扫描
+ 159:srcc/tsi.c    **** //参数说明：无
+ 160:srcc/tsi.c    **** //函数返回：无
+ 161:srcc/tsi.c    **** //=====================================================================
+ 162:srcc/tsi.c    **** void tsi_search(uint_8 chnlID)
+ 163:srcc/tsi.c    **** {
+ 414              		.loc 1 163 0
+ 415              		.cfi_startproc
+ 416              		@ args = 0, pretend = 0, frame = 0
+ 417              		@ frame_needed = 0, uses_anonymous_args = 0
+ 418              		@ link register save eliminated.
+ 419              	.LVL15:
+ 164:srcc/tsi.c    **** 	BSET(TSI_GENCS_TSIEN_SHIFT,TSI0_GENCS);   //触发一次TSI扫描
+ 420              		.loc 1 164 0
+ 421 0000 024A     		ldr	r2, .L29
+ 422 0002 1368     		ldr	r3, [r2]
+ 423 0004 8021     		movs	r1, #128
+ 424 0006 0B43     		orrs	r3, r1
+ 425 0008 1360     		str	r3, [r2]
+ 165:srcc/tsi.c    **** }
+ 426              		.loc 1 165 0
+ 427              		@ sp needed
+ 428 000a 7047     		bx	lr
+ 429              	.L30:
+ 430              		.align	2
+ 431              	.L29:
+ 432 000c 00500440 		.word	1074024448
+ 433              		.cfi_endproc
+ 434              	.LFE41:
+ 436              		.section	.text.tsi_get_int,"ax",%progbits
+ 437              		.align	1
+ 438              		.global	tsi_get_int
+ 439              		.syntax unified
+ 440              		.code	16
+ 441              		.thumb_func
+ 442              		.fpu softvfp
+ 444              	tsi_get_int:
+ 445              	.LFB42:
+ 166:srcc/tsi.c    **** 
+ 167:srcc/tsi.c    **** //=====================================================================
+ 168:srcc/tsi.c    **** //函数名称：tsi_get_int
+ 169:srcc/tsi.c    **** //功能概要：获取tsi中断标志
+ 170:srcc/tsi.c    **** //参数说明：无
+ 171:srcc/tsi.c    **** //函数返回：1=有中断产生，0=没有中断产生
+ 172:srcc/tsi.c    **** //=====================================================================
+ 173:srcc/tsi.c    **** uint_8 tsi_get_int(uint_8 chnlID)
+ 174:srcc/tsi.c    **** {
+ 446              		.loc 1 174 0
+ 447              		.cfi_startproc
+ 448              		@ args = 0, pretend = 0, frame = 0
+ 449              		@ frame_needed = 0, uses_anonymous_args = 0
+ 450              		@ link register save eliminated.
+ 451              	.LVL16:
+ 175:srcc/tsi.c    **** 	if(TSI0_GENCS & TSI_GENCS_OUTRGF_MASK)
+ 452              		.loc 1 175 0
+ 453 0000 014B     		ldr	r3, .L32
+ 454 0002 1868     		ldr	r0, [r3]
+ 455              	.LVL17:
+ 456 0004 C00F     		lsrs	r0, r0, #31
+ 176:srcc/tsi.c    **** 		return 1;
+ 177:srcc/tsi.c    **** 	else
+ 178:srcc/tsi.c    **** 		return 0;
+ 179:srcc/tsi.c    **** }
+ 457              		.loc 1 179 0
+ 458              		@ sp needed
+ 459 0006 7047     		bx	lr
+ 460              	.L33:
+ 461              		.align	2
+ 462              	.L32:
+ 463 0008 00500440 		.word	1074024448
+ 464              		.cfi_endproc
+ 465              	.LFE42:
+ 467              		.section	.text.tsi_clear_int,"ax",%progbits
+ 468              		.align	1
+ 469              		.global	tsi_clear_int
+ 470              		.syntax unified
+ 471              		.code	16
+ 472              		.thumb_func
+ 473              		.fpu softvfp
+ 475              	tsi_clear_int:
+ 476              	.LFB43:
+ 180:srcc/tsi.c    **** 
+ 181:srcc/tsi.c    **** //=====================================================================
+ 182:srcc/tsi.c    **** //函数名称：tsi_clear_int
+ 183:srcc/tsi.c    **** //功能概要：清除tsi中断标志
+ 184:srcc/tsi.c    **** //参数说明：无
+ 185:srcc/tsi.c    **** //函数返回：无
+ 186:srcc/tsi.c    **** //=====================================================================
+ 187:srcc/tsi.c    **** void tsi_clear_int(uint_8 chnlID)
+ 188:srcc/tsi.c    **** {
+ 477              		.loc 1 188 0
+ 478              		.cfi_startproc
+ 479              		@ args = 0, pretend = 0, frame = 0
+ 480              		@ frame_needed = 0, uses_anonymous_args = 0
+ 481              		@ link register save eliminated.
+ 482              	.LVL18:
+ 189:srcc/tsi.c    **** 	TSI0_GENCS |=  TSI_GENCS_OUTRGF_MASK;     //写1清除该超值中断位
+ 483              		.loc 1 189 0
+ 484 0000 054B     		ldr	r3, .L35
+ 485 0002 1968     		ldr	r1, [r3]
+ 486 0004 8022     		movs	r2, #128
+ 487 0006 1206     		lsls	r2, r2, #24
+ 488 0008 0A43     		orrs	r2, r1
+ 489 000a 1A60     		str	r2, [r3]
+ 190:srcc/tsi.c    **** 	BCLR(TSI_GENCS_TSIEN_SHIFT,TSI0_GENCS);   //清除TSI中断
+ 490              		.loc 1 190 0
+ 491 000c 1A68     		ldr	r2, [r3]
+ 492 000e 8021     		movs	r1, #128
+ 493 0010 8A43     		bics	r2, r1
+ 494 0012 1A60     		str	r2, [r3]
+ 191:srcc/tsi.c    **** }
+ 495              		.loc 1 191 0
+ 496              		@ sp needed
+ 497 0014 7047     		bx	lr
+ 498              	.L36:
+ 499 0016 C046     		.align	2
+ 500              	.L35:
+ 501 0018 00500440 		.word	1074024448
+ 502              		.cfi_endproc
+ 503              	.LFE43:
+ 505              		.comm	bios_fun_point,4,4
+ 506              		.text
+ 507              	.Letext0:
+ 508              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 509              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 510              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 511              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 512              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 513              		.file 7 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 514              		.file 8 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 515              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 516              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 517              		.file 11 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 tsi.c
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:16     .text.tsi_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:23     .text.tsi_init:00000000 tsi_init
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:57     .rodata.tsi_init:00000000 $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:158    .text.tsi_init:0000009c $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:168    .text.tsi_get_value:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:175    .text.tsi_get_value:00000000 tsi_get_value
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:238    .text.tsi_get_value:00000048 $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:243    .text.tsi_set_threshold:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:250    .text.tsi_set_threshold:00000000 tsi_set_threshold
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:272    .text.tsi_set_threshold:0000000c $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:277    .text.tsi_enable_re_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:284    .text.tsi_enable_re_int:00000000 tsi_enable_re_int
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:317    .text.tsi_enable_re_int:0000001c $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:322    .text.tsi_disable_re_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:329    .text.tsi_disable_re_int:00000000 tsi_disable_re_int
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:362    .text.tsi_disable_re_int:0000001c $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:367    .text.tsi_softsearch:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:374    .text.tsi_softsearch:00000000 tsi_softsearch
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:400    .text.tsi_softsearch:00000018 $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:405    .text.tsi_search:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:412    .text.tsi_search:00000000 tsi_search
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:432    .text.tsi_search:0000000c $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:437    .text.tsi_get_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:444    .text.tsi_get_int:00000000 tsi_get_int
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:463    .text.tsi_get_int:00000008 $d
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:468    .text.tsi_clear_int:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:475    .text.tsi_clear_int:00000000 tsi_clear_int
+C:\Users\WYH\AppData\Local\Temp\ccQBC5H4.s:501    .text.tsi_clear_int:00000018 $d
+                            *COM*:00000004 bios_fun_point
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+
+UNDEFINED SYMBOLS
+enable_irq
+disable_irq

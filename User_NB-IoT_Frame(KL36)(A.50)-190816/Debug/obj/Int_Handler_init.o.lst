@@ -1,0 +1,921 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"Int_Handler_init.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.Int_Handler_init,"ax",%progbits
+  16              		.align	1
+  17              		.global	Int_Handler_init
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	Int_Handler_init:
+  24              	.LFB39:
+  25              		.file 1 "srcc/Int_Handler_init.c"
+   1:srcc/Int_Handler_init.c **** 
+   2:srcc/Int_Handler_init.c **** #include "gec.h"
+   3:srcc/Int_Handler_init.c **** 
+   4:srcc/Int_Handler_init.c **** void  BIOS_API_Init();
+   5:srcc/Int_Handler_init.c **** void Int_Handler_init();
+   6:srcc/Int_Handler_init.c **** 
+   7:srcc/Int_Handler_init.c **** void  BIOS_API_Init()
+   8:srcc/Int_Handler_init.c **** {
+   9:srcc/Int_Handler_init.c ****      bios_fun_point=svc1_init();  //获取BIOS中API接口表首地址
+  10:srcc/Int_Handler_init.c ****      Int_Handler_init();          //用户中断处理程序名初始化
+  11:srcc/Int_Handler_init.c **** }
+  12:srcc/Int_Handler_init.c **** //======================================================================
+  13:srcc/Int_Handler_init.c **** //函数名称：Int_Handler_init
+  14:srcc/Int_Handler_init.c **** //函数返回：无
+  15:srcc/Int_Handler_init.c **** //参数说明：无
+  16:srcc/Int_Handler_init.c **** //功能概要：用户中断处理程序名初始化，对应的中断处理程序编程处在isr.c文件中
+  17:srcc/Int_Handler_init.c **** //======================================================================
+  18:srcc/Int_Handler_init.c **** void Int_Handler_init()    //用户中断处理程序名初始化
+  19:srcc/Int_Handler_init.c **** {
+  26              		.loc 1 19 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 10B5     		push	{r4, lr}
+  31              		.cfi_def_cfa_offset 8
+  32              		.cfi_offset 4, -8
+  33              		.cfi_offset 14, -4
+  20:srcc/Int_Handler_init.c **** 	setVector(PORTA_IRQn,(uint_32)&GPIOA_Handler);
+  34              		.loc 1 20 0
+  35 0002 1C4C     		ldr	r4, .L2
+  36 0004 2368     		ldr	r3, [r4]
+  37 0006 DB68     		ldr	r3, [r3, #12]
+  38 0008 1B49     		ldr	r1, .L2+4
+  39 000a 1E20     		movs	r0, #30
+  40 000c 9847     		blx	r3
+  41              	.LVL0:
+  21:srcc/Int_Handler_init.c **** 	setVector(PORTC_PORTD_IRQn,(uint_32)&GPIOB_Handler);
+  42              		.loc 1 21 0
+  43 000e 2368     		ldr	r3, [r4]
+  44 0010 DB68     		ldr	r3, [r3, #12]
+  45 0012 1A49     		ldr	r1, .L2+8
+  46 0014 1F20     		movs	r0, #31
+  47 0016 9847     		blx	r3
+  48              	.LVL1:
+  22:srcc/Int_Handler_init.c **** 	setVector(UART0_IRQn,(uint_32)&UARTA_Handler);
+  49              		.loc 1 22 0
+  50 0018 2368     		ldr	r3, [r4]
+  51 001a DB68     		ldr	r3, [r3, #12]
+  52 001c 1849     		ldr	r1, .L2+12
+  53 001e 0C20     		movs	r0, #12
+  54 0020 9847     		blx	r3
+  55              	.LVL2:
+  23:srcc/Int_Handler_init.c **** 	setVector(LPTMR0_IRQn,(uint_32)&TIMERA_Handler);
+  56              		.loc 1 23 0
+  57 0022 2368     		ldr	r3, [r4]
+  58 0024 DB68     		ldr	r3, [r3, #12]
+  59 0026 1749     		ldr	r1, .L2+16
+  60 0028 1C20     		movs	r0, #28
+  61 002a 9847     		blx	r3
+  62              	.LVL3:
+  24:srcc/Int_Handler_init.c **** 	setVector(TPM1_IRQn,(uint_32)&TIMERB_Handler);
+  63              		.loc 1 24 0
+  64 002c 2368     		ldr	r3, [r4]
+  65 002e DB68     		ldr	r3, [r3, #12]
+  66 0030 1549     		ldr	r1, .L2+20
+  67 0032 1220     		movs	r0, #18
+  68 0034 9847     		blx	r3
+  69              	.LVL4:
+  25:srcc/Int_Handler_init.c **** 	setVector(SPI0_IRQn,(uint_32)&SPIA_Handler);
+  70              		.loc 1 25 0
+  71 0036 2368     		ldr	r3, [r4]
+  72 0038 DB68     		ldr	r3, [r3, #12]
+  73 003a 1449     		ldr	r1, .L2+24
+  74 003c 0A20     		movs	r0, #10
+  75 003e 9847     		blx	r3
+  76              	.LVL5:
+  26:srcc/Int_Handler_init.c **** 	setVector(SPI1_IRQn,(uint_32)&SPIB_Handler);
+  77              		.loc 1 26 0
+  78 0040 2368     		ldr	r3, [r4]
+  79 0042 DB68     		ldr	r3, [r3, #12]
+  80 0044 1249     		ldr	r1, .L2+28
+  81 0046 0B20     		movs	r0, #11
+  82 0048 9847     		blx	r3
+  83              	.LVL6:
+  27:srcc/Int_Handler_init.c **** 	setVector(I2C0_IRQn,(uint_32)&I2CA_Handler);
+  84              		.loc 1 27 0
+  85 004a 2368     		ldr	r3, [r4]
+  86 004c DB68     		ldr	r3, [r3, #12]
+  87 004e 1149     		ldr	r1, .L2+32
+  88 0050 0820     		movs	r0, #8
+  89 0052 9847     		blx	r3
+  90              	.LVL7:
+  28:srcc/Int_Handler_init.c **** 	setVector(I2C1_IRQn,(uint_32)&I2CB_Handler);
+  91              		.loc 1 28 0
+  92 0054 2368     		ldr	r3, [r4]
+  93 0056 DB68     		ldr	r3, [r3, #12]
+  94 0058 0F49     		ldr	r1, .L2+36
+  95 005a 0920     		movs	r0, #9
+  96 005c 9847     		blx	r3
+  97              	.LVL8:
+  29:srcc/Int_Handler_init.c **** 	setVector(TSI0_IRQn,(uint_32)&TSI_Handler);
+  98              		.loc 1 29 0
+  99 005e 2368     		ldr	r3, [r4]
+ 100 0060 DB68     		ldr	r3, [r3, #12]
+ 101 0062 0E49     		ldr	r1, .L2+40
+ 102 0064 1A20     		movs	r0, #26
+ 103 0066 9847     		blx	r3
+ 104              	.LVL9:
+  30:srcc/Int_Handler_init.c **** 	setVector(TPM0_IRQn,(uint_32)&INCAP_Handler);
+ 105              		.loc 1 30 0
+ 106 0068 2368     		ldr	r3, [r4]
+ 107 006a DB68     		ldr	r3, [r3, #12]
+ 108 006c 0C49     		ldr	r1, .L2+44
+ 109 006e 1120     		movs	r0, #17
+ 110 0070 9847     		blx	r3
+ 111              	.LVL10:
+  31:srcc/Int_Handler_init.c **** 
+  32:srcc/Int_Handler_init.c **** }
+ 112              		.loc 1 32 0
+ 113              		@ sp needed
+ 114 0072 10BD     		pop	{r4, pc}
+ 115              	.L3:
+ 116              		.align	2
+ 117              	.L2:
+ 118 0074 00000000 		.word	bios_fun_point
+ 119 0078 00000000 		.word	GPIOA_Handler
+ 120 007c 00000000 		.word	GPIOB_Handler
+ 121 0080 00000000 		.word	UARTA_Handler
+ 122 0084 00000000 		.word	TIMERA_Handler
+ 123 0088 00000000 		.word	TIMERB_Handler
+ 124 008c 00000000 		.word	SPIA_Handler
+ 125 0090 00000000 		.word	SPIB_Handler
+ 126 0094 00000000 		.word	I2CA_Handler
+ 127 0098 00000000 		.word	I2CB_Handler
+ 128 009c 00000000 		.word	TSI_Handler
+ 129 00a0 00000000 		.word	INCAP_Handler
+ 130              		.cfi_endproc
+ 131              	.LFE39:
+ 133              		.section	.text.BIOS_API_Init,"ax",%progbits
+ 134              		.align	1
+ 135              		.global	BIOS_API_Init
+ 136              		.syntax unified
+ 137              		.code	16
+ 138              		.thumb_func
+ 139              		.fpu softvfp
+ 141              	BIOS_API_Init:
+ 142              	.LFB38:
+   8:srcc/Int_Handler_init.c ****      bios_fun_point=svc1_init();  //获取BIOS中API接口表首地址
+ 143              		.loc 1 8 0
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147 0000 70B5     		push	{r4, r5, r6, lr}
+ 148              		.cfi_def_cfa_offset 16
+ 149              		.cfi_offset 4, -16
+ 150              		.cfi_offset 5, -12
+ 151              		.cfi_offset 6, -8
+ 152              		.cfi_offset 14, -4
+ 153              	.LBB8:
+ 154              	.LBB9:
+ 155              		.file 2 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+   1:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //=====================================================================
+   2:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //文件名称：common.h
+   3:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：公共要素头文件
+   4:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //版权所有：苏大arm技术中心(sumcu.suda.edu.cn)
+   5:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //更新记录：2017-04-07   V1.0
+   6:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //=====================================================================
+   7:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #ifndef _COMMON_H    //防止重复定义（_COMMON_H  开头)
+   8:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define _COMMON_H
+   9:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define GLOBLE_VAR
+  10:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //1．芯片寄存器映射文件及处理器内核属性文件
+  11:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #include "mcu.h"
+  12:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #include "svc.h"
+  13:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  14:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  15:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //2．定义开关总中断
+  16:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define ENABLE_INTERRUPTS   __enable_irq()  //开总中断
+  17:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define DISABLE_INTERRUPTS  __disable_irq()  //关总中断
+  18:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  19:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //3．位操作宏函数（置位、清位、获得寄存器一位的状态）
+  20:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define BCLR(bit,Register)  ((Register) &= ~(1<<(bit)))  //清寄存器的一位
+  21:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define BGET(bit,Register)  (((Register) >> (bit)) & 1)  //获得寄存器一位的状态
+  22:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define BSET(bit,Register)  ((Register) |= (1<<(bit)))    //置寄存器的一位
+  23:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  24:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //4．重定义基本数据类型（类型别名宏定义）
+  25:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef unsigned char        uint_8;   // 无符号8位数，字节
+  26:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef unsigned short int   uint_16;  // 无符号16位数，字
+  27:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef unsigned long int    uint_32;  // 无符号32位数，长字
+  28:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef unsigned long long   uint_64;
+  29:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef char                   int_8;    // 有符号8位数
+  30:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef short int            int_16;   // 有符号16位数
+  31:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef int                  int_32;   // 有符号32位数
+  32:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef long long            int_64;
+  33:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //不优化类型
+  34:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile uint_8      vuint_8;  // 不优化无符号8位数，字节
+  35:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile uint_16     vuint_16; // 不优化无符号16位数，字
+  36:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile uint_32     vuint_32; // 不优化无符号32位数，长字
+  37:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile int_8       vint_8;   // 不优化有符号8位数
+  38:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile int_16      vint_16;  // 不优化有符号16位数
+  39:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** typedef volatile int_32      vint_32;  // 不优化有符号32位数
+  40:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  41:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //5. 定义系统使用的时钟频率
+  42:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define  SYSTEM_CLK_KHZ   SystemCoreClock/1000     // 芯片系统时钟频率(KHz)
+  43:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** #define  BUS_CLK_KHZ      SYSTEM_CLK_KHZ/2         // 芯片总线时钟频率(KHz)
+  44:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  45:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //============================================================================
+  46:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数名称：enable_irq
+  47:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数返回：无
+  48:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //参数说明：irq：irq号, 各个模块的中断号定义在MKL25Z.h中
+  49:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：使能irq中断
+  50:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //============================================================================
+  51:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** void enable_irq (IRQn_Type irq);
+  52:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  53:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //============================================================================
+  54:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数名称：disable_irq
+  55:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数返回：无
+  56:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //参数说明：irq：irq号, 各个模块的中断号定义在MKL25Z.h中
+  57:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：禁止irq中断
+  58:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //============================================================================
+  59:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** void disable_irq (IRQn_Type irq);
+  60:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  61:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  62:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数名称：Delay_us
+  63:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数返回：无
+  64:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //参数说明：无
+  65:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：延时 - 微秒级
+  66:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  67:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** void Delay_us(vuint_16 u16us);
+  68:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  69:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  70:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数名称：Delay_us
+  71:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数返回：无
+  72:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //参数说明：无
+  73:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：延时 - 毫秒级
+  74:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  75:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** void Delay_ms(vuint_16 u16ms);
+  76:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** 
+  77:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  78:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数名称：svc1_init
+  79:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //函数返回：无
+  80:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //参数说明：返回类型为void*，返回值时为BIOS中API接口表首地址
+  81:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //功能概要：获取BIOS中API接口表首地址
+  82:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** //======================================================================
+  83:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\06_SoftComponent\common.h **** SVC1_INIT(svc1_init,void *,1)
+ 156              		.loc 2 83 0
+ 157              		.syntax divided
+ 158              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 159 0002 50B4     		 push {r4,r6}
+ 160              	@ 0 "" 2
+ 161              		.thumb
+ 162              		.syntax unified
+ 163 0004 0126     		movs	r6, #1
+ 164              	.LVL11:
+ 165              	.LBB10:
+ 166              	.LBB11:
+ 167              		.file 3 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+   1:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /**************************************************************************//**
+   2:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  * @file     core_cmFunc.h
+   3:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  * @brief    CMSIS Cortex-M Core Function Access Header File
+   4:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  * @version  V4.10
+   5:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  * @date     18. March 2015
+   6:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  *
+   7:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  * @note
+   8:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  *
+   9:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  ******************************************************************************/
+  10:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* Copyright (c) 2009 - 2015 ARM LIMITED
+  11:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  12:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    All rights reserved.
+  13:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    Redistribution and use in source and binary forms, with or without
+  14:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    modification, are permitted provided that the following conditions are met:
+  15:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    - Redistributions of source code must retain the above copyright
+  16:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****      notice, this list of conditions and the following disclaimer.
+  17:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    - Redistributions in binary form must reproduce the above copyright
+  18:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****      notice, this list of conditions and the following disclaimer in the
+  19:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****      documentation and/or other materials provided with the distribution.
+  20:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    - Neither the name of ARM nor the names of its contributors may be used
+  21:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****      to endorse or promote products derived from this software without
+  22:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****      specific prior written permission.
+  23:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    *
+  24:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  25:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  26:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  27:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+  28:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  29:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  30:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  31:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  32:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  33:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  34:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    POSSIBILITY OF SUCH DAMAGE.
+  35:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    ---------------------------------------------------------------------------*/
+  36:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  37:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  38:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #ifndef __CORE_CMFUNC_H
+  39:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #define __CORE_CMFUNC_H
+  40:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  41:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  42:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* ###########################  Core Function Access  ########################### */
+  43:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+  44:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+  45:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   @{
+  46:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+  47:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  48:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+  49:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* ARM armcc specific functions */
+  50:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  51:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if (__ARMCC_VERSION < 400677)
+  52:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+  53:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #endif
+  54:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  55:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* intrinsic void __enable_irq();     */
+  56:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* intrinsic void __disable_irq();    */
+  57:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  58:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Control Register
+  59:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  60:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the Control Register.
+  61:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  62:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Control Register value
+  63:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+  64:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_CONTROL(void)
+  65:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+  66:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  67:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regControl);
+  68:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+  69:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  70:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  71:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Control Register
+  72:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  73:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function writes the given value to the Control Register.
+  74:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  75:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    control  Control Register value to set
+  76:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+  77:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_CONTROL(uint32_t control)
+  78:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+  79:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regControl         __ASM("control");
+  80:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regControl = control;
+  81:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+  82:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  83:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  84:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get IPSR Register
+  85:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  86:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the IPSR Register.
+  87:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  88:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               IPSR Register value
+  89:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+  90:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_IPSR(void)
+  91:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+  92:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regIPSR          __ASM("ipsr");
+  93:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regIPSR);
+  94:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+  95:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  96:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  97:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get APSR Register
+  98:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+  99:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the APSR Register.
+ 100:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 101:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               APSR Register value
+ 102:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 103:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_APSR(void)
+ 104:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 105:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regAPSR          __ASM("apsr");
+ 106:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regAPSR);
+ 107:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 108:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 109:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 110:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get xPSR Register
+ 111:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 112:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the xPSR Register.
+ 113:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 114:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               xPSR Register value
+ 115:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 116:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_xPSR(void)
+ 117:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 118:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regXPSR          __ASM("xpsr");
+ 119:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regXPSR);
+ 120:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 121:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 122:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 123:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Process Stack Pointer
+ 124:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 125:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
+ 126:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 127:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               PSP Register value
+ 128:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 129:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PSP(void)
+ 130:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 131:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 132:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regProcessStackPointer);
+ 133:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 134:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 135:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 136:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Process Stack Pointer
+ 137:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 138:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
+ 139:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 140:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
+ 141:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 142:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+ 143:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 144:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regProcessStackPointer  __ASM("psp");
+ 145:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regProcessStackPointer = topOfProcStack;
+ 146:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 147:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 148:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 149:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Main Stack Pointer
+ 150:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 151:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
+ 152:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 153:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               MSP Register value
+ 154:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 155:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_MSP(void)
+ 156:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 157:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 158:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regMainStackPointer);
+ 159:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 160:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 161:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 162:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Main Stack Pointer
+ 163:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 164:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
+ 165:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 166:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
+ 167:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 168:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+ 169:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 170:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regMainStackPointer     __ASM("msp");
+ 171:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regMainStackPointer = topOfMainStack;
+ 172:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 173:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 174:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 175:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Priority Mask
+ 176:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 177:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current state of the priority mask bit from the Priority Mask Registe
+ 178:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 179:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Priority Mask value
+ 180:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 181:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_PRIMASK(void)
+ 182:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 183:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 184:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regPriMask);
+ 185:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 186:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 187:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 188:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Priority Mask
+ 189:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 190:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Priority Mask Register.
+ 191:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 192:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    priMask  Priority Mask
+ 193:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 194:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
+ 195:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 196:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regPriMask         __ASM("primask");
+ 197:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regPriMask = (priMask);
+ 198:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 199:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 200:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 201:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if       (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300)
+ 202:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 203:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Enable FIQ
+ 204:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 205:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function enables FIQ interrupts by clearing the F-bit in the CPSR.
+ 206:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 207:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 208:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #define __enable_fault_irq                __enable_fiq
+ 209:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 210:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 211:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Disable FIQ
+ 212:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 213:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function disables FIQ interrupts by setting the F-bit in the CPSR.
+ 214:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     Can only be executed in Privileged modes.
+ 215:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 216:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #define __disable_fault_irq               __disable_fiq
+ 217:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 218:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 219:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Base Priority
+ 220:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 221:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Base Priority register.
+ 222:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 223:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Base Priority register value
+ 224:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 225:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t  __get_BASEPRI(void)
+ 226:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 227:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 228:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regBasePri);
+ 229:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 230:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 231:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 232:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Base Priority
+ 233:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 234:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Base Priority register.
+ 235:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 236:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
+ 237:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 238:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI(uint32_t basePri)
+ 239:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 240:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regBasePri         __ASM("basepri");
+ 241:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regBasePri = (basePri & 0xff);
+ 242:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 243:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 244:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 245:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Base Priority with condition
+ 246:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 247:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Base Priority register only if BASEPRI masking is 
+ 248:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     or the new value increases the BASEPRI priority level.
+ 249:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 250:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    basePri  Base Priority value to set
+ 251:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 252:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_BASEPRI_MAX(uint32_t basePri)
+ 253:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 254:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regBasePriMax      __ASM("basepri_max");
+ 255:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regBasePriMax = (basePri & 0xff);
+ 256:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 257:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 258:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 259:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Fault Mask
+ 260:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 261:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Fault Mask register.
+ 262:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 263:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Fault Mask register value
+ 264:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 265:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FAULTMASK(void)
+ 266:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 267:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 268:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regFaultMask);
+ 269:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 270:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 271:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 272:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Fault Mask
+ 273:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 274:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Fault Mask register.
+ 275:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 276:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    faultMask  Fault Mask value to set
+ 277:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 278:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
+ 279:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 280:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regFaultMask       __ASM("faultmask");
+ 281:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regFaultMask = (faultMask & (uint32_t)1);
+ 282:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 283:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 284:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #endif /* (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300) */
+ 285:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 286:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 287:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if       (__CORTEX_M == 0x04) || (__CORTEX_M == 0x07)
+ 288:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 289:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get FPSCR
+ 290:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 291:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Floating Point Status/Control register.
+ 292:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 293:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Floating Point Status/Control register value
+ 294:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 295:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE uint32_t __get_FPSCR(void)
+ 296:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 297:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 298:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 299:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(__regfpscr);
+ 300:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #else
+ 301:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****    return(0);
+ 302:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #endif
+ 303:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 304:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 305:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 306:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set FPSCR
+ 307:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 308:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Floating Point Status/Control register.
+ 309:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 310:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    fpscr  Floating Point Status/Control value to set
+ 311:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 312:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
+ 313:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 314:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+ 315:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t __regfpscr         __ASM("fpscr");
+ 316:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __regfpscr = (fpscr);
+ 317:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #endif
+ 318:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 319:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 320:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #endif /* (__CORTEX_M == 0x04) || (__CORTEX_M == 0x07) */
+ 321:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 322:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 323:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** #elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+ 324:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /* GNU gcc specific functions */
+ 325:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 326:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Enable IRQ Interrupts
+ 327:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 328:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   This function enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 329:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 330:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 331:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
+ 332:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 333:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 334:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 335:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 336:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 337:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Disable IRQ Interrupts
+ 338:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 339:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   This function disables IRQ interrupts by setting the I-bit in the CPSR.
+ 340:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   Can only be executed in Privileged modes.
+ 341:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 342:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
+ 343:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 344:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 345:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 346:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 347:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 348:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Control Register
+ 349:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 350:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the Control Register.
+ 351:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 352:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Control Register value
+ 353:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 354:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_CONTROL(void)
+ 355:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 356:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   uint32_t result;
+ 357:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 358:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, control" : "=r" (result) );
+ 359:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 360:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 361:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 362:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 363:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Control Register
+ 364:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 365:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function writes the given value to the Control Register.
+ 366:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 367:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    control  Control Register value to set
+ 368:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 369:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_CONTROL(uint32_t control)
+ 370:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 371:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MSR control, %0" : : "r" (control) : "memory");
+ 372:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 373:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 374:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 375:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get IPSR Register
+ 376:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 377:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the IPSR Register.
+ 378:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 379:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               IPSR Register value
+ 380:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 381:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_IPSR(void)
+ 382:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 383:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   uint32_t result;
+ 384:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 385:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
+ 386:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 387:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 388:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 389:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 390:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get APSR Register
+ 391:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 392:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the APSR Register.
+ 393:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 394:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               APSR Register value
+ 395:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 396:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_APSR(void)
+ 397:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 398:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   uint32_t result;
+ 399:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 400:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, apsr" : "=r" (result) );
+ 401:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 402:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 403:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 404:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 405:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get xPSR Register
+ 406:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 407:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the content of the xPSR Register.
+ 408:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 409:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               xPSR Register value
+ 410:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 411:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_xPSR(void)
+ 412:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 413:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   uint32_t result;
+ 414:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 415:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, xpsr" : "=r" (result) );
+ 416:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 417:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 418:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 419:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 420:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Process Stack Pointer
+ 421:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 422:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Process Stack Pointer (PSP).
+ 423:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 424:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               PSP Register value
+ 425:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 426:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PSP(void)
+ 427:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 428:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t result;
+ 429:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 430:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+ 431:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 432:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 433:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 434:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 435:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Process Stack Pointer
+ 436:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 437:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Process Stack Pointer (PSP).
+ 438:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 439:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    topOfProcStack  Process Stack Pointer value to set
+ 440:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 441:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
+ 442:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 443:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) : "sp");
+ 444:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 445:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 446:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 447:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Main Stack Pointer
+ 448:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 449:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current value of the Main Stack Pointer (MSP).
+ 450:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 451:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               MSP Register value
+ 452:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 453:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_MSP(void)
+ 454:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 455:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   register uint32_t result;
+ 456:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 457:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, msp\n" : "=r" (result) );
+ 458:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   return(result);
+ 459:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 460:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 461:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 462:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Set Main Stack Pointer
+ 463:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 464:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function assigns the given value to the Main Stack Pointer (MSP).
+ 465:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 466:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \param [in]    topOfMainStack  Main Stack Pointer value to set
+ 467:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 468:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
+ 469:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 470:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) : "sp");
+ 471:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** }
+ 472:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 473:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 474:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** /** \brief  Get Priority Mask
+ 475:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 476:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     This function returns the current state of the priority mask bit from the Priority Mask Registe
+ 477:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 478:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****     \return               Priority Mask value
+ 479:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****  */
+ 480:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** __attribute__( ( always_inline ) ) __STATIC_INLINE uint32_t __get_PRIMASK(void)
+ 481:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** {
+ 482:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   uint32_t result;
+ 483:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h **** 
+ 484:E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(A.50)-190816\02_Core\core_cmFunc.h ****   __ASM volatile ("MRS %0, primask" : "=r" (result) );
+ 168              		.loc 3 484 0
+ 169              		.syntax divided
+ 170              	@ 484 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)
+ 171 0006 EFF31083 		MRS r3, primask
+ 172              	@ 0 "" 2
+ 173              		.thumb
+ 174              		.syntax unified
+ 175              	.LBE11:
+ 176              	.LBE10:
+ 177              		.loc 2 83 0
+ 178 000a 002B     		cmp	r3, #0
+ 179 000c 08D0     		beq	.L7
+ 180              		.syntax divided
+ 181              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 182 000e 62B6     		cpsie i
+ 183              	@ 0 "" 2
+ 184              	.LVL12:
+ 185              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 186 0010 01DF     		svc 1
+ 187              	@ 0 "" 2
+ 188              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 189 0012 72B6     		cpsid i
+ 190              	@ 0 "" 2
+ 191              	.LVL13:
+ 192              		.thumb
+ 193              		.syntax unified
+ 194              	.L6:
+ 195              		.syntax divided
+ 196              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 197 0014 50BC     		 pop {r4,r6}
+ 198              	@ 0 "" 2
+ 199              		.thumb
+ 200              		.syntax unified
+ 201              	.LBE9:
+ 202              	.LBE8:
+   9:srcc/Int_Handler_init.c ****      Int_Handler_init();          //用户中断处理程序名初始化
+ 203              		.loc 1 9 0
+ 204 0016 034B     		ldr	r3, .L8
+ 205 0018 1860     		str	r0, [r3]
+  10:srcc/Int_Handler_init.c **** }
+ 206              		.loc 1 10 0
+ 207 001a FFF7FEFF 		bl	Int_Handler_init
+ 208              	.LVL14:
+  11:srcc/Int_Handler_init.c **** //======================================================================
+ 209              		.loc 1 11 0
+ 210              		@ sp needed
+ 211 001e 70BD     		pop	{r4, r5, r6, pc}
+ 212              	.LVL15:
+ 213              	.L7:
+ 214              	.LBB13:
+ 215              	.LBB12:
+ 216              		.loc 2 83 0
+ 217              		.syntax divided
+ 218              	@ 83 "E:\AHL-AN10-Kit01\AHL-AN10-Kit01(V2.0)-190817\04-Software\01-UE\USER\User_NB-IoT_Frame(KL36)(
+ 219 0020 01DF     		svc 1
+ 220              	@ 0 "" 2
+ 221              		.thumb
+ 222              		.syntax unified
+ 223 0022 F7E7     		b	.L6
+ 224              	.L9:
+ 225              		.align	2
+ 226              	.L8:
+ 227 0024 00000000 		.word	bios_fun_point
+ 228              	.LBE12:
+ 229              	.LBE13:
+ 230              		.cfi_endproc
+ 231              	.LFE38:
+ 233              		.comm	bios_fun_point,4,4
+ 234              		.weak	INCAP_Handler
+ 235              		.weak	TSI_Handler
+ 236              		.weak	I2CB_Handler
+ 237              		.weak	I2CA_Handler
+ 238              		.weak	SPIB_Handler
+ 239              		.weak	SPIA_Handler
+ 240              		.weak	TIMERB_Handler
+ 241              		.weak	TIMERA_Handler
+ 242              		.weak	UARTA_Handler
+ 243              		.weak	GPIOB_Handler
+ 244              		.weak	GPIOA_Handler
+ 245              		.text
+ 246              	.Letext0:
+ 247              		.file 4 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 248              		.file 5 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 249              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 250              		.file 7 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 251              		.file 8 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\lock.h"
+ 252              		.file 9 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_types.h"
+ 253              		.file 10 "d:\\arm-aupulu\\bin\\armcompilefile\\lib\\gcc\\arm-none-eabi\\7.2.1\\include\\stddef.h"
+ 254              		.file 11 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\reent.h"
+ 255              		.file 12 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_F
+DEFINED SYMBOLS
+                            *ABS*:00000000 Int_Handler_init.c
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:16     .text.Int_Handler_init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:23     .text.Int_Handler_init:00000000 Int_Handler_init
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:118    .text.Int_Handler_init:00000074 $d
+                            *COM*:00000004 bios_fun_point
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:134    .text.BIOS_API_Init:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:141    .text.BIOS_API_Init:00000000 BIOS_API_Init
+C:\Users\WYH\AppData\Local\Temp\cc6VLvpc.s:227    .text.BIOS_API_Init:00000024 $d
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+                           .group:00000000 wm4.newlib.h.8.e0fd068ed40a600f7426443f865dd469
+                           .group:00000000 wm4.ieeefp.h.77.49bcce8a603f3d93a95080d6a3573782
+                           .group:00000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:00000000 wm4._ansi.h.23.9f8fcfa20193763fcf364fb91705c94b
+                           .group:00000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:00000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:00000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:00000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:00000000 wm4._types.h.184.7120b8bb2e0149e2359704f4e2251b68
+                           .group:00000000 wm4.reent.h.17.87376802c2b370b32a762f0a30482d9e
+                           .group:00000000 wm4.cdefs.h.47.b99d69adf76e00132150c6ca209cbd8f
+                           .group:00000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:00000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:00000000 wm4.adc.h.16.46085ea51e91d3cad1570882ff063879
+                           .group:00000000 wm4.gpio.h.10.986b0e721a5f8dc53d90b6e6479bc010
+                           .group:00000000 wm4.timer.h.9.0c2434e998dc154a3e9828da4a1f6235
+                           .group:00000000 wm4.uart.h.10.bff5e701e40630e1d7de2b8037fde34b
+                           .group:00000000 wm4.flash.h.10.6c61dd182e565e4eb3a9a8d3876dbdb0
+                           .group:00000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:00000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:00000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:00000000 wm4.types.h.114.fb65732f4f5f288a036a25898de2c91f
+                           .group:00000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:00000000 wm4.stdio.h.81.2a55589bfa3ee24eeb84e3c79458e4a9
+                           .group:00000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:00000000 wm4.stdlib.h.56.b4ddaf162082f284ba35b4444af99a9a
+                           .group:00000000 wm4.uecom.h.31.34c033455bb0111d79414f629e02f44f
+                           .group:00000000 wm4.gec.h.47.b03261d3256f000bba71e6d32e104a70
+
+UNDEFINED SYMBOLS
+GPIOA_Handler
+GPIOB_Handler
+UARTA_Handler
+TIMERA_Handler
+TIMERB_Handler
+SPIA_Handler
+SPIB_Handler
+I2CA_Handler
+I2CB_Handler
+TSI_Handler
+INCAP_Handler

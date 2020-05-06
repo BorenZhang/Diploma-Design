@@ -1,0 +1,422 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"system_MKL36Z4.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.SystemInit,"ax",%progbits
+  16              		.align	1
+  17              		.global	SystemInit
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	SystemInit:
+  24              	.LFB34:
+  25              		.file 1 "srcc/system_MKL36Z4.c"
+   1:srcc/system_MKL36Z4.c **** /*
+   2:srcc/system_MKL36Z4.c ****  ** ###################################################################
+   3:srcc/system_MKL36Z4.c ****  **     Processors:          MKL36Z256VLH4
+   4:srcc/system_MKL36Z4.c ****  **                          MKL36Z128VLH4
+   5:srcc/system_MKL36Z4.c ****  **                          MKL36Z64VLH4
+   6:srcc/system_MKL36Z4.c ****  **                          MKL36Z256VLL4
+   7:srcc/system_MKL36Z4.c ****  **                          MKL36Z128VLL4
+   8:srcc/system_MKL36Z4.c ****  **                          MKL36Z64VLL4
+   9:srcc/system_MKL36Z4.c ****  **                          MKL36Z256VMC4
+  10:srcc/system_MKL36Z4.c ****  **                          MKL36Z128VMC4
+  11:srcc/system_MKL36Z4.c ****  **                          MKL36Z256VMP4
+  12:srcc/system_MKL36Z4.c ****  **
+  13:srcc/system_MKL36Z4.c ****  **     Compilers:           Keil ARM C/C++ Compiler
+  14:srcc/system_MKL36Z4.c ****  **                          Freescale C/C++ for Embedded ARM
+  15:srcc/system_MKL36Z4.c ****  **                          GNU C Compiler
+  16:srcc/system_MKL36Z4.c ****  **                          GNU C Compiler - CodeSourcery Sourcery G++
+  17:srcc/system_MKL36Z4.c ****  **                          IAR ANSI C/C++ Compiler for ARM
+  18:srcc/system_MKL36Z4.c ****  **
+  19:srcc/system_MKL36Z4.c ****  **     Reference manual:    KL36P121M48SF4RM, Rev.2, Dec 2012
+  20:srcc/system_MKL36Z4.c ****  **     Version:             rev. 2.1, 2014-10-14
+  21:srcc/system_MKL36Z4.c ****  **     Build:               b150225
+  22:srcc/system_MKL36Z4.c ****  **
+  23:srcc/system_MKL36Z4.c ****  **     Abstract:
+  24:srcc/system_MKL36Z4.c ****  **         Provides a system configuration function and a global variable that
+  25:srcc/system_MKL36Z4.c ****  **         contains the system frequency. It configures the device and initializes
+  26:srcc/system_MKL36Z4.c ****  **         the oscillator (PLL) that is part of the microcontroller device.
+  27:srcc/system_MKL36Z4.c ****  **
+  28:srcc/system_MKL36Z4.c ****  **     Copyright (c) 2014 Freescale Semiconductor, Inc.
+  29:srcc/system_MKL36Z4.c ****  **     All rights reserved.
+  30:srcc/system_MKL36Z4.c ****  **
+  31:srcc/system_MKL36Z4.c ****  **     Redistribution and use in source and binary forms, with or without modification,
+  32:srcc/system_MKL36Z4.c ****  **     are permitted provided that the following conditions are met:
+  33:srcc/system_MKL36Z4.c ****  **
+  34:srcc/system_MKL36Z4.c ****  **     o Redistributions of source code must retain the above copyright notice, this list
+  35:srcc/system_MKL36Z4.c ****  **       of conditions and the following disclaimer.
+  36:srcc/system_MKL36Z4.c ****  **
+  37:srcc/system_MKL36Z4.c ****  **     o Redistributions in binary form must reproduce the above copyright notice, this
+  38:srcc/system_MKL36Z4.c ****  **       list of conditions and the following disclaimer in the documentation and/or
+  39:srcc/system_MKL36Z4.c ****  **       other materials provided with the distribution.
+  40:srcc/system_MKL36Z4.c ****  **
+  41:srcc/system_MKL36Z4.c ****  **     o Neither the name of Freescale Semiconductor, Inc. nor the names of its
+  42:srcc/system_MKL36Z4.c ****  **       contributors may be used to endorse or promote products derived from this
+  43:srcc/system_MKL36Z4.c ****  **       software without specific prior written permission.
+  44:srcc/system_MKL36Z4.c ****  **
+  45:srcc/system_MKL36Z4.c ****  **     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  46:srcc/system_MKL36Z4.c ****  **     ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  47:srcc/system_MKL36Z4.c ****  **     WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  48:srcc/system_MKL36Z4.c ****  **     DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+  49:srcc/system_MKL36Z4.c ****  **     ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  50:srcc/system_MKL36Z4.c ****  **     (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  51:srcc/system_MKL36Z4.c ****  **     LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+  52:srcc/system_MKL36Z4.c ****  **     ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  53:srcc/system_MKL36Z4.c ****  **     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  54:srcc/system_MKL36Z4.c ****  **     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  55:srcc/system_MKL36Z4.c ****  **
+  56:srcc/system_MKL36Z4.c ****  **     http:                 www.freescale.com
+  57:srcc/system_MKL36Z4.c ****  **     mail:                 support@freescale.com
+  58:srcc/system_MKL36Z4.c ****  **
+  59:srcc/system_MKL36Z4.c ****  **     Revisions:
+  60:srcc/system_MKL36Z4.c ****  **     - rev. 1.0 (2012-12-12)
+  61:srcc/system_MKL36Z4.c ****  **         Initial version.
+  62:srcc/system_MKL36Z4.c ****  **     - rev. 1.1 (2013-04-05)
+  63:srcc/system_MKL36Z4.c ****  **         Changed start of doxygen comment.
+  64:srcc/system_MKL36Z4.c ****  **     - rev. 1.2 (2013-04-12)
+  65:srcc/system_MKL36Z4.c ****  **         SystemInit function fixed for clock configuration 1.
+  66:srcc/system_MKL36Z4.c ****  **         Name of the interrupt num. 31 updated to reflect proper function.
+  67:srcc/system_MKL36Z4.c ****  **     - rev. 2.0 (2014-07-25)
+  68:srcc/system_MKL36Z4.c ****  **         Updated to Kinetis SDK standard.
+  69:srcc/system_MKL36Z4.c ****  **     - rev. 2.1 (2014-10-14)
+  70:srcc/system_MKL36Z4.c ****  **         Renamed interrupt vector LPTimer to LPTMR0
+  71:srcc/system_MKL36Z4.c ****  **
+  72:srcc/system_MKL36Z4.c ****  ** ###################################################################
+  73:srcc/system_MKL36Z4.c ****  */
+  74:srcc/system_MKL36Z4.c **** 
+  75:srcc/system_MKL36Z4.c **** /*!
+  76:srcc/system_MKL36Z4.c ****  * @file MKL36Z4
+  77:srcc/system_MKL36Z4.c ****  * @version 2.1
+  78:srcc/system_MKL36Z4.c ****  * @date 2014-10-14
+  79:srcc/system_MKL36Z4.c ****  * @brief Device specific configuration file for MKL36Z4 (implementation file)
+  80:srcc/system_MKL36Z4.c ****  *
+  81:srcc/system_MKL36Z4.c ****  * Provides a system configuration function and a global variable that contains
+  82:srcc/system_MKL36Z4.c ****  * the system frequency. It configures the device and initializes the oscillator
+  83:srcc/system_MKL36Z4.c ****  * (PLL) that is part of the microcontroller device.
+  84:srcc/system_MKL36Z4.c ****  */
+  85:srcc/system_MKL36Z4.c **** 
+  86:srcc/system_MKL36Z4.c **** #include <stdint.h>
+  87:srcc/system_MKL36Z4.c **** #include "MKL36Z4.h"
+  88:srcc/system_MKL36Z4.c **** 
+  89:srcc/system_MKL36Z4.c **** 
+  90:srcc/system_MKL36Z4.c **** /* ----------------------------------------------------------------------------
+  91:srcc/system_MKL36Z4.c ****    -- Core clock
+  92:srcc/system_MKL36Z4.c ****    ---------------------------------------------------------------------------- */
+  93:srcc/system_MKL36Z4.c **** 
+  94:srcc/system_MKL36Z4.c **** //uint32_t SystemCoreClock = DEFAULT_SYSTEM_CLOCK;
+  95:srcc/system_MKL36Z4.c **** uint32_t SystemCoreClock = 48000000;
+  96:srcc/system_MKL36Z4.c **** 
+  97:srcc/system_MKL36Z4.c **** /* ----------------------------------------------------------------------------
+  98:srcc/system_MKL36Z4.c ****    -- SystemInit()
+  99:srcc/system_MKL36Z4.c ****    ---------------------------------------------------------------------------- */
+ 100:srcc/system_MKL36Z4.c **** 
+ 101:srcc/system_MKL36Z4.c **** //
+ 102:srcc/system_MKL36Z4.c **** 
+ 103:srcc/system_MKL36Z4.c **** void SystemInit (void) {
+  26              		.loc 1 103 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+ 104:srcc/system_MKL36Z4.c **** //    unsigned int i = 0;
+ 105:srcc/system_MKL36Z4.c **** //    char temp_reg = 0;
+ 106:srcc/system_MKL36Z4.c ****     //¡¾²»±ä¡¿¸ù¾ÝENABLE_WDOG¾ö¶¨ÊÇ·ñ¿ªÆô¿´ÃÅ¹·¡£¡¾¿´ÃÅ¹·¡¿
+ 107:srcc/system_MKL36Z4.c ****     //¿´ÃÅ¹·Ä¬ÈÏÎª¿ªÆô£¬¶øÇÒ¸´Î»Ö®ºóÖ»ÄÜ¿ªÆô»ò¹Ø±Õ¿´ÃÅ¹·Ò»´Î
+ 108:srcc/system_MKL36Z4.c **** //    if(ENABLE_WDOG)
+ 109:srcc/system_MKL36Z4.c **** //    	wdog_start(3);
+ 110:srcc/system_MKL36Z4.c **** //    else
+ 111:srcc/system_MKL36Z4.c **** //    	wdog_stop();
+ 112:srcc/system_MKL36Z4.c ****     /* System clock initialization */
+ 113:srcc/system_MKL36Z4.c ****     /* SIM_CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=3,??=0,??=0,??=0
+ 114:srcc/system_MKL36Z4.c ****     SIM_CLKDIV1 = (SIM_CLKDIV1_OUTDIV1(0x00) | SIM_CLKDIV1_OUTDIV4(0x03)); /* Set the system presca
+  31              		.loc 1 114 0
+  32 0000 264B     		ldr	r3, .L7
+  33 0002 274A     		ldr	r2, .L7+4
+  34 0004 C021     		movs	r1, #192
+  35 0006 8902     		lsls	r1, r1, #10
+  36 0008 9950     		str	r1, [r3, r2]
+ 115:srcc/system_MKL36Z4.c ****     /* SIM_SCGC5: PORTA=1 */
+ 116:srcc/system_MKL36Z4.c ****     SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;   /* Enable clock gate for ports to enable pin routing */
+  37              		.loc 1 116 0
+  38 000a 2649     		ldr	r1, .L7+8
+  39 000c 5858     		ldr	r0, [r3, r1]
+  40 000e 8022     		movs	r2, #128
+  41 0010 9200     		lsls	r2, r2, #2
+  42 0012 0243     		orrs	r2, r0
+  43 0014 5A50     		str	r2, [r3, r1]
+ 117:srcc/system_MKL36Z4.c ****     if ((PMC_REGSC & PMC_REGSC_ACKISO_MASK) != 0x0U) {
+  44              		.loc 1 117 0
+  45 0016 244B     		ldr	r3, .L7+12
+  46 0018 9B78     		ldrb	r3, [r3, #2]
+  47 001a 1B07     		lsls	r3, r3, #28
+  48 001c 04D5     		bpl	.L2
+ 118:srcc/system_MKL36Z4.c ****         /* PMC_REGSC: ACKISO=1 */
+ 119:srcc/system_MKL36Z4.c ****         PMC_REGSC |= PMC_REGSC_ACKISO_MASK; /* Release IO pads after wakeup from VLLS mode. */
+  49              		.loc 1 119 0
+  50 001e 224A     		ldr	r2, .L7+12
+  51 0020 9378     		ldrb	r3, [r2, #2]
+  52 0022 0821     		movs	r1, #8
+  53 0024 0B43     		orrs	r3, r1
+  54 0026 9370     		strb	r3, [r2, #2]
+  55              	.L2:
+ 120:srcc/system_MKL36Z4.c ****     }
+ 121:srcc/system_MKL36Z4.c ****     /* SIM_CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0
+ 122:srcc/system_MKL36Z4.c ****     SIM_CLKDIV1 = (SIM_CLKDIV1_OUTDIV1(0x00) | SIM_CLKDIV1_OUTDIV4(0x01)); /* Update system prescal
+  56              		.loc 1 122 0
+  57 0028 1C4B     		ldr	r3, .L7
+  58 002a 1D4A     		ldr	r2, .L7+4
+  59 002c 8021     		movs	r1, #128
+  60 002e 4902     		lsls	r1, r1, #9
+  61 0030 9950     		str	r1, [r3, r2]
+ 123:srcc/system_MKL36Z4.c ****     /* SIM_SOPT2: ??=0,PLLFLLSEL=0 */
+ 124:srcc/system_MKL36Z4.c ****     SIM_SOPT2 &= (uint32_t)~(uint32_t)((SIM_SOPT2_PLLFLLSEL_MASK | 0x00020000U)); /* Select FLL as 
+  62              		.loc 1 124 0
+  63 0032 1E4A     		ldr	r2, .L7+16
+  64 0034 9958     		ldr	r1, [r3, r2]
+  65 0036 1E48     		ldr	r0, .L7+20
+  66 0038 0140     		ands	r1, r0
+  67 003a 9950     		str	r1, [r3, r2]
+ 125:srcc/system_MKL36Z4.c ****     /* SIM_SOPT1: OSC32KSEL=0 */
+ 126:srcc/system_MKL36Z4.c ****     SIM_SOPT1 &= (uint32_t)~(uint32_t)(SIM_SOPT1_OSC32KSEL(0x03)); /* System oscillator drives 32 k
+  68              		.loc 1 126 0
+  69 003c 1968     		ldr	r1, [r3]
+  70 003e 1D48     		ldr	r0, .L7+24
+  71 0040 0140     		ands	r1, r0
+  72 0042 1960     		str	r1, [r3]
+ 127:srcc/system_MKL36Z4.c ****     /* SIM_SOPT2: TPMSRC=1 */
+ 128:srcc/system_MKL36Z4.c ****     SIM_SOPT2 = (uint32_t)((SIM_SOPT2 & (uint32_t)~(uint32_t)(
+  73              		.loc 1 128 0
+  74 0044 9958     		ldr	r1, [r3, r2]
+  75 0046 1C48     		ldr	r0, .L7+28
+  76 0048 0840     		ands	r0, r1
+  77 004a 8021     		movs	r1, #128
+  78 004c 4904     		lsls	r1, r1, #17
+  79 004e 0143     		orrs	r1, r0
+  80 0050 9950     		str	r1, [r3, r2]
+ 129:srcc/system_MKL36Z4.c ****             SIM_SOPT2_TPMSRC(0x02)
+ 130:srcc/system_MKL36Z4.c ****     )) | (uint32_t)(
+ 131:srcc/system_MKL36Z4.c ****             SIM_SOPT2_TPMSRC(0x01)
+ 132:srcc/system_MKL36Z4.c ****     ));                      /* Set the TPM clock */
+ 133:srcc/system_MKL36Z4.c ****     /* Switch to FEI Mode */
+ 134:srcc/system_MKL36Z4.c ****     /* MCG_C1: CLKS=0,FRDIV=0,IREFS=1,IRCLKEN=1,IREFSTEN=0 */
+ 135:srcc/system_MKL36Z4.c ****     MCG_C1 = MCG_C1_CLKS(0x00) |
+  81              		.loc 1 135 0
+  82 0052 1A4B     		ldr	r3, .L7+32
+  83 0054 0622     		movs	r2, #6
+  84 0056 1A70     		strb	r2, [r3]
+ 136:srcc/system_MKL36Z4.c ****             MCG_C1_FRDIV(0x00) |
+ 137:srcc/system_MKL36Z4.c ****             MCG_C1_IREFS_MASK |
+ 138:srcc/system_MKL36Z4.c ****             MCG_C1_IRCLKEN_MASK;
+ 139:srcc/system_MKL36Z4.c ****     /* MCG_C2: LOCRE0=0,RANGE0=0,HGO0=0,EREFS0=0,LP=0,IRCS=0 */
+ 140:srcc/system_MKL36Z4.c ****     MCG_C2 &= (uint8_t)~(uint8_t)(
+  85              		.loc 1 140 0
+  86 0058 5A78     		ldrb	r2, [r3, #1]
+  87 005a 4021     		movs	r1, #64
+  88 005c 0A40     		ands	r2, r1
+  89 005e 5A70     		strb	r2, [r3, #1]
+ 141:srcc/system_MKL36Z4.c ****             MCG_C2_LOCRE0_MASK |
+ 142:srcc/system_MKL36Z4.c ****             MCG_C2_RANGE0(0x03) |
+ 143:srcc/system_MKL36Z4.c ****             MCG_C2_HGO0_MASK |
+ 144:srcc/system_MKL36Z4.c ****             MCG_C2_EREFS0_MASK |
+ 145:srcc/system_MKL36Z4.c ****             MCG_C2_LP_MASK |
+ 146:srcc/system_MKL36Z4.c ****             MCG_C2_IRCS_MASK
+ 147:srcc/system_MKL36Z4.c ****     );
+ 148:srcc/system_MKL36Z4.c ****     /* MCG_C4: DMX32=1,DRST_DRS=1 */
+ 149:srcc/system_MKL36Z4.c ****     MCG_C4 = (uint8_t)((MCG_C4 & (uint8_t)~(uint8_t)(
+  90              		.loc 1 149 0
+  91 0060 DA78     		ldrb	r2, [r3, #3]
+ 150:srcc/system_MKL36Z4.c ****             MCG_C4_DRST_DRS(0x02)
+ 151:srcc/system_MKL36Z4.c ****     )) | (uint8_t)(
+  92              		.loc 1 151 0
+  93 0062 2139     		subs	r1, r1, #33
+  94 0064 0A40     		ands	r2, r1
+  95 0066 8131     		adds	r1, r1, #129
+ 149:srcc/system_MKL36Z4.c ****             MCG_C4_DRST_DRS(0x02)
+  96              		.loc 1 149 0
+  97 0068 0A43     		orrs	r2, r1
+  98 006a DA70     		strb	r2, [r3, #3]
+ 152:srcc/system_MKL36Z4.c ****             MCG_C4_DMX32_MASK |
+ 153:srcc/system_MKL36Z4.c ****             MCG_C4_DRST_DRS(0x01)
+ 154:srcc/system_MKL36Z4.c ****     ));
+ 155:srcc/system_MKL36Z4.c ****     /* OSC0_CR: ERCLKEN=0,??=0,EREFSTEN=0,??=0,SC2P=0,SC4P=0,SC8P=0,SC16P=0 */
+ 156:srcc/system_MKL36Z4.c ****     OSC0_CR = 0x00U;
+  99              		.loc 1 156 0
+ 100 006c 0022     		movs	r2, #0
+ 101 006e 1449     		ldr	r1, .L7+36
+ 102 0070 0A70     		strb	r2, [r1]
+ 157:srcc/system_MKL36Z4.c ****     /* MCG_C5: ??=0,PLLCLKEN0=0,PLLSTEN0=0,PRDIV0=0 */
+ 158:srcc/system_MKL36Z4.c ****     MCG_C5 = MCG_C5_PRDIV0(0x00);
+ 103              		.loc 1 158 0
+ 104 0072 1A71     		strb	r2, [r3, #4]
+ 159:srcc/system_MKL36Z4.c ****     /* MCG_C6: LOLIE0=0,PLLS=0,CME0=0,VDIV0=0 */
+ 160:srcc/system_MKL36Z4.c ****     MCG_C6 = MCG_C6_VDIV0(0x00);
+ 105              		.loc 1 160 0
+ 106 0074 5A71     		strb	r2, [r3, #5]
+ 161:srcc/system_MKL36Z4.c ****     while((MCG_S & MCG_S_IREFST_MASK) == 0x00U) { /* Check that the source of the FLL reference clo
+ 107              		.loc 1 161 0
+ 108 0076 1900     		movs	r1, r3
+ 109 0078 1032     		adds	r2, r2, #16
+ 110              	.L3:
+ 111              		.loc 1 161 0 is_stmt 0 discriminator 1
+ 112 007a 8B79     		ldrb	r3, [r1, #6]
+ 113 007c 1342     		tst	r3, r2
+ 114 007e FCD0     		beq	.L3
+ 162:srcc/system_MKL36Z4.c ****     }
+ 163:srcc/system_MKL36Z4.c ****     while((MCG_S & 0x0CU) != 0x00U) {    /* Wait until output of the FLL is selected */
+ 115              		.loc 1 163 0 is_stmt 1
+ 116 0080 0E49     		ldr	r1, .L7+32
+ 117 0082 0C22     		movs	r2, #12
+ 118              	.L4:
+ 119              		.loc 1 163 0 is_stmt 0 discriminator 1
+ 120 0084 8B79     		ldrb	r3, [r1, #6]
+ 121 0086 1342     		tst	r3, r2
+ 122 0088 FCD1     		bne	.L4
+ 164:srcc/system_MKL36Z4.c ****     }
+ 165:srcc/system_MKL36Z4.c ****     /*** End of PE initialization code after reset ***/
+ 166:srcc/system_MKL36Z4.c **** 
+ 167:srcc/system_MKL36Z4.c ****     //    //1.Ê×ÏÈ´ÓFEIÄ£Ê½¹ý¶Éµ½FBEÄ£Ê½
+ 168:srcc/system_MKL36Z4.c ****     //
+ 169:srcc/system_MKL36Z4.c ****     //    //C2= 0x1C£¬ÒòÎªÎÒÃÇµÄºËÐÄ°åÉÏ²ÉÓÃÁËÍâ²¿¾§ÕñÎª8Mhz£¬ÊôÓÚ¸ßÆµÂÊ·¶Î§£¬
+ 170:srcc/system_MKL36Z4.c ****     //    //C2[RANGE]ÉèÖÃÎª0b01£»C2[HGO]ÉèÎª1ÒÔÅäÖÃ¾§ÕñÀ´½øÐÐ¸ßÔöÒæ²Ù×÷£»ÒòÎª
+ 171:srcc/system_MKL36Z4.c ****     //    //ÕýÔÚÊ¹ÓÃµÄÍâ²¿²Î¿¼Ê±ÖÓÔ´ÊÇ¾§Õñ£¬ËùÒÔC2[EREFS]ÉèÖÃÎª1¡£
+ 172:srcc/system_MKL36Z4.c ****     //    MCG_C2 = (MCG_C2_RANGE0(1) | MCG_C2_EREFS0_MASK);
+ 173:srcc/system_MKL36Z4.c ****     //    //C1 = 0x90 £¬C1[CLKS]ÉèÖÃÎª2¡¯b10£¬ÒÔ±ãÑ¡Ôñ×÷ÎªÏµÍ³Ê±ÖÓÔ´µÄÍâ²¿²Î¿¼Ê±ÖÓ¡£
+ 174:srcc/system_MKL36Z4.c ****     //    //C1[FRDIV]ÉèÖÃÎª3'b011£¬¶ÔÓ¦256·ÖÆµ,ÒòÎª8MHz/256=31.25kHzÔÚÓÉFLLÒªÇóµÄ
+ 175:srcc/system_MKL36Z4.c ****     //    //31.25kHzÖÁ39.0625 kHzÆµÂÊ·¶Î§ÄÚ¡£C1[IREFS]Çå³ýÎª0£¬Ñ¡ÔñÍâ²¿²Î¿¼Ê±ÖÓºÍ
+ 176:srcc/system_MKL36Z4.c ****     //    //Íâ²¿¾§Õñ¡£
+ 177:srcc/system_MKL36Z4.c ****     //    MCG_C1 = (MCG_C1_CLKS(2) | MCG_C1_FRDIV(3));
+ 178:srcc/system_MKL36Z4.c ****     //    //ÐèÒªµÈµ½S[OSCINIT]±»ÖÃÎ»Íâ²¿¾§Õñ²ÅÄÜÊ¹ÓÃ
+ 179:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 20000 ; i++)
+ 180:srcc/system_MKL36Z4.c ****     //    {
+ 181:srcc/system_MKL36Z4.c ****     //        //Èç¹ûS[OSCINIT]ÔÚÑ­»·½áÊøÖ®Ç°±»ÖÃÎ»¾ÍÌø³öÑ­»·
+ 182:srcc/system_MKL36Z4.c ****     //        if (MCG_S & MCG_S_OSCINIT0_MASK) break;
+ 183:srcc/system_MKL36Z4.c ****     //    }
+ 184:srcc/system_MKL36Z4.c ****     //    //µÈ´ý²Î¿¼Ê±ÖÓ×´Ì¬Î»Çå0
+ 185:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 2000 ; i++)
+ 186:srcc/system_MKL36Z4.c ****     //    {
+ 187:srcc/system_MKL36Z4.c ****     //        //Èç¹ûIREFSTÔÚÑ­»·½áÊøÖ®Ç°±»Çå0¾ÍÌø³öÑ­»·
+ 188:srcc/system_MKL36Z4.c ****     //        if (!(MCG_S & MCG_S_IREFST_MASK)) break;
+ 189:srcc/system_MKL36Z4.c ****     //    }
+ 190:srcc/system_MKL36Z4.c ****     //    //µÈ´ýÊ±ÖÓ×´Ì¬Î»ÒÔÏÔÊ¾Ê±ÖÓÔ´ÎªÍâ²¿²Î¿¼Ê±ÖÓ
+ 191:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 2000 ; i++)
+ 192:srcc/system_MKL36Z4.c ****     //    {
+ 193:srcc/system_MKL36Z4.c ****     //        //Èç¹ûCLKSTÏÔÊ¾Íâ²¿Ê±ÖÓ±»Ñ¡Ôñ£¬ÔÚÑ­»·½áÊøÖ®Ç°¾ÍÌø³öÑ­»·
+ 194:srcc/system_MKL36Z4.c ****     //        if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x2) break;
+ 195:srcc/system_MKL36Z4.c ****     //    }
+ 196:srcc/system_MKL36Z4.c ****     //
+ 197:srcc/system_MKL36Z4.c ****     //    //2.ÏÖÔÚ´¦ÓÚFBE×´Ì¬£¬Ê¹ÄÜÊ±ÖÓ¼àÊÓÆ÷£¬ÓÉFBEÖ±½Ó×ª»»ÎªPBEÄ£Ê½
+ 198:srcc/system_MKL36Z4.c ****     //    MCG_C6 |= MCG_C6_CME0_MASK;
+ 199:srcc/system_MKL36Z4.c ****     //    //ÅäÖÃPLLÎª2·ÖÆµ
+ 200:srcc/system_MKL36Z4.c ****     //    MCG_C5 |= MCG_C5_PRDIV0(1);
+ 201:srcc/system_MKL36Z4.c ****     //    //ÅäÖÃMCG_C6 ÒÔÉèÖÃPLL±¶ÆµÒò×Ó²¢ÇÒÊ±ÄÜPLL£¬PLLSÎ»±»ÖÃÎ»À´Ê±ÄÜPLL£¬MCGOUTÊ±ÖÓÔ´ÈÔÈ»ÊÇÍâ²¿²
+ 202:srcc/system_MKL36Z4.c ****     //    temp_reg = MCG_C6; //´æ´¢µ±Ç°C6µÄÖµ£¨ÒòÎªCME0Î»Ö®Ç°±»ÖÃÎ»ÁË£©
+ 203:srcc/system_MKL36Z4.c ****     //    temp_reg &= ~MCG_C6_VDIV0_MASK; //½«VDIVÇå0
+ 204:srcc/system_MKL36Z4.c ****     //    temp_reg |= MCG_C6_PLLS_MASK | MCG_C6_VDIV0(0); // ÖØÐÂÐ´Öµµ½VDIV ²¢ÇÒÊ±ÄÜPLL
+ 205:srcc/system_MKL36Z4.c ****     //    MCG_C6 = temp_reg; // ¸üÐÂMCG_C6µÄÖµ
+ 206:srcc/system_MKL36Z4.c ****     //    // µÈ´ýPLLST×´Ì¬Î»±»ÖÃ
+ 207:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 2000 ; i++)
+ 208:srcc/system_MKL36Z4.c ****     //    {
+ 209:srcc/system_MKL36Z4.c ****     //        //Èç¹ûPLLSTÔÚÑ­»·½áÊøÖ®Ç°±»ÖÃÎ»¾ÍÌø³öÑ­»·
+ 210:srcc/system_MKL36Z4.c ****     //        if (MCG_S & MCG_S_PLLST_MASK)
+ 211:srcc/system_MKL36Z4.c ****     //            break;
+ 212:srcc/system_MKL36Z4.c ****     //    }
+ 213:srcc/system_MKL36Z4.c ****     //    //µÈ´ýLOCKÎ»±»ÖÃ
+ 214:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 4000 ; i++)
+ 215:srcc/system_MKL36Z4.c ****     //    {
+ 216:srcc/system_MKL36Z4.c ****     //        //Èç¹ûLOCKÔÚÑ­»·½áÊøÖ®Ç°±»ÖÃÎ»¾ÍÌø³öÑ­»·
+ 217:srcc/system_MKL36Z4.c ****     //        if (MCG_S & MCG_S_LOCK0_MASK)
+ 218:srcc/system_MKL36Z4.c ****     //            break;
+ 219:srcc/system_MKL36Z4.c ****     //    }
+ 220:srcc/system_MKL36Z4.c ****     //
+ 221:srcc/system_MKL36Z4.c ****     //    //3.ÏÖÔÚ´¦ÓÚPBEÄ£Ê½¡£×îºó£¬PBEÄ£Ê½×ª»»³ÉPEEÄ£Ê½
+ 222:srcc/system_MKL36Z4.c ****     //    // ÉèÖÃºËÐÄÊ±ÖÓ·ÖÆµÆ÷2·ÖÆµ
+ 223:srcc/system_MKL36Z4.c ****     //    //ÉèÖÃ×ÜÏßÊ±ÖÓ·ÖÆµÆ÷2·ÖÆµ (×ÜÏßÊ±ÖÓµÄÊ±ÖÓÔ´ÊÇºËÐÄÊ±ÖÓ)
+ 224:srcc/system_MKL36Z4.c ****     //    SIM_CLKDIV1 = (SIM_CLKDIV1_OUTDIV1(1) | SIM_CLKDIV1_OUTDIV4(1) );
+ 225:srcc/system_MKL36Z4.c ****     //    //ÇåCLKSÀ´´ò¿ªCLKS¶àÂ·¸´ÓÃÆ÷À´Ñ¡ÔñPLL×÷ÎªMCGCLKOUT
+ 226:srcc/system_MKL36Z4.c ****     //    MCG_C1 &= ~MCG_C1_CLKS_MASK;
+ 227:srcc/system_MKL36Z4.c ****     //    // µÈ´ýÊ±ÖÓ×´Ì¬Î»¸üÐÂ
+ 228:srcc/system_MKL36Z4.c ****     //    for (i = 0 ; i < 2000 ; i++)
+ 229:srcc/system_MKL36Z4.c ****     //    {
+ 230:srcc/system_MKL36Z4.c ****     //        //Èç¹ûCLKSTÔÚÑ­»·½áÊøÖ®Ç°µÈÓÚ3¾ÍÌø³öÑ­»·
+ 231:srcc/system_MKL36Z4.c ****     //        if (((MCG_S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x3) break;
+ 232:srcc/system_MKL36Z4.c ****     //    }
+ 233:srcc/system_MKL36Z4.c ****     //    //4.ÏÖÔÚ´¦ÓÚPEEÄ£Ê½
+ 234:srcc/system_MKL36Z4.c **** 
+ 235:srcc/system_MKL36Z4.c ****     //¿ªÆôPORTÄ£¿éÊ±ÖÓ
+ 236:srcc/system_MKL36Z4.c ****     SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK
+ 123              		.loc 1 236 0 is_stmt 1
+ 124 008a 0449     		ldr	r1, .L7
+ 125 008c 054A     		ldr	r2, .L7+8
+ 126 008e 8858     		ldr	r0, [r1, r2]
+ 127 0090 F823     		movs	r3, #248
+ 128 0092 9B01     		lsls	r3, r3, #6
+ 129 0094 0343     		orrs	r3, r0
+ 130 0096 8B50     		str	r3, [r1, r2]
+ 237:srcc/system_MKL36Z4.c ****             | SIM_SCGC5_PORTB_MASK
+ 238:srcc/system_MKL36Z4.c ****             | SIM_SCGC5_PORTC_MASK
+ 239:srcc/system_MKL36Z4.c ****             | SIM_SCGC5_PORTD_MASK
+ 240:srcc/system_MKL36Z4.c ****             | SIM_SCGC5_PORTE_MASK;
+ 241:srcc/system_MKL36Z4.c **** 
+ 242:srcc/system_MKL36Z4.c **** }
+ 131              		.loc 1 242 0
+ 132              		@ sp needed
+ 133 0098 7047     		bx	lr
+ 134              	.L8:
+ 135 009a C046     		.align	2
+ 136              	.L7:
+ 137 009c 00700440 		.word	1074032640
+ 138 00a0 44100000 		.word	4164
+ 139 00a4 38100000 		.word	4152
+ 140 00a8 00D00740 		.word	1074253824
+ 141 00ac 04100000 		.word	4100
+ 142 00b0 FFFFFCFF 		.word	-196609
+ 143 00b4 FFFFF3FF 		.word	-786433
+ 144 00b8 FFFFFFFC 		.word	-50331649
+ 145 00bc 00400640 		.word	1074151424
+ 146 00c0 00500640 		.word	1074155520
+ 147              		.cfi_endproc
+ 148              	.LFE34:
+ 150              		.global	SystemCoreClock
+ 151              		.section	.data.SystemCoreClock,"aw",%progbits
+ 152              		.align	2
+ 155              	SystemCoreClock:
+ 156 0000 006CDC02 		.word	48000000
+ 157              		.text
+ 158              	.Letext0:
+ 159              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 160              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 161              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 162              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+DEFINED SYMBOLS
+                            *ABS*:00000000 system_MKL36Z4.c
+C:\Users\WYH\AppData\Local\Temp\ccZG8IDZ.s:16     .text.SystemInit:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccZG8IDZ.s:23     .text.SystemInit:00000000 SystemInit
+C:\Users\WYH\AppData\Local\Temp\ccZG8IDZ.s:137    .text.SystemInit:0000009c $d
+C:\Users\WYH\AppData\Local\Temp\ccZG8IDZ.s:155    .data.SystemCoreClock:00000000 SystemCoreClock
+C:\Users\WYH\AppData\Local\Temp\ccZG8IDZ.s:152    .data.SystemCoreClock:00000000 $d
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.89.e7926361526b1edc4c6144c72000c818
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+
+NO UNDEFINED SYMBOLS

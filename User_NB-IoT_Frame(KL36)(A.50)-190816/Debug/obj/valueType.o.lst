@@ -1,0 +1,649 @@
+   1              		.cpu cortex-m0plus
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"valueType.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.global	__aeabi_idivmod
+  16              		.global	__aeabi_idiv
+  17              		.section	.text.IntConvertToStr,"ax",%progbits
+  18              		.align	1
+  19              		.global	IntConvertToStr
+  20              		.syntax unified
+  21              		.code	16
+  22              		.thumb_func
+  23              		.fpu softvfp
+  25              	IntConvertToStr:
+  26              	.LFB35:
+  27              		.file 1 "srcc/valueType.c"
+   1:srcc/valueType.c **** /*
+   2:srcc/valueType.c ****  * valueType.c
+   3:srcc/valueType.c ****  *
+   4:srcc/valueType.c ****  *  Created on: 2018年5月9日
+   5:srcc/valueType.c ****  *      Author: 13341
+   6:srcc/valueType.c ****  */
+   7:srcc/valueType.c **** #include "valueType.h"
+   8:srcc/valueType.c **** 
+   9:srcc/valueType.c **** //=====================================================================
+  10:srcc/valueType.c **** //函数名称：IntConvertToStr
+  11:srcc/valueType.c **** //函数返回：无
+  12:srcc/valueType.c **** //参数说明：num：待转换为字符串的数字；str：字符串转换完成后存储的位置；
+  13:srcc/valueType.c **** //功能概要：将指定进制的整型数转为字符串
+  14:srcc/valueType.c **** //=====================================================================
+  15:srcc/valueType.c **** uint_8 *IntConvertToStr(int_32 num,uint_8 *buf)
+  16:srcc/valueType.c **** {
+  28              		.loc 1 16 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 C646     		mov	lr, r8
+  41 0004 00B5     		push	{lr}
+  42              		.cfi_def_cfa_offset 24
+  43              		.cfi_offset 8, -24
+  44 0006 0600     		movs	r6, r0
+  45 0008 0C00     		movs	r4, r1
+  46              	.LVL1:
+  17:srcc/valueType.c **** 	char *str;
+  18:srcc/valueType.c **** 	int temp;
+  19:srcc/valueType.c **** 	int sign = 0;                          //标记num的符号
+  47              		.loc 1 19 0
+  48 000a 0023     		movs	r3, #0
+  49 000c 9846     		mov	r8, r3
+  20:srcc/valueType.c ****     char *p;
+  21:srcc/valueType.c ****      str = buf;
+  22:srcc/valueType.c ****      p = str;
+  23:srcc/valueType.c **** 	  /*负数的话取绝对值并改变标记*/
+  24:srcc/valueType.c **** 	  if (num < 0)
+  50              		.loc 1 24 0
+  51 000e 0028     		cmp	r0, #0
+  52 0010 01DB     		blt	.L10
+  53              	.LVL2:
+  54              	.L2:
+  25:srcc/valueType.c **** 	  {
+  26:srcc/valueType.c **** 			 num = 0 - num;
+  27:srcc/valueType.c **** 			 sign = 1;
+  55              		.loc 1 27 0 discriminator 1
+  56 0012 2700     		movs	r7, r4
+  57 0014 04E0     		b	.L3
+  58              	.LVL3:
+  59              	.L10:
+  26:srcc/valueType.c **** 			 sign = 1;
+  60              		.loc 1 26 0
+  61 0016 4642     		rsbs	r6, r0, #0
+  62              	.LVL4:
+  63              		.loc 1 27 0
+  64 0018 0133     		adds	r3, r3, #1
+  65 001a 9846     		mov	r8, r3
+  66 001c F9E7     		b	.L2
+  67              	.LVL5:
+  68              	.L8:
+  28:srcc/valueType.c **** 	  }
+  29:srcc/valueType.c **** 	  /*把数从低位放进字符串*/
+  30:srcc/valueType.c **** 	  do
+  31:srcc/valueType.c **** 	  {
+  32:srcc/valueType.c **** 			 temp = num % 10;    //取num的最后一位
+  33:srcc/valueType.c **** 			 *p = temp + '0';
+  34:srcc/valueType.c **** 			 p++;
+  69              		.loc 1 34 0
+  70 001e 2F00     		movs	r7, r5
+  71              	.LVL6:
+  72              	.L3:
+  32:srcc/valueType.c **** 			 *p = temp + '0';
+  73              		.loc 1 32 0 discriminator 1
+  74 0020 0A21     		movs	r1, #10
+  75 0022 3000     		movs	r0, r6
+  76 0024 FFF7FEFF 		bl	__aeabi_idivmod
+  77              	.LVL7:
+  33:srcc/valueType.c **** 			 p++;
+  78              		.loc 1 33 0 discriminator 1
+  79 0028 3031     		adds	r1, r1, #48
+  80 002a 3970     		strb	r1, [r7]
+  81              		.loc 1 34 0 discriminator 1
+  82 002c 7D1C     		adds	r5, r7, #1
+  83              	.LVL8:
+  35:srcc/valueType.c **** 	  }while ((num /= 10) != 0);
+  84              		.loc 1 35 0 discriminator 1
+  85 002e 0A21     		movs	r1, #10
+  86 0030 3000     		movs	r0, r6
+  87 0032 FFF7FEFF 		bl	__aeabi_idiv
+  88              	.LVL9:
+  89 0036 061E     		subs	r6, r0, #0
+  90              	.LVL10:
+  91 0038 F1D1     		bne	.L8
+  36:srcc/valueType.c **** 	  /*是负数的时候添加‘-’*/
+  37:srcc/valueType.c **** 	  if (sign == 1)
+  92              		.loc 1 37 0
+  93 003a 4346     		mov	r3, r8
+  94 003c 012B     		cmp	r3, #1
+  95 003e 19D0     		beq	.L11
+  96              	.L4:
+  38:srcc/valueType.c **** 	  {
+  39:srcc/valueType.c **** 			*(p++) = '-';
+  40:srcc/valueType.c **** 	  }
+  41:srcc/valueType.c **** 	   /*给字符串的末尾添加 ''/0*/
+  42:srcc/valueType.c **** 	  *p = '\0';
+  97              		.loc 1 42 0
+  98 0040 0023     		movs	r3, #0
+  99 0042 2B70     		strb	r3, [r5]
+  43:srcc/valueType.c **** 	  p--;
+ 100              		.loc 1 43 0
+ 101 0044 013D     		subs	r5, r5, #1
+ 102              	.LVL11:
+  44:srcc/valueType.c **** 	  /*字符串逆置*/
+  45:srcc/valueType.c **** 	  while(str < p)
+ 103              		.loc 1 45 0
+ 104 0046 AC42     		cmp	r4, r5
+ 105 0048 10D2     		bcs	.L5
+  21:srcc/valueType.c ****      p = str;
+ 106              		.loc 1 21 0
+ 107 004a 2100     		movs	r1, r4
+ 108              	.LVL12:
+ 109              	.L6:
+  46:srcc/valueType.c **** 	  {
+  47:srcc/valueType.c **** 		   *str = *str + *p;
+ 110              		.loc 1 47 0
+ 111 004c 0B78     		ldrb	r3, [r1]
+ 112 004e 2878     		ldrb	r0, [r5]
+ 113 0050 1B18     		adds	r3, r3, r0
+ 114 0052 DBB2     		uxtb	r3, r3
+ 115 0054 0B70     		strb	r3, [r1]
+  48:srcc/valueType.c **** 		   *p = *str - *p;
+ 116              		.loc 1 48 0
+ 117 0056 2878     		ldrb	r0, [r5]
+ 118 0058 1B1A     		subs	r3, r3, r0
+ 119 005a DBB2     		uxtb	r3, r3
+ 120 005c 2B70     		strb	r3, [r5]
+  49:srcc/valueType.c **** 		   *str = *str - *p;
+ 121              		.loc 1 49 0
+ 122 005e 0878     		ldrb	r0, [r1]
+ 123 0060 C31A     		subs	r3, r0, r3
+ 124 0062 0B70     		strb	r3, [r1]
+  50:srcc/valueType.c **** 		   str++;
+ 125              		.loc 1 50 0
+ 126 0064 0131     		adds	r1, r1, #1
+ 127              	.LVL13:
+  51:srcc/valueType.c **** 		   p--;
+ 128              		.loc 1 51 0
+ 129 0066 013D     		subs	r5, r5, #1
+ 130              	.LVL14:
+  45:srcc/valueType.c **** 	  {
+ 131              		.loc 1 45 0
+ 132 0068 A942     		cmp	r1, r5
+ 133 006a EFD3     		bcc	.L6
+ 134              	.LVL15:
+ 135              	.L5:
+  52:srcc/valueType.c **** 	  }
+  53:srcc/valueType.c **** 	  return buf;
+  54:srcc/valueType.c **** }
+ 136              		.loc 1 54 0
+ 137 006c 2000     		movs	r0, r4
+ 138              		@ sp needed
+ 139              	.LVL16:
+ 140              	.LVL17:
+ 141              	.LVL18:
+ 142              	.LVL19:
+ 143 006e 04BC     		pop	{r2}
+ 144 0070 9046     		mov	r8, r2
+ 145 0072 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 146              	.LVL20:
+ 147              	.L11:
+  39:srcc/valueType.c **** 	  }
+ 148              		.loc 1 39 0
+ 149 0074 2C33     		adds	r3, r3, #44
+ 150              	.LVL21:
+ 151 0076 2B70     		strb	r3, [r5]
+ 152 0078 BD1C     		adds	r5, r7, #2
+ 153              	.LVL22:
+ 154 007a E1E7     		b	.L4
+ 155              		.cfi_endproc
+ 156              	.LFE35:
+ 158              		.global	__aeabi_dcmplt
+ 159              		.global	__aeabi_dsub
+ 160              		.global	__aeabi_d2iz
+ 161              		.global	__aeabi_i2d
+ 162              		.global	__aeabi_d2f
+ 163              		.global	__aeabi_fmul
+ 164              		.global	__aeabi_f2iz
+ 165              		.global	__aeabi_i2f
+ 166              		.global	__aeabi_fsub
+ 167              		.global	__aeabi_f2d
+ 168              		.global	__aeabi_dcmpgt
+ 169              		.section	.text.DoubleConvertToStr,"ax",%progbits
+ 170              		.align	1
+ 171              		.global	DoubleConvertToStr
+ 172              		.syntax unified
+ 173              		.code	16
+ 174              		.thumb_func
+ 175              		.fpu softvfp
+ 177              	DoubleConvertToStr:
+ 178              	.LFB36:
+  55:srcc/valueType.c **** 
+  56:srcc/valueType.c **** //=====================================================================
+  57:srcc/valueType.c **** //函数名称：DoubleConvertToStr
+  58:srcc/valueType.c **** //函数返回：无
+  59:srcc/valueType.c **** //参数说明：num：待转换为字符串的数字；n:保留小数位数；str：字符串转换完成后存储的位置；
+  60:srcc/valueType.c **** //功能概要：将指定进制的浮点数型数转为字符串
+  61:srcc/valueType.c **** //=====================================================================
+  62:srcc/valueType.c **** uint_8 *DoubleConvertToStr(double num,int_32 n,uint_8 *buf)
+  63:srcc/valueType.c **** {
+ 179              		.loc 1 63 0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 16
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183              	.LVL23:
+ 184 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 185              		.cfi_def_cfa_offset 20
+ 186              		.cfi_offset 4, -20
+ 187              		.cfi_offset 5, -16
+ 188              		.cfi_offset 6, -12
+ 189              		.cfi_offset 7, -8
+ 190              		.cfi_offset 14, -4
+ 191 0002 CE46     		mov	lr, r9
+ 192 0004 4746     		mov	r7, r8
+ 193 0006 80B5     		push	{r7, lr}
+ 194              		.cfi_def_cfa_offset 28
+ 195              		.cfi_offset 8, -28
+ 196              		.cfi_offset 9, -24
+ 197 0008 85B0     		sub	sp, sp, #20
+ 198              		.cfi_def_cfa_offset 48
+ 199 000a 0600     		movs	r6, r0
+ 200 000c 0F00     		movs	r7, r1
+ 201 000e 9046     		mov	r8, r2
+ 202 0010 0393     		str	r3, [sp, #12]
+ 203              	.LVL24:
+  64:srcc/valueType.c ****     int     sumI;
+  65:srcc/valueType.c ****     float   sumF;
+  66:srcc/valueType.c ****     int     sign = 0;
+  67:srcc/valueType.c ****     int     temp;
+  68:srcc/valueType.c ****     int     count = 0;
+  69:srcc/valueType.c ****     char *p;
+  70:srcc/valueType.c ****     char *pp;
+  71:srcc/valueType.c ****     char * str;
+  72:srcc/valueType.c ****     str = buf;
+  73:srcc/valueType.c ****     p = str;
+  74:srcc/valueType.c ****     if(num < 0)
+ 204              		.loc 1 74 0
+ 205 0012 0022     		movs	r2, #0
+ 206              	.LVL25:
+ 207 0014 0023     		movs	r3, #0
+ 208              	.LVL26:
+ 209 0016 FFF7FEFF 		bl	__aeabi_dcmplt
+ 210              	.LVL27:
+ 211 001a 0028     		cmp	r0, #0
+ 212 001c 13D1     		bne	.L30
+  66:srcc/valueType.c ****     int     temp;
+ 213              		.loc 1 66 0
+ 214 001e 0023     		movs	r3, #0
+ 215 0020 9946     		mov	r9, r3
+ 216              	.LVL28:
+ 217              	.L13:
+  75:srcc/valueType.c ****     {
+  76:srcc/valueType.c ****         sign = 1;
+  77:srcc/valueType.c ****         num = 0 - num;
+  78:srcc/valueType.c ****     }
+  79:srcc/valueType.c ****     sumI = (int)num;    //sumI is the part of int
+ 218              		.loc 1 79 0
+ 219 0022 3000     		movs	r0, r6
+ 220 0024 3900     		movs	r1, r7
+ 221 0026 FFF7FEFF 		bl	__aeabi_d2iz
+ 222              	.LVL29:
+ 223 002a 0400     		movs	r4, r0
+ 224              	.LVL30:
+  80:srcc/valueType.c ****     sumF = num - sumI;  //sumF is the part of float
+ 225              		.loc 1 80 0
+ 226 002c FFF7FEFF 		bl	__aeabi_i2d
+ 227              	.LVL31:
+ 228 0030 0200     		movs	r2, r0
+ 229 0032 0B00     		movs	r3, r1
+ 230 0034 3000     		movs	r0, r6
+ 231 0036 3900     		movs	r1, r7
+ 232 0038 FFF7FEFF 		bl	__aeabi_dsub
+ 233              	.LVL32:
+ 234 003c FFF7FEFF 		bl	__aeabi_d2f
+ 235              	.LVL33:
+ 236 0040 051C     		adds	r5, r0, #0
+ 237              	.LVL34:
+  72:srcc/valueType.c ****     p = str;
+ 238              		.loc 1 72 0
+ 239 0042 039F     		ldr	r7, [sp, #12]
+ 240 0044 0BE0     		b	.L15
+ 241              	.LVL35:
+ 242              	.L30:
+  77:srcc/valueType.c ****     }
+ 243              		.loc 1 77 0
+ 244 0046 3200     		movs	r2, r6
+ 245 0048 3B00     		movs	r3, r7
+ 246 004a 0020     		movs	r0, #0
+ 247 004c 0021     		movs	r1, #0
+ 248 004e FFF7FEFF 		bl	__aeabi_dsub
+ 249              	.LVL36:
+ 250 0052 0600     		movs	r6, r0
+ 251 0054 0F00     		movs	r7, r1
+ 252              	.LVL37:
+  76:srcc/valueType.c ****         num = 0 - num;
+ 253              		.loc 1 76 0
+ 254 0056 0123     		movs	r3, #1
+ 255 0058 9946     		mov	r9, r3
+ 256 005a E2E7     		b	.L13
+ 257              	.LVL38:
+ 258              	.L25:
+  81:srcc/valueType.c ****     do
+  82:srcc/valueType.c ****     {
+  83:srcc/valueType.c ****         temp = sumI % 10;
+  84:srcc/valueType.c ****         *(str++) = temp + '0';
+ 259              		.loc 1 84 0
+ 260 005c 3700     		movs	r7, r6
+ 261              	.LVL39:
+ 262              	.L15:
+ 263              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 264 005e 7E1C     		adds	r6, r7, #1
+ 265              	.LVL40:
+  83:srcc/valueType.c ****         *(str++) = temp + '0';
+ 266              		.loc 1 83 0 is_stmt 1 discriminator 1
+ 267 0060 0A21     		movs	r1, #10
+ 268 0062 2000     		movs	r0, r4
+ 269 0064 FFF7FEFF 		bl	__aeabi_idivmod
+ 270              	.LVL41:
+ 271              		.loc 1 84 0 discriminator 1
+ 272 0068 3031     		adds	r1, r1, #48
+ 273 006a 3970     		strb	r1, [r7]
+  85:srcc/valueType.c ****     }while((sumI = sumI /10) != 0);
+ 274              		.loc 1 85 0 discriminator 1
+ 275 006c 0A21     		movs	r1, #10
+ 276 006e 2000     		movs	r0, r4
+ 277 0070 FFF7FEFF 		bl	__aeabi_idiv
+ 278              	.LVL42:
+ 279 0074 041E     		subs	r4, r0, #0
+ 280              	.LVL43:
+ 281 0076 F1D1     		bne	.L25
+  86:srcc/valueType.c ****     if(sign == 1)
+ 282              		.loc 1 86 0
+ 283 0078 4B46     		mov	r3, r9
+ 284 007a 012B     		cmp	r3, #1
+ 285 007c 1BD0     		beq	.L31
+ 286              	.L16:
+ 287              	.LVL44:
+  87:srcc/valueType.c ****     {
+  88:srcc/valueType.c ****         *(str++) = '-';
+  89:srcc/valueType.c ****     }
+  90:srcc/valueType.c ****     pp = str;
+  91:srcc/valueType.c ****     pp--;
+ 288              		.loc 1 91 0
+ 289 007e 701E     		subs	r0, r6, #1
+ 290              	.LVL45:
+  92:srcc/valueType.c ****     while(p < pp)
+ 291              		.loc 1 92 0
+ 292 0080 0399     		ldr	r1, [sp, #12]
+ 293 0082 8142     		cmp	r1, r0
+ 294 0084 0FD2     		bcs	.L17
+ 295              	.LVL46:
+ 296              	.L18:
+  93:srcc/valueType.c ****     {
+  94:srcc/valueType.c ****         *p = *p + *pp;
+ 297              		.loc 1 94 0
+ 298 0086 0B78     		ldrb	r3, [r1]
+ 299 0088 0278     		ldrb	r2, [r0]
+ 300 008a 9B18     		adds	r3, r3, r2
+ 301 008c DBB2     		uxtb	r3, r3
+ 302 008e 0B70     		strb	r3, [r1]
+  95:srcc/valueType.c ****         *pp = *p - *pp;
+ 303              		.loc 1 95 0
+ 304 0090 0278     		ldrb	r2, [r0]
+ 305 0092 9B1A     		subs	r3, r3, r2
+ 306 0094 DBB2     		uxtb	r3, r3
+ 307 0096 0370     		strb	r3, [r0]
+  96:srcc/valueType.c ****         *p = *p -*pp;
+ 308              		.loc 1 96 0
+ 309 0098 0A78     		ldrb	r2, [r1]
+ 310 009a D31A     		subs	r3, r2, r3
+ 311 009c 0B70     		strb	r3, [r1]
+  97:srcc/valueType.c ****         p++;
+ 312              		.loc 1 97 0
+ 313 009e 0131     		adds	r1, r1, #1
+ 314              	.LVL47:
+  98:srcc/valueType.c ****         pp--;
+ 315              		.loc 1 98 0
+ 316 00a0 0138     		subs	r0, r0, #1
+ 317              	.LVL48:
+  92:srcc/valueType.c ****     {
+ 318              		.loc 1 92 0
+ 319 00a2 8142     		cmp	r1, r0
+ 320 00a4 EFD3     		bcc	.L18
+ 321              	.L17:
+ 322              	.LVL49:
+  99:srcc/valueType.c ****     }
+ 100:srcc/valueType.c ****     *(str++) = '.';     //point
+ 323              		.loc 1 100 0
+ 324 00a6 2E23     		movs	r3, #46
+ 325 00a8 3370     		strb	r3, [r6]
+ 326 00aa 771C     		adds	r7, r6, #1
+ 327 00ac 3400     		movs	r4, r6
+ 328              	.LVL50:
+ 329 00ae 4444     		add	r4, r4, r8
+ 330 00b0 2600     		movs	r6, r4
+ 331              	.LVL51:
+ 332 00b2 3C00     		movs	r4, r7
+ 333 00b4 04E0     		b	.L19
+ 334              	.LVL52:
+ 335              	.L31:
+  88:srcc/valueType.c ****     }
+ 336              		.loc 1 88 0
+ 337 00b6 BE1C     		adds	r6, r7, #2
+ 338              	.LVL53:
+ 339 00b8 2C33     		adds	r3, r3, #44
+ 340              	.LVL54:
+ 341 00ba 7B70     		strb	r3, [r7, #1]
+ 342 00bc DFE7     		b	.L16
+ 343              	.LVL55:
+ 344              	.L21:
+ 345 00be 0134     		adds	r4, r4, #1
+ 346              	.LVL56:
+ 347              	.L19:
+ 348 00c0 2700     		movs	r7, r4
+ 349              	.LVL57:
+ 101:srcc/valueType.c ****     do
+ 102:srcc/valueType.c ****     {
+ 103:srcc/valueType.c ****         temp = (int)(sumF*10);
+ 350              		.loc 1 103 0
+ 351 00c2 1649     		ldr	r1, .L32
+ 352 00c4 281C     		adds	r0, r5, #0
+ 353 00c6 FFF7FEFF 		bl	__aeabi_fmul
+ 354              	.LVL58:
+ 355 00ca 051C     		adds	r5, r0, #0
+ 356              	.LVL59:
+ 357 00cc FFF7FEFF 		bl	__aeabi_f2iz
+ 358              	.LVL60:
+ 104:srcc/valueType.c ****         *(str++) = temp + '0';
+ 359              		.loc 1 104 0
+ 360 00d0 0300     		movs	r3, r0
+ 361 00d2 3033     		adds	r3, r3, #48
+ 362 00d4 2370     		strb	r3, [r4]
+ 105:srcc/valueType.c **** 
+ 106:srcc/valueType.c ****         if((++count) == n)
+ 363              		.loc 1 106 0
+ 364 00d6 B442     		cmp	r4, r6
+ 365 00d8 18D0     		beq	.L20
+ 107:srcc/valueType.c ****             break;
+ 108:srcc/valueType.c **** 
+ 109:srcc/valueType.c ****         sumF = sumF*10 - temp;
+ 366              		.loc 1 109 0
+ 367 00da FFF7FEFF 		bl	__aeabi_i2f
+ 368              	.LVL61:
+ 369 00de 011C     		adds	r1, r0, #0
+ 370 00e0 281C     		adds	r0, r5, #0
+ 371 00e2 FFF7FEFF 		bl	__aeabi_fsub
+ 372              	.LVL62:
+ 373 00e6 051C     		adds	r5, r0, #0
+ 374              	.LVL63:
+ 110:srcc/valueType.c **** 
+ 111:srcc/valueType.c ****     }while(!(sumF > -0.000001 && sumF < 0.000001));
+ 375              		.loc 1 111 0
+ 376 00e8 FFF7FEFF 		bl	__aeabi_f2d
+ 377              	.LVL64:
+ 378 00ec 0C4A     		ldr	r2, .L32+4
+ 379 00ee 0D4B     		ldr	r3, .L32+8
+ 380 00f0 0090     		str	r0, [sp]
+ 381 00f2 0191     		str	r1, [sp, #4]
+ 382 00f4 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 383              	.LVL65:
+ 384 00f8 0028     		cmp	r0, #0
+ 385 00fa E0D0     		beq	.L21
+ 386              		.loc 1 111 0 is_stmt 0 discriminator 1
+ 387 00fc 084A     		ldr	r2, .L32+4
+ 388 00fe 0A4B     		ldr	r3, .L32+12
+ 389 0100 0098     		ldr	r0, [sp]
+ 390 0102 0199     		ldr	r1, [sp, #4]
+ 391 0104 FFF7FEFF 		bl	__aeabi_dcmplt
+ 392              	.LVL66:
+ 393 0108 0028     		cmp	r0, #0
+ 394 010a D8D0     		beq	.L21
+ 395              	.LVL67:
+ 396              	.L20:
+ 112:srcc/valueType.c ****     *str = '\0';
+ 397              		.loc 1 112 0 is_stmt 1
+ 398 010c 0023     		movs	r3, #0
+ 399 010e 7B70     		strb	r3, [r7, #1]
+ 113:srcc/valueType.c ****     return buf;
+ 114:srcc/valueType.c **** }
+ 400              		.loc 1 114 0
+ 401 0110 0398     		ldr	r0, [sp, #12]
+ 402 0112 05B0     		add	sp, sp, #20
+ 403              		@ sp needed
+ 404              	.LVL68:
+ 405              	.LVL69:
+ 406              	.LVL70:
+ 407              	.LVL71:
+ 408 0114 0CBC     		pop	{r2, r3}
+ 409 0116 9046     		mov	r8, r2
+ 410 0118 9946     		mov	r9, r3
+ 411 011a F0BD     		pop	{r4, r5, r6, r7, pc}
+ 412              	.L33:
+ 413              		.align	2
+ 414              	.L32:
+ 415 011c 00002041 		.word	1092616192
+ 416 0120 8DEDB5A0 		.word	-1598689907
+ 417 0124 F7C6B0BE 		.word	-1095710985
+ 418 0128 F7C6B03E 		.word	1051772663
+ 419              		.cfi_endproc
+ 420              	.LFE36:
+ 422              		.section	.text.ArrayCopy,"ax",%progbits
+ 423              		.align	1
+ 424              		.global	ArrayCopy
+ 425              		.syntax unified
+ 426              		.code	16
+ 427              		.thumb_func
+ 428              		.fpu softvfp
+ 430              	ArrayCopy:
+ 431              	.LFB37:
+ 115:srcc/valueType.c **** 
+ 116:srcc/valueType.c **** //=====================================================================
+ 117:srcc/valueType.c **** //函数名称：ArrayCopy
+ 118:srcc/valueType.c **** //函数返回：无
+ 119:srcc/valueType.c **** //参数说明：dest：复制后存放的数组；source：被复制的数组；len:复制的长度
+ 120:srcc/valueType.c **** //功能概要：从源数组复制指定长度的内容到目标数组
+ 121:srcc/valueType.c **** //=====================================================================
+ 122:srcc/valueType.c **** void ArrayCopy(uint_8 * dest,uint_8*source,uint_16 len)
+ 123:srcc/valueType.c **** {
+ 432              		.loc 1 123 0
+ 433              		.cfi_startproc
+ 434              		@ args = 0, pretend = 0, frame = 0
+ 435              		@ frame_needed = 0, uses_anonymous_args = 0
+ 436              	.LVL72:
+ 437 0000 10B5     		push	{r4, lr}
+ 438              		.cfi_def_cfa_offset 8
+ 439              		.cfi_offset 4, -8
+ 440              		.cfi_offset 14, -4
+ 441              	.LVL73:
+ 124:srcc/valueType.c **** 	uint_16 i = 0;
+ 125:srcc/valueType.c **** 	for(i=0;i<len;i++)
+ 442              		.loc 1 125 0
+ 443 0002 002A     		cmp	r2, #0
+ 444 0004 06D0     		beq	.L34
+ 445 0006 0023     		movs	r3, #0
+ 446              	.LVL74:
+ 447              	.L36:
+ 126:srcc/valueType.c **** 		dest[i]=source[i];
+ 448              		.loc 1 126 0 discriminator 3
+ 449 0008 CC5C     		ldrb	r4, [r1, r3]
+ 450 000a C454     		strb	r4, [r0, r3]
+ 451              	.LVL75:
+ 452 000c 0133     		adds	r3, r3, #1
+ 453              	.LVL76:
+ 125:srcc/valueType.c **** 		dest[i]=source[i];
+ 454              		.loc 1 125 0 discriminator 3
+ 455 000e 9CB2     		uxth	r4, r3
+ 456 0010 A242     		cmp	r2, r4
+ 457 0012 F9D8     		bhi	.L36
+ 458              	.L34:
+ 127:srcc/valueType.c **** }
+ 459              		.loc 1 127 0
+ 460              		@ sp needed
+ 461 0014 10BD     		pop	{r4, pc}
+ 462              		.cfi_endproc
+ 463              	.LFE37:
+ 465              		.comm	bios_fun_point,4,4
+ 466              		.text
+ 467              	.Letext0:
+ 468              		.file 2 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 469              		.file 3 "d:\\arm-aupulu\\bin\\armcompilefile\\arm-none-eabi\\include\\sys\\_stdint.h"
+ 470              		.file 4 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 471              		.file 5 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+ 472              		.file 6 "E:\\AHL-AN10-Kit01\\AHL-AN10-Kit01(V2.0)-190817\\04-Software\\01-UE\\USER\\User_NB-IoT_Fr
+DEFINED SYMBOLS
+                            *ABS*:00000000 valueType.c
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:18     .text.IntConvertToStr:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:25     .text.IntConvertToStr:00000000 IntConvertToStr
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:170    .text.DoubleConvertToStr:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:177    .text.DoubleConvertToStr:00000000 DoubleConvertToStr
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:415    .text.DoubleConvertToStr:0000011c $d
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:423    .text.ArrayCopy:00000000 $t
+C:\Users\WYH\AppData\Local\Temp\ccnVyJ0V.s:430    .text.ArrayCopy:00000000 ArrayCopy
+                            *COM*:00000004 bios_fun_point
+                           .group:00000000 wm4.0.6b3c261c075bbc2e3a26f120e5522d74
+                           .group:00000000 wm4.common.h.8.6facd6346498fe3b182946a20345c657
+                           .group:00000000 wm4.MKL36Z4.h.89.233797f6f4773763e2e98c6b40e4b5ad
+                           .group:00000000 wm4._newlib_version.h.4.3572908597b70d672d181fc7fc501c19
+                           .group:00000000 wm4.features.h.33.cf97d4c9a045ebab6d282f6356e11363
+                           .group:00000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:00000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:00000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:00000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:00000000 wm4.MKL36Z4.h.102.9aa70adc1bfde53db48a5cdc9c11b855
+                           .group:00000000 wm4.core_cm0plus.h.43.8d0a7c3b62d57d3de08e0cf260e796f5
+                           .group:00000000 wm4.core_cmInstr.h.39.440aa208ad4c1679c5765c09acc09994
+                           .group:00000000 wm4.core_cm0plus.h.160.b16144213bf005ce96482cc39658f3eb
+                           .group:00000000 wm4.MKL36Z4.h.268.27ad2c3218b31878c72d973b76832d3c
+                           .group:00000000 wm4.mcu.h.18.69f4b5b87d8a116f794509cd91218d13
+                           .group:00000000 wm4.svc.h.9.5456cf514b156c422bc4546fad33f63e
+                           .group:00000000 wm4.common.h.16.7db62d7e34981cef069189d29572a8d0
+
+UNDEFINED SYMBOLS
+__aeabi_idivmod
+__aeabi_idiv
+__aeabi_dcmplt
+__aeabi_dsub
+__aeabi_d2iz
+__aeabi_i2d
+__aeabi_d2f
+__aeabi_fmul
+__aeabi_f2iz
+__aeabi_i2f
+__aeabi_fsub
+__aeabi_f2d
+__aeabi_dcmpgt
